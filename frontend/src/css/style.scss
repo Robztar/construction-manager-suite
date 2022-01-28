@@ -1,0 +1,52 @@
+body {
+     margin: 0;
+     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+     -webkit-font-smoothing: antialiased;
+     -moz-osx-font-smoothing: grayscale;
+     font-size: 18px;
+}
+
+code {
+     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.gen-cont{
+     background: rgb(223, 223, 223);
+     // background: green;
+     width: 100vw;
+     height: 100vh;
+     overflow: hidden;
+
+     display: grid;
+     place-items: center;
+}
+
+// Home Styling
+.home-cont{
+     display: grid;
+     place-items: center;
+     background: whitesmoke;
+     height: 90%;
+     width: 90%;
+}
+.welcome-title{
+     font-size: 3rem;
+}
+.enter-btn{
+     background: yellow;
+     font-size: 1rem;
+     border: none;
+     width: fit-content;
+     padding: 0.5rem 1rem;
+     cursor: pointer;
+}
+
+// 3D Canvas
+.canvas{
+     background: rgb(199, 199, 199);
+     width: 100vw !important;
+     height: 100vh !important;
+}
+
