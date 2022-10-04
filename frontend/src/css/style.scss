@@ -1,3 +1,24 @@
+$maincol1: red;
+
+* {
+     box-sizing: border-box;
+}
+
+#root {
+     width: 100%;
+     height: 100%;
+     margin: 0;
+     padding: 0;
+     background-color: lightblue;
+     -webkit-touch-callout: none;
+     -webkit-user-select: none;
+     -khtml-user-select: none;
+     -moz-user-select: none;
+     -ms-user-select: none;
+     user-select: none;
+     // overflow: hidden;
+}
+
 body {
      margin: 0;
      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -6,6 +27,11 @@ body {
      -webkit-font-smoothing: antialiased;
      -moz-osx-font-smoothing: grayscale;
      font-size: 18px;
+     width: 100%;
+     height: 100%;
+     position: fixed;
+     // overflow: hidden;
+     // overscroll-behavior-y: none;
 }
 
 code {
@@ -45,8 +71,179 @@ code {
 
 // 3D Canvas
 .canvas{
-     background: rgb(199, 199, 199);
-     width: 100vw !important;
-     height: 100vh !important;
+     overflow: hidden;
+     // background: rgb(199, 199, 199);
+     // width: 100vw !important;
+     // height: 100h !important;
 }
 
+.floating{
+     position: absolute;
+     top: 0;
+     right: 0;
+     padding: 0.5rem;
+     color: black;
+}
+
+.pointer{
+     position: absolute;
+     margin: 0;
+     padding: 0;
+     left: 50%;
+     top: 50%;
+     max-height: 30px;
+     max-width: auto;
+}
+.pointer img{
+     height: 35px;
+     opacity: 0.4;
+     width: auto;
+}
+
+// Navbar Styling
+.top{
+     position: fixed;
+     // background: red;
+     top: 0;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: flex-start;
+}
+.navbar{
+     background: white;
+     margin-top: 2vh;
+     margin-left: 2vw;
+     width: 96vw;
+     height: 8vh;
+     border-radius: 4vh;
+     display: flex;
+     flex-direction: row;
+     justify-content: space-around;
+     align-items: center;
+}
+.home-btn{
+     background: none;
+     font-size: 1rem;
+     border: none;
+     width: fit-content;
+     padding: 0.5rem 1rem;
+     cursor: pointer;
+}
+.proj-head{
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+}
+.fa-times-circle{
+	border-radius: 50%;
+	font-size: 2rem;
+	color: gray;
+	cursor: pointer;
+	transition: 0.3s ease;
+}
+.fa-times-circle:hover{
+	color: $maincol1;
+	transition: 0.3s ease;
+}
+
+.exham {
+     margin: 2vh 50% 0;
+     background: rgba(255, 255, 255, 0.272);
+     border-radius: 10px;
+     height: 4rem;
+     width: 4rem;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+.tripbar {
+     width: 2rem;
+     height: 1.5px;
+     border-radius: 2px;
+     background-color: white;
+     transition: 0.5s;
+     position: relative;
+}
+
+.tripbar:before, .tripbar:after {
+     content: "";
+     position: absolute;
+     width: inherit;
+     height: inherit;
+     background-color: white;
+     transition: 0.5s;
+}
+
+.tripbar:before {
+     transform: translateY(-10px);
+}
+
+.tripbar:after {
+     transform: translateY(10px);
+}
+
+.exham.active .tripbar {
+     transform: rotate(360deg);
+     background-color: transparent;
+}
+
+.exham.active .tripbar:before {
+     transform: translateY(0) rotate(45deg);
+}
+
+.exham.active .tripbar:after {
+     transform: translateY(0) rotate(-45deg);
+}
+
+// Switch Styling
+.switch-cont {
+     position: absolute;
+     // background: red;
+     bottom: 5%;
+     margin: 0;
+     height: 4rem;
+     width: 100%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+.switch{
+     background: rgba(255, 255, 255, 0.5);
+     height: 3.5rem;
+     width: 9rem;
+     border-radius: 3rem;
+     display: flex;
+     justify-content: space-around;
+     align-items: center;
+}
+// .switch hr{
+//      transform: rotate(90deg);
+//      border: solid 2x red;
+//      height: 1px;
+//      width: 3.3 rem;
+// }
+.selector{
+     margin: 0;
+     background: white;
+     height: 3.2rem;
+     width: 4.2rem;
+     // border-radius: 50%;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+#two-d{
+     // background: green;
+     border-top-left-radius: 3rem;
+     border-bottom-left-radius: 3rem;
+     cursor: pointer;
+}
+#three-d{
+     border-top-right-radius: 3rem;
+     border-bottom-right-radius: 3rem;
+     cursor: pointer;
+}
