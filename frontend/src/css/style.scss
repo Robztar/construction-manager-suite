@@ -127,22 +127,37 @@ input{
      // height: 100h !important;
 }
 
-.floating{
+.sr-cont{
      position: absolute;
-     top: 0;
-     right: 0;
-     padding: 0.5rem;
-     color: black;
+     // background: red;
+     top: 12%;
+     margin: 0 calc(50% - 9.5rem);
+     height: 3.5rem;
+     width: 19rem;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+}
+.space-reminder{
+     background: rgba(255, 255, 255, 0.5);
+     height: 3.5rem;
+     width: 19rem;
+     border-radius: 3rem;
+     display: flex;
+     justify-content: space-around;
+     align-items: center;
 }
 
 .pointer{
      position: absolute;
      margin: 0;
      padding: 0;
-     left: 50%;
-     top: 50%;
-     max-height: 30px;
-     max-width: auto;
+     left: calc(50% - 15px);
+     top: calc(50% - 15px);
+     height: 30px;
+     width: 30px;
+     // max-height: 30px;
+     // max-width: auto;
 }
 .pointer img{
      height: 35px;
@@ -261,9 +276,9 @@ input{
      position: absolute;
      // background: red;
      bottom: 5%;
-     margin: 0;
-     height: 4rem;
-     width: 100%;
+     margin: 0 calc(50% - 4.5rem);
+     height: 3.5rem;
+     width: 9rem;
      display: flex;
      justify-content: center;
      align-items: center;
@@ -282,7 +297,6 @@ input{
      background: white;
      height: 2.9rem;
      width: 8.4rem;
-     // border-radius: 50%;
      border-radius: 3rem;
      display: flex;
      justify-content: center;

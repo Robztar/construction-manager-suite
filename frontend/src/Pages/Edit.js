@@ -11,6 +11,7 @@ import { Player } from '../components/Player';
 import { useKeyboardControls } from '../hooks/useKeyboardControls';
 
 import Navbar from '../components/Navbar';
+import SpaceReminder from '../components/SpaceReminder';
 import { FPVControls } from '../components/FPVControls';
 
 import pointer from '../images/cursor.png';
@@ -94,6 +95,7 @@ export default function Edit() {
                     <Box pos={[0,1,0]} />
                </Canvas>
                <Navbar/>
+               {isOrtho? null : <SpaceReminder />}
                <div className="switch-cont">
                     <div className="switch">
                          {isOrtho? 
