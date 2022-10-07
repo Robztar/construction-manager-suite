@@ -11,6 +11,9 @@ const Home = ()=>{
                     <Link to="/edit">
                               <button className="enter-btn" type="submit">Enter Now</button>
                     </Link>
+                    <Link to="/test">
+                              <button className="enter-btn" type="submit">Test Mode</button>
+                    </Link>
                </div>
           </div>
      );
