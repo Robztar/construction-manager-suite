@@ -50,8 +50,19 @@ code {
   width: 90%;
 }
 
+section {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  -webkit-column-gap: 5rem;
+          column-gap: 5rem;
+}
+
 .welcome-title {
   font-size: 3rem;
+  text-align: center;
 }
 
 .enter-btn {
@@ -63,6 +74,36 @@ code {
   width: fit-content;
   padding: 0.5rem 1rem;
   cursor: pointer;
+}
+
+.auth-btn {
+  background: #00d9ff;
+  font-size: 1rem;
+  border: none;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+form {
+  margin-top: 1rem;
+  min-width: 300px;
+  padding: 1rem;
+  padding-left: 1.5rem;
+  background: rgba(173, 216, 230, 0.35);
+  border-radius: 0.5rem;
+}
+
+input {
+  margin-bottom: 1rem;
+  width: 80%;
+  padding: 4px;
+  border-radius: 3px;
+  border: none;
+  background: -webkit-gradient(linear, right top, left top, from(rgba(255, 255, 255, 0)), to(rgba(255, 255, 255, 0.7)));
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7));
 }
 
 .canvas {
@@ -190,6 +231,8 @@ code {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
 }
 
 .tripbar {
@@ -273,8 +316,9 @@ code {
 .selector {
   margin: 0;
   background: white;
-  height: 3.2rem;
-  width: 4.2rem;
+  height: 2.9rem;
+  width: 8.4rem;
+  border-radius: 3rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -284,17 +328,24 @@ code {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  cursor: pointer;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
 }
 
-#two-d {
-  border-top-left-radius: 3rem;
-  border-bottom-left-radius: 3rem;
-  cursor: pointer;
+#two-d:hover {
+  background: #76bdf3;
+  height: 3.5rem;
+  width: 9rem;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
 }
 
-#three-d {
-  border-top-right-radius: 3rem;
-  border-bottom-right-radius: 3rem;
-  cursor: pointer;
+#three-d:hover {
+  background: #e7f376;
+  height: 3.5rem;
+  width: 9rem;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
 }
 /*# sourceMappingURL=style.css.map */

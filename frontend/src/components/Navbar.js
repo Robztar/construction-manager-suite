@@ -1,5 +1,5 @@
 import React from "react"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {Link} from 'react-router-dom';
 
 
@@ -9,6 +9,7 @@ const Navbar = () => {
      const toggleClass = () => {
           setActive(!isActive);
      }
+
 
      return (
           <>
@@ -21,8 +22,9 @@ const Navbar = () => {
                               <div>Project Name</div>
                               <div>Floor Selector</div>
                          </div>
-                         {/* <div>X-button</div> */}
-                         <i class="far fa-times-circle"></i>
+                         <Link to="/">
+                              <i class="far fa-times-circle"></i>
+                         </Link>
                     </div>
 
                     <div className="dropMenu"> 
@@ -31,6 +33,7 @@ const Navbar = () => {
                               <div className="tripbar">
                               </div>
                          </div>
+                         
                     </div>
                </div>
           </>

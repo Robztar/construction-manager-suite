@@ -1,7 +1,7 @@
 import React from 'react';
+
 import { useStore } from '../hooks/useStore';
 import { useInterval } from '../hooks/useInterval';
-
 import Wall from './Wall';
 
 export default function Room() {

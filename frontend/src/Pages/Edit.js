@@ -85,7 +85,7 @@ export default function Edit() {
                     <Sky sunPosition={[100, 20, 100]} />
                     <ambientLight intensity={0.25} />
                     <pointLight castShadow intensity={0.7} position={[100, 100, 100]} />
-                    <gridHelper args={[100, 100, `white`, `gray`]} />
+                    {isOrtho? <gridHelper args={[100, 100, `white`, `gray`]} /> : null}
                     <Physics gravity={[0, -30, 0]}>
                          {isOrtho? <MakeOrtho /> : <MakePersp />}
                          <Room />
