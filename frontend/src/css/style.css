@@ -161,19 +161,6 @@ input {
 .top {
   position: fixed;
   top: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
 }
 
 .navbar {
@@ -239,10 +226,31 @@ input {
   transition: 0.3s ease;
 }
 
-.exham {
-  margin: 2vh 50% 0;
-  background: rgba(255, 255, 255, 0.272);
+.drop-menu {
+  margin: 12vh 3vw 0;
+  width: 4rem;
+  height: 4rem;
   border-radius: 10px;
+  background: rgba(255, 255, 255, 0.272);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.drop-menu.active {
+  width: auto;
+  height: auto;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.exham {
   height: 4rem;
   width: 4rem;
   cursor: pointer;
@@ -303,6 +311,171 @@ input {
 .exham.active .tripbar:after {
   -webkit-transform: translateY(0) rotate(-45deg);
           transform: translateY(0) rotate(-45deg);
+}
+
+.object-menu {
+  display: none;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.object-menu.active {
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  -ms-grid-rows: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+  row-gap: 1rem;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.object-li {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 2fr 1fr;
+      grid-template-columns: 2fr 1fr;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.4);
+  width: 15rem;
+  height: 5rem;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.object-li:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.object-n {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.object-t {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  width: 80%;
+  height: 80%;
+  background: rgba(255, 192, 203, 0.8);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.float {
+  position: absolute;
+}
+
+.attr-cont {
+  display: none;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: rgba(255, 255, 255, 0.272);
+  border-radius: 10px;
+  width: auto;
+  padding: 0 10px;
+  top: -30vh;
+  height: 60vh;
+  right: -48vw;
+}
+
+.attr-title {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  text-decoration: underline;
+  width: 10rem;
+}
+
+.attr-menu {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+  grid-auto-rows: 5rem;
+  row-gap: 10px;
+  width: auto;
+  height: 40vh;
+}
+
+.attr-li {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 2fr 1fr;
+      grid-template-columns: 2fr 1fr;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.4);
+  width: 10rem;
+  height: 5rem;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.attr-li:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.obj-remove {
+  cursor: pointer;
+  background: #ff9898;
+  border-radius: 5px;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.obj-remove:hover {
+  background: #ff3b3b;
+  border-radius: 10px;
+  color: white;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.attr-n {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.attr-t {
+  display: -ms-grid;
+  display: grid;
+  place-items: center;
+  width: 80%;
+  height: 50%;
+  background: blue;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
 }
 
 .switch-cont {

@@ -17,11 +17,11 @@ const Signup = ()=>{
                          <br/>
                          <input type="password" name="cpwd" placeholder="Confirm Password" required/> 
                     </form>
-                    <Link to="/login">
-                         <button className="auth-btn" type="submit">Already have an account?</button>
-                    </Link>
                     <Link to="/edit">
                          <button className="auth-btn" type="submit">Sign Up</button>
+                    </Link>
+                    <Link to="/login">
+                         <button className="auth-btn" type="submit">Already have an account?</button>
                     </Link>
                </div>
           </div>

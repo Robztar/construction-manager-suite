@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { PointerLockControls as PointerLockControlsImpl } from 'three/examples/jsm/controls/PointerLockControls';
 import { useThree, extend } from '@react-three/fiber';
-// import { useRef } from 'react';
 
 extend({ PointerLockControlsImpl });
 
@@ -27,21 +26,6 @@ export const FPVControls = (props) => {
       
     });
   }, []);
-
-  // useEffect(() => {
-  //   // Consider Click alternative, such as CTRL or arrowKeys or spacebar
-    
-  //   document.addEventListener('click', () => {
-  //     if (c <= 0){
-  //       controls.current.lock();
-  //       c++
-  //     }
-  //     else if(c > 0){
-  //       controls.current.unlock();
-  //       c--
-  //     }
-  //   });
-  // }, []);
 
   return (
     <pointerLockControlsImpl
