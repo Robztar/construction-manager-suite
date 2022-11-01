@@ -87,9 +87,13 @@ export const Shape = ({ isOrtho, setShape, nkey, rem, pos, texture, setPos}) =>{
                     //      )
                     // }
                >
-                    <h3 className='attr-title'>
-                         Attribute Menu
-                    </h3>
+                    <div className="attr-head">
+                         <h3 className='attr-title'>
+                              Attribute Menu
+                         </h3>
+                         <div className='attr-exit'>X</div>
+                    </div>
+                    
                     <div className='attr-menu'>
                          <div className='attr-n obj-remove' onClick={rem}>
                               Remove

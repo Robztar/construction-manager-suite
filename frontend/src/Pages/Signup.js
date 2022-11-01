@@ -6,16 +6,16 @@ const Signup = ()=>{
           <div className="gen-cont">
                <div className="home-cont">
                     <h1 className="welcome-title">Sign-Up Page</h1>
-                    <form>
-                         <input type="text" name="fname" placeholder="First Name" required/> 
+                    <form className='auth-form'>
+                         <input className='auth-input' type="text" name="fname" placeholder="First Name" required/> 
                          <br/>
-                         <input type="text" name="lname" placeholder="Last Name" required/> 
+                         <input className='auth-input' type="text" name="lname" placeholder="Last Name" required/> 
                          <br/>
-                         <input type="text" name="email" placeholder="Email" required/> 
+                         <input className='auth-input' type="text" name="email" placeholder="Email" required/> 
                          <br/>
-                         <input type="password" name="pwd" placeholder="Password" required/> 
+                         <input className='auth-input' type="password" name="pwd" placeholder="Password" required/> 
                          <br/>
-                         <input type="password" name="cpwd" placeholder="Confirm Password" required/> 
+                         <input className='auth-input' type="password" name="cpwd" placeholder="Confirm Password" required/> 
                     </form>
                     <Link to="/edit">
                          <button className="auth-btn" type="submit">Sign Up</button>

@@ -1,6 +1,5 @@
 * {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 #root {
@@ -18,7 +17,7 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 18px;
@@ -28,21 +27,19 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .gen-cont {
-  background: #dfdfdf;
+  background: rgb(223, 223, 223);
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  display: -ms-grid;
   display: grid;
   place-items: center;
 }
 
 .home-cont {
-  display: -ms-grid;
   display: grid;
   place-items: center;
   background: whitesmoke;
@@ -51,13 +48,11 @@ code {
 }
 
 section {
-  display: -ms-grid;
   display: grid;
   place-items: center;
-  -ms-grid-columns: 1fr 1fr;
-      grid-template-columns: 1fr 1fr;
-  -webkit-column-gap: 5rem;
-          column-gap: 5rem;
+  grid-template-columns: 1fr 1fr;
+  -moz-column-gap: 5rem;
+       column-gap: 5rem;
 }
 
 .welcome-title {
@@ -77,7 +72,7 @@ section {
 }
 
 .auth-btn {
-  background: #00d9ff;
+  background: rgb(0, 217, 255);
   font-size: 1rem;
   border: none;
   width: -webkit-fit-content;
@@ -87,7 +82,7 @@ section {
   cursor: pointer;
 }
 
-form {
+.auth-form {
   margin-top: 1rem;
   min-width: 300px;
   padding: 1rem;
@@ -96,13 +91,12 @@ form {
   border-radius: 0.5rem;
 }
 
-input {
+.auth-input {
   margin-bottom: 1rem;
   width: 80%;
   padding: 4px;
   border-radius: 3px;
   border: none;
-  background: -webkit-gradient(linear, right top, left top, from(rgba(255, 255, 255, 0)), to(rgba(255, 255, 255, 0.7)));
   background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7));
 }
 
@@ -116,15 +110,9 @@ input {
   margin: 0 calc(50% - 9.5rem);
   height: 3.5rem;
   width: 19rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .space-reminder {
@@ -132,14 +120,9 @@ input {
   height: 3.5rem;
   width: 19rem;
   border-radius: 3rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .pointer {
@@ -170,18 +153,10 @@ input {
   width: 96vw;
   height: 8vh;
   border-radius: 4vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .home-btn {
@@ -196,19 +171,10 @@ input {
 }
 
 .proj-head {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .fa-times-circle {
@@ -216,13 +182,11 @@ input {
   font-size: 2rem;
   color: gray;
   cursor: pointer;
-  -webkit-transition: 0.3s ease;
   transition: 0.3s ease;
 }
 
 .fa-times-circle:hover {
   color: red;
-  -webkit-transition: 0.3s ease;
   transition: 0.3s ease;
 }
 
@@ -232,21 +196,14 @@ input {
   height: 4rem;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.272);
-  -webkit-transition: 0.5s;
   transition: 0.5s;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
 
 .drop-menu.active {
   width: auto;
   height: auto;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
@@ -254,16 +211,9 @@ input {
   height: 4rem;
   width: 4rem;
   cursor: pointer;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-transition: 0.5s;
+  align-items: center;
+  justify-content: center;
   transition: 0.5s;
 }
 
@@ -272,7 +222,6 @@ input {
   height: 1.5px;
   border-radius: 2px;
   background-color: white;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
   position: relative;
 }
@@ -283,65 +232,52 @@ input {
   width: inherit;
   height: inherit;
   background-color: white;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
 .tripbar:before {
-  -webkit-transform: translateY(-10px);
-          transform: translateY(-10px);
+  transform: translateY(-10px);
 }
 
 .tripbar:after {
-  -webkit-transform: translateY(10px);
-          transform: translateY(10px);
+  transform: translateY(10px);
 }
 
 .exham.active .tripbar {
-  -webkit-transform: rotate(360deg);
-          transform: rotate(360deg);
+  transform: rotate(360deg);
   background-color: transparent;
 }
 
 .exham.active .tripbar:before {
-  -webkit-transform: translateY(0) rotate(45deg);
-          transform: translateY(0) rotate(45deg);
+  transform: translateY(0) rotate(45deg);
 }
 
 .exham.active .tripbar:after {
-  -webkit-transform: translateY(0) rotate(-45deg);
-          transform: translateY(0) rotate(-45deg);
+  transform: translateY(0) rotate(-45deg);
 }
 
 .object-menu {
   display: none;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
 .object-menu.active {
   padding: 0 1rem;
   margin-bottom: 1rem;
-  display: -ms-grid;
   display: grid;
   place-items: center;
-  -ms-grid-rows: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
   row-gap: 1rem;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
 .object-li {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 2fr 1fr;
-      grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2fr 1fr;
   place-items: center;
   background: rgba(255, 255, 255, 0.4);
   width: 15rem;
   height: 5rem;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
   cursor: pointer;
 }
@@ -349,28 +285,23 @@ input {
 .object-li:hover {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
 .object-n {
-  display: -ms-grid;
   display: grid;
   place-items: center;
   width: 100%;
   height: 100%;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
 .object-t {
-  display: -ms-grid;
   display: grid;
   place-items: center;
   width: 80%;
   height: 80%;
   background: rgba(255, 192, 203, 0.8);
-  -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
@@ -380,40 +311,46 @@ input {
 
 .attr-cont {
   display: none;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  grid-template-rows: 8vh 48vh 8vh;
+  row-gap: 1vh;
   background: rgba(255, 255, 255, 0.272);
   border-radius: 10px;
   width: auto;
-  padding: 0 10px;
-  top: -30vh;
-  height: 60vh;
+  min-width: 15rem;
+  top: -33vh;
+  height: 66vh;
   right: -48vw;
 }
 
+.attr-head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.6);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
 .attr-title {
-  display: -ms-grid;
   display: grid;
   place-items: center;
   text-decoration: underline;
-  width: 10rem;
+}
+
+.attr-exit {
+  display: grid;
+  place-items: center;
+  background: peru;
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
 }
 
 .attr-menu {
-  display: -ms-grid;
   display: grid;
   place-items: center;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: start;
+  align-items: start;
   grid-auto-rows: 5rem;
   row-gap: 10px;
   width: auto;
@@ -421,15 +358,12 @@ input {
 }
 
 .attr-li {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 2fr 1fr;
-      grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   place-items: center;
   background: rgba(255, 255, 255, 0.4);
   width: 10rem;
   height: 5rem;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
   cursor: pointer;
 }
@@ -437,44 +371,68 @@ input {
 .attr-li:hover {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-}
-
-.obj-remove {
-  cursor: pointer;
-  background: #ff9898;
-  border-radius: 5px;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-}
-
-.obj-remove:hover {
-  background: #ff3b3b;
-  border-radius: 10px;
-  color: white;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
 .attr-n {
-  display: -ms-grid;
   display: grid;
   place-items: center;
   width: 100%;
   height: 100%;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
+  cursor: pointer;
 }
 
 .attr-t {
-  display: -ms-grid;
   display: grid;
   place-items: center;
-  width: 80%;
-  height: 50%;
-  background: blue;
-  -webkit-transition: 0.5s;
+  width: 100%;
+  height: 100%;
+  padding: 15% 15%;
+  transition: 0.5s;
+}
+
+#color-input {
+  border: none;
+  width: 100%;
+  height: 100%;
+  background: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  cursor: pointer;
+}
+
+#color-input::-webkit-color-swatch {
+  border: none;
+}
+
+#color-input::-moz-color-swatch {
+  border: none;
+}
+
+.attr-footer {
+  display: grid;
+  place-items: center;
+  grid-template-columns: 1fr;
+  background: rgba(255, 255, 255, 0.6);
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.obj-remove {
+  cursor: pointer;
+  background: rgb(255, 152, 152);
+  border-radius: 5px;
+  height: 3rem;
+  width: 3rem;
+  transition: 0.5s;
+}
+
+.obj-remove:hover {
+  background: rgb(255, 59, 59);
+  border-radius: 10px;
+  color: white;
   transition: 0.5s;
 }
 
@@ -484,15 +442,9 @@ input {
   margin: 0 calc(50% - 4.5rem);
   height: 3.5rem;
   width: 9rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .switch {
@@ -500,14 +452,9 @@ input {
   height: 3.5rem;
   width: 9rem;
   border-radius: 3rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .selector {
@@ -516,33 +463,23 @@ input {
   height: 2.9rem;
   width: 8.4rem;
   border-radius: 3rem;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
 #two-d:hover {
-  background: #76bdf3;
+  background: rgb(118, 189, 243);
   height: 3.5rem;
   width: 9rem;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
 }
 
 #three-d:hover {
-  background: #e7f376;
+  background: rgb(231, 243, 118);
   height: 3.5rem;
   width: 9rem;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
-}
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

@@ -85,7 +85,7 @@ section{
 }
 
 // Auth Pages Styling
-form{
+.auth-form{
      margin-top: 1rem;
      min-width: 300px;
      padding: 1rem;
@@ -93,7 +93,7 @@ form{
      background: rgba(173, 216, 230, 0.35);
      border-radius: 0.5rem;
 }
-input{
+.auth-input{
      margin-bottom: 1rem;
      width: 80%;
      padding: 4px;
@@ -332,24 +332,42 @@ input{
 
 .attr-cont{
      display: none;
-     // display: flex;
-     flex-direction: column;
-     justify-content: flex-start;
-     align-items: center;
+     // display: grid;
+     grid-template-rows: 8vh 48vh 8vh;
+     row-gap: 1vh;
      background: rgba(255, 255, 255, 0.272);
      border-radius: 10px;
      width: auto;
-     padding: 0 10px;
-     top: -30vh;
-     height: 60vh;
+     min-width: 15rem;
+     // padding: 10px;
+     // padding: 1vh;
+     top: -33vh;
+     height: 66vh;
      right: -48vw;
+}
+.attr-head{
+     display: flex;
+     flex-direction: row;
+     align-items: center;
+     justify-content: space-around;
+     background: rgba(255, 255, 255, 0.6);
+     border-top-left-radius: 10px;
+     border-top-right-radius: 10px;
 }
 .attr-title{
      display: grid;
      place-items: center;
      text-decoration: underline;
      // background: white;
-     width: 10rem;
+     // width: 10rem;
+}
+.attr-exit{
+     display: grid;
+     place-items: center;
+     background: peru;
+     width: 3rem;
+     height: 3rem;
+     cursor: pointer;
 }
 .attr-menu{
      display: grid;
@@ -366,7 +384,7 @@ input{
 }
 .attr-li{
      display: grid;
-     grid-template-columns: 2fr 1fr;
+     grid-template-columns: 1fr 1fr;
      place-items: center;
      background: rgba(255, 255, 255, 0.400);
      width: 10rem;
@@ -379,18 +397,6 @@ input{
      border-radius: 10px;
      transition: 0.5s;
 }
-.obj-remove{
-     cursor: pointer;
-     background: rgb(255, 152, 152);
-     border-radius: 5px;
-     transition: 0.5s;
-}
-.obj-remove:hover{
-     background: rgb(255, 59, 59);
-     border-radius: 10px;
-     color: white;
-     transition: 0.5s;
-}
 
 .attr-n{
      display: grid;
@@ -398,14 +404,55 @@ input{
      width: 100%;
      height: 100%;
      transition: 0.5s;
+     cursor: pointer;
      // background: purple;
 }
 .attr-t{
      display: grid;
      place-items: center;
-     width: 80%;
-     height: 50%;
-     background: blue;
+     width: 100%;
+     height: 100%;
+     // width: 80%;
+     // height: 50%;
+     padding: 15% 15%;
+     // background: blue;
+     transition: 0.5s;
+}
+#color-input{
+     border: none;
+     width: 100%;
+     height: 100%;
+     background: none;
+     appearance: none;
+     cursor: pointer;
+}
+#color-input::-webkit-color-swatch {
+     border: none;
+}
+#color-input::-moz-color-swatch {
+     border: none;
+}
+
+.attr-footer{
+     display: grid;
+     place-items: center;
+     grid-template-columns: 1fr;
+     background: rgba(255, 255, 255, 0.6);
+     border-bottom-left-radius: 10px;
+     border-bottom-right-radius: 10px;
+}
+.obj-remove{
+     cursor: pointer;
+     background: rgb(255, 152, 152);
+     border-radius: 5px;
+     height: 3rem;
+     width: 3rem;
+     transition: 0.5s;
+}
+.obj-remove:hover{
+     background: rgb(255, 59, 59);
+     border-radius: 10px;
+     color: white;
      transition: 0.5s;
 }
 

@@ -5,12 +5,12 @@ import { Physics } from '@react-three/cannon';
 import * as THREE from 'three';
 
 import { Ground } from '../components/Ground';
-import { Shape } from '../components/Shape';
-// import Room from '../components/Room';
+import { Obj } from '../components/Obj';
 import { FPVControls } from '../components/FPVControls';
 import { Player } from '../components/Player';
 
 import { useKeyboardControls } from '../hooks/useKeyboardControls';
+import { useStore } from '../hooks/objStore'; 
 
 import Navbar from '../components/Navbar';
 import SpaceReminder from '../components/SpaceReminder';
@@ -61,23 +61,31 @@ const MakePersp = () =>{
 
 export default function Edit() {
      const [isOrtho, setCam] = useState(true);
-     const toggleCam = () => setCam((active) => !active);
+     const toggleCam = () => {
+          setCam((active) => !active);
+          setOrtho(!isOrtho);
+     }
+     var [shapeCount, setShapeCount] = useState(0);
+
+     const [objects, addObj, setOrtho, saveScene] = useStore((state) => [
+          state.objects,
+          state.addObj,
+          state.setOrtho,
+          state.saveWorld
+     ]);
+     const addNew = (e) =>{
+          var addState = isOrtho;
+          const shape = e.target.getAttribute("data-shape");
+          if(!isOrtho){
+               toggleCam();
+          }
+          toggleClass();
+          addObj(null,shape);
+          setShapeCount(objects.length);
+     }
 
      const [isActive, setActive] = useState(false);
      const toggleClass = () => setActive(!isActive);
-
-     // add new object
-     const [isShape, setShape] = useState([]);
-     const addNew = (e) =>{
-          const shapeCount = isShape.length;
-          const shape = e.target.getAttribute("data-shape");
-          // console.log(shape+' '+shapeCount);
-          setShape([
-               ...isShape, <Shape pos={pos} isOrtho={isOrtho} setShape={shape} nkey={shapeCount} />
-          ])
-
-          toggleClass();
-     }
 
      return (
           <>
@@ -91,7 +99,15 @@ export default function Edit() {
                          {/* <Room /> */}
                          <Ground position={[0, -0.5, 0]} />
                     </Physics>
-                    {[...isShape]}
+                    {objects.map(({key, shape}) =>(
+                         <Obj 
+                              isOrtho={true} 
+                              key = {key}
+                              unique = {key}
+                              setShape={shape}
+                              nkey={shapeCount} 
+                         />
+                    ))}
                </Canvas>
                <Navbar/>
                <div className={`top drop-menu ${isActive ? 'active' : ''}`} > 

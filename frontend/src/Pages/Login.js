@@ -6,10 +6,10 @@ const Login = ()=>{
           <div className="gen-cont">
                <div className="home-cont">
                     <h1 className="welcome-title">Log-In Page</h1>
-                    <form>
-                         <input type="text" name="email" placeholder="Email" required/> 
+                    <form className="auth-form">
+                         <input className='auth-input' type="text" name="email" placeholder="Email" required/> 
                          <br/>
-                         <input type="password" name="pwd" placeholder="Password" required/> 
+                         <input className='auth-input' type="password" name="pwd" placeholder="Password" required/> 
                     </form>
                     <Link to="/edit">
                          <button className="auth-btn" type="submit">Log In</button>

@@ -17,7 +17,7 @@ export const useStore = create((set) => ({
      
      // add whatever is requested
      addObj: (texture, shape) =>{
-          var addState = true;
+          // var addState = true;
           set((state) => ({
                objects: [...state.objects,
                     { 
@@ -27,29 +27,21 @@ export const useStore = create((set) => ({
                          shape: shape,
                          // texture: state.texture 
                          texture: texture,
-                         active: 'none'
+                         active: 'none',
+                         ortho: true
                     },
                ]
           }))
      },
 
      // remove the specified object
-     // removeObj: (x, y, z) => {
-     //      set((state) => ({
-     //           objects: state.objects.filter((object) => {
-     //                const [_x, _y, _z] = object.pos;
-     //                return _x !== x || _y !== y || _z !== z;
-     //           }),
-     //      }));
-     // },
-
-     removeObj: (id) =>{
-          set((state) =>({
+     removeObj: (curPos) => {
+          set((state) => ({
                objects: state.objects.filter((object) => {
-                    const key = object.key;
-                    return key === id;
-               })
-          }))
+                    const objPos = object.pos;
+                    return objPos !== curPos;
+               }),
+          }));
      },
 
      // Set object position state
@@ -62,13 +54,6 @@ export const useStore = create((set) => ({
                          : object
                ),
           }))
-          // set((state) =>({
-          //      objects: state.objects.filter((object) => {
-          //           const key = object.key;
-          //           object.pos = curPos;
-          //           return key === id;
-          //      })
-          // }))
      },
 
      // Makes the object's own attribute menu appear (and closes all others)
@@ -77,17 +62,19 @@ export const useStore = create((set) => ({
                objects: state.objects.map((object) =>
                     object.key === id
                     // object.objNo === id
-                         ? ({...object, active: 'flex'})
+                         ? ({...object, active: 'grid'})
                          : ({...object, active: 'none'})
                ),
           }))
      },
-     setNotActive: (id) =>{
+
+     // Sets the ortho mode
+     setOrtho: (cam) =>{
           set((state) =>({
                objects: state.objects.map((object) =>
-                    object.key === id
+                    object.ortho !== cam
                     // object.objNo === id
-                         ? ({...object, active: 'none'})
+                         ? ({...object, ortho: cam})
                          : object
                ),
           }))

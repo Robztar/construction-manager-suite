@@ -114,7 +114,10 @@ const Plane = () => {
 
 export default function NewEdit() {
   const [isOrtho, setCam] = useState(true);
-  const toggleCam = () => setCam((active) => !active);
+  const toggleCam = () => {
+    setCam((active) => !active);
+    setOrtho(!isOrtho);
+  }
   // function getCam() {return isOrtho};
 
   const [isActive, setActive] = useState(false);
@@ -123,7 +126,7 @@ export default function NewEdit() {
   // add new object
   const [isShape, setShape] = useState([]);
 
-  var [shapeCount, setShapeCount] = useState(0);
+  const [shapeCount, setShapeCount] = useState(0);
   useEffect(() => {
 
   },[isOrtho]);
@@ -142,13 +145,11 @@ export default function NewEdit() {
   //     }
   // }
 
-  const [objects, curPos, addObj, removeObj, saveScene, setPos] = useStore((state) => [
+  const [objects, addObj, setOrtho, saveScene] = useStore((state) => [
     state.objects,
-    state.curPos,
     state.addObj,
-    state.removeObj,
-    state.saveWorld,
-    state.setPos
+    state.setOrtho,
+    state.saveWorld
   ]);
   
   const addNew = (e) =>{
@@ -215,8 +216,11 @@ export default function NewEdit() {
 
       <div className="switch-cont">
         <div className="switch">
-          <div className="selector" id="two-d" onClick={toggleCam}>2D</div>
-          <div className="selector" id="three-d" onClick={toggleCam}>3D</div>
+          {isOrtho? 
+            <div className="selector" id="three-d" onClick={toggleCam}>3D</div> 
+            : 
+            <div className="selector" id="two-d" onClick={toggleCam}>2D</div>
+          }
         </div>
       </div>
 
