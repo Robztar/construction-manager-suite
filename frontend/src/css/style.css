@@ -349,12 +349,12 @@ section {
 
 .attr-menu {
   display: grid;
+  position: relative;
   place-items: center;
   align-items: start;
   grid-auto-rows: 5rem;
   row-gap: 10px;
   width: auto;
-  height: 40vh;
 }
 
 .attr-li {
@@ -386,10 +386,49 @@ section {
 .attr-t {
   display: grid;
   place-items: center;
-  width: 100%;
-  height: 100%;
-  padding: 15% 15%;
+  width: 70%;
+  height: 70%;
   transition: 0.5s;
+}
+
+.attr-li.active {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  width: 12rem;
+  height: 48vh;
+  transition: 0.5s;
+}
+
+.attr-li.inactive {
+  display: none;
+  transition: 0.5s;
+}
+
+.color-li {
+  height: calc(100% - 1rem);
+  width: 11rem;
+  margin: 0.5rem;
+  padding: 0.25rem;
+  display: grid;
+  align-items: center;
+  grid-template-rows: repeat(12, 1fr);
+}
+
+.color-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  -moz-column-gap: 0.5rem;
+       column-gap: 0.5rem;
+  width: 10rem;
+}
+
+.color-t {
+  height: 1.5rem;
+  background: #0000ff;
+}
+
+.attr-texture {
+  background: url(../images/wood.jpg);
 }
 
 #color-input {
@@ -409,6 +448,26 @@ section {
 
 #color-input::-moz-color-swatch {
   border: none;
+}
+
+.picker-cont {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.2rem;
+  height: 12rem;
+}
+
+.rgb-window {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, red, magenta, blue, aqua, lime, yellow, red);
+}
+
+.sat-window {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle closest-side, rgb(255, 255, 255), transparent);
 }
 
 .attr-footer {

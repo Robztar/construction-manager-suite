@@ -9,8 +9,10 @@ const setLocalStorage = (key, value) =>
 
 export const useStore = create((set) => ({
      // Default texture
-     // texture: 'concrete',
+     // texture: '#ff00e0',
+     texture: 'blank',
      iniPos: [0,1,0],
+     iniShape: '#ff0000',
 
      // Check for objects in localStorage
      objects: getLocalStorage('world') || [],
@@ -25,8 +27,9 @@ export const useStore = create((set) => ({
                          pos: state.iniPos, 
                          objNo: state.objects.length,
                          shape: shape,
-                         // texture: state.texture 
-                         texture: texture,
+                         color: state.iniShape,
+                         texture: state.texture,
+                         // texture: texture,
                          active: 'none',
                          ortho: true
                     },
@@ -51,6 +54,25 @@ export const useStore = create((set) => ({
                objects: state.objects.map((object) =>
                     object.key === id
                          ? ({...object, pos: curPos})
+                         : object
+               ),
+          }))
+     },
+
+     changeColor: (curColor, id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, color: curColor})
+                         : object
+               ),
+          }))
+     },
+     changeTexture: (curTexture, id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, texture: curTexture})
                          : object
                ),
           }))
