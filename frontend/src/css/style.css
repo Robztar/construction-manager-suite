@@ -404,6 +404,36 @@ section {
   transition: 0.5s;
 }
 
+.types-li {
+  height: calc(100% - 1rem);
+  width: 11rem;
+  margin: 0.5rem;
+  padding: 0.25rem;
+  display: grid;
+  align-items: center;
+  place-content: center;
+  grid-template-rows: repeat(6, 2fr);
+}
+
+.type-row {
+  display: grid;
+  place-content: center;
+  height: 2rem;
+}
+
+.type-row.cancel {
+  background: rgb(255, 202, 202);
+  border-radius: 10px;
+  width: 5rem;
+  transition: 0.5s;
+}
+
+.type-row.cancel:hover {
+  background: rgb(255, 103, 103);
+  color: white;
+  transition: 0.5s;
+}
+
 .color-li {
   height: calc(100% - 1rem);
   width: 11rem;
@@ -411,20 +441,72 @@ section {
   padding: 0.25rem;
   display: grid;
   align-items: center;
-  grid-template-rows: repeat(12, 1fr);
+  place-content: center;
+  grid-template-rows: 1.3fr repeat(11, 1fr);
 }
 
 .color-row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  -moz-column-gap: 0.5rem;
-       column-gap: 0.5rem;
   width: 10rem;
 }
 
 .color-t {
   height: 1.5rem;
-  background: #0000ff;
+}
+
+.type-head {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.type-title {
+  text-decoration: underline;
+}
+
+.cancel-row {
+  text-align: center;
+  height: 1.5rem;
+  background: rgb(255, 202, 202);
+  border-radius: 10px;
+  width: 5rem;
+  transition: 0.5s;
+}
+
+.cancel-row:hover {
+  background: rgb(255, 103, 103);
+  color: white;
+  transition: 0.5s;
+}
+
+.texture-li {
+  height: calc(100% - 1rem);
+  width: 11rem;
+  margin: 0.5rem;
+  padding: 0.25rem;
+  display: grid;
+  align-items: center;
+  grid-template-rows: 1fr repeat(6, 2fr);
+  row-gap: 0.5rem;
+}
+
+.texture-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  -moz-column-gap: 0.5rem;
+       column-gap: 0.5rem;
+  width: 10rem;
+}
+
+.texture-wood {
+  height: 4rem;
+  background: url(../images/wood.jpg);
+}
+
+.texture-concrete {
+  height: 4rem;
+  background: url(../images/concrete_clean_0041_01_s.jpg);
 }
 
 .attr-texture {

@@ -31,6 +31,9 @@ export const useStore = create((set) => ({
                          texture: state.texture,
                          // texture: texture,
                          active: 'none',
+                         textureMenu: false,
+                         textureOptions: false,
+                         matType: 'Plain',
                          ortho: true
                     },
                ]
@@ -77,6 +80,15 @@ export const useStore = create((set) => ({
                ),
           }))
      },
+     setMatType: (type, id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, matType: type})
+                         : object
+               ),
+          }))
+     },
 
      // Makes the object's own attribute menu appear (and closes all others)
      setActive: (id) =>{
@@ -86,6 +98,26 @@ export const useStore = create((set) => ({
                     // object.objNo === id
                          ? ({...object, active: 'grid'})
                          : ({...object, active: 'none'})
+               ),
+          }))
+     },
+     setTextureMenu: (id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                    // object.objNo === id
+                         ? ({...object, textureMenu: true})
+                         : ({...object, textureMenu: false})
+               ),
+          }))
+     },
+     setTextureOptions: (id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                    // object.objNo === id
+                         ? ({...object, textureOptions: true})
+                         : ({...object, textureOptions: false})
                ),
           }))
      },
