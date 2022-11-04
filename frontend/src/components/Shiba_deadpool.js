@@ -40,7 +40,8 @@ export default function Shiba({...props}) {
   }
 
   useFrame((state) => {
-    group.current.position.set(mouseLoc.x, mouseLoc.y, mouseLoc.z);
+    // group.current.position.set(mouseLoc.x, mouseLoc.y, mouseLoc.z);
+    group.current.position.set(mouseLoc.x, 1, mouseLoc.z);
   });
   
   return (
@@ -68,7 +69,8 @@ export default function Shiba({...props}) {
       <group rotation={[-Math.PI / 2, 0, 0]}>
         <mesh geometry={nodes.Object_2.geometry} material={materials.body} />
         <mesh geometry={nodes.Object_3.geometry} material={materials.collar} />
-        <mesh geometry={nodes.Object_4.geometry} material={materials.eyes} material-color={'yellow'} />
+        <mesh geometry={nodes.Object_4.geometry} material={materials.eyes} />
+        {/* <mesh geometry={nodes.Object_4.geometry} material={materials.eyes} material-color={'yellow'} /> */}
         <mesh geometry={nodes.Object_5.geometry} material={materials.face} />
         <mesh geometry={nodes.Object_6.geometry} material={materials.orecchie}  />
         <mesh geometry={nodes.Object_7.geometry} material={materials.tail} />

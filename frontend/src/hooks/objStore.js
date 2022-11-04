@@ -11,8 +11,9 @@ export const useStore = create((set) => ({
      // Default texture
      // texture: '#ff00e0',
      texture: 'blank',
-     iniPos: [0,1,0],
+     iniPos: [0,0,0],
      iniShape: '#BFBFBF',
+     playerIni: [0,3,10],
 
      // Check for objects in localStorage
      objects: getLocalStorage('world') || [],
@@ -30,6 +31,8 @@ export const useStore = create((set) => ({
                          shape: shape,
                          color: state.iniShape,
                          texture: state.texture,
+                         playerLoc: state.playerIni,
+                         // scale: 120,
                          // texture: texture,
                          active: 'none',
                          textureMenu: false,

@@ -6,24 +6,19 @@ const Dash = ()=>{
      return (
           <div className="gen-cont">
                <div className="dash-cont">
-                    <h1 className="dash-title">User's Dashboard</h1>
-                    <section className='projects-cont'>
-                         <Link to="/edit">
-                              {/* <button className="enter-btn" type="submit">Enter Now</button> */}
-                              <div className='project'>
+                    <section className='dash-sect'>
+                         <h1 className="dash-title">User's Dashboard</h1>
+                         <div className='projects-cont'>
+                              <Link to="/edit" className='project'>
                                    <div className='proj-thumb main'></div>
                                    <div className='proj-title'>Main Project</div>
-                              </div>
-                         </Link>
-                         <Link to="/test">
-                              {/* <button className="enter-btn" type="submit">Test Mode</button> */}
-                              <div className='project'>
+                              </Link>
+                              <Link to="/test" className='project'>
                                    <div className='proj-thumb test'></div>
                                    <div className='proj-title'>R&D Project</div>
-                              </div>
-                         </Link>
+                              </Link>
+                         </div>
                     </section>
-                    
                </div>
           </div>
      );

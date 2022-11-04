@@ -77,6 +77,8 @@ export const Obj = ({ setShape, unique}) =>{
      // More Geometry types
      // https://threejs.org/docs/index.html?q=Geometry#api/en/geometries/CylinderGeometry
      const allShapes = {
+          // Metric Scale
+          // box : new THREE.BoxBufferGeometry(12,24,12),
           box : new THREE.BoxBufferGeometry(1,1,1),
           sphere : new THREE.SphereBufferGeometry(0.5,16,16),
           cylinder : new THREE.CylinderBufferGeometry(0.5,0.5,1,30),
@@ -826,7 +828,7 @@ export const Obj = ({ setShape, unique}) =>{
 
                          </div>
 
-                         {/* ----Adding Textures---- */}
+                         {/* ----Changing Object Properties ...soon---- */}
                          <div className={`attr-li ${ textureOptions ||colorMenu ? 'inactive' : ''}`}>
                               <div className='attr-n'>Soon...</div>
                               <div 

@@ -19,31 +19,21 @@ import { useStore } from '../hooks/objStore';
 
 import Navbar from '../components/Navbar';
 
-// const CameraDolly = ({ lookX, lookY, lookZ }) => {
-  // const vec = new THREE.Vector3();
+// -------Search 'Metric Scale'---------
+  // To see the (commented) progress made on making 
+  // the scene metric-scaled (also see Obj.js)
 
-  // useFrame((state) => {
-  //   const step = 0.1;
-  //   const x = 0;
-  //   const y = 5;
-  //   const z = 0;
-  //   // const x = isZoom ? 0 : 0;
-  //   // const y = isZoom ? 10 : 5;
-  //   // const z = isZoom ? 10 : 0;
-
-  //   state.camera.position.lerp(vec.set(x, y, z), step);
-  //   // state.camera.lookAt(0, 0, 0);
-  //   // state.camera.lookAt(lookX,lookY,lookZ);
-  //   state.camera.updateProjectionMatrix();
-  // });
-
-  // return null;
-// }
 
 let pos = [0,1,0];
 
 const MakeOrtho = ({isShape}) => {
 // const MakeOrtho = ({ lookX, lookY, lookZ }) => {
+  // const [objects, addObj, setOrtho, saveScene] = useStore((state) => [
+  //   state.objects,
+  //   state.addObj,
+  //   state.setOrtho,
+  //   state.saveWorld
+  // ]);
   const vec = new THREE.Vector3();
 
   const { moveForward, moveBackward, moveLeft, moveRight} = useKeyboardControls();
@@ -57,7 +47,7 @@ const MakeOrtho = ({isShape}) => {
     const step = 1;
     // const step = 0.1;
     const x = pos[0];
-    const y = 5;
+    const y = 100;
     const z = pos[2];
     state.camera.position.lerp(vec.set(x, y, z), step);
     state.camera.lookAt(x,0,z);
@@ -66,17 +56,21 @@ const MakeOrtho = ({isShape}) => {
   });
   return(
     <>
-      {/* <MoveOrtho /> */}
       <OrthographicCamera makeDefault zoom={40} />
+      {/* Metric Scale */}
+      {/* <OrthographicCamera makeDefault zoom={10} /> */}
       {isShape}
     </>
   );
 }
 
 const MakePersp = ({isShape}) =>{
+  let userPos = [0,1,10];
+  // Metric Scale
+  // let userPos = [0,6,10];
   return(
     <>
-      <Player position={[0, 3, 10]} />
+      <Player position={userPos} />
       <FPVControls />
       <PerspectiveCamera makeDefault />
       {isShape}
@@ -84,36 +78,13 @@ const MakePersp = ({isShape}) =>{
   )
 }
 
-// Movement Works by mouse movement works
-// Next, work on draggable objects 
-//  - (npm install three-dragcontrols)
-//  - https://www.npmjs.com/package/three-dragcontrols
-// Then set up a menu to add objects system:
-//  - A menu will show a list of objects
-//  - When an object is selected, an add button will show
-//  -(done) When pressed, objects will be set in "mouse movement mode"
-//  -(done) When the object is clicked to the canvas, it will stay and "mouse movement mode" is diabled
-//  -(done) After this point the object is moved by dragging
-
-// function animation(){
-//   const speed = 0.1;
-//   const vec = new THREE.Vector3();
-//   let x = Box.mesh.position[0] += speed;
-//   let y = Box.mesh.position[1] += speed;
-//   let z = Box.mesh.position[2] += speed;
-//   Box.mesh.position.lerp(vec.set(x, y, z), speed);
-// }
-
-const Plane = () => {
-    return (
-      <mesh position={[0,-0.1,0]} scale={100} rotation={[-Math.PI / 2, 0, 0]}>
-        <planeBufferGeometry attach="geometry" />
-        <meshStandardMaterial color="white" attach="material" side={THREE.DoubleSide} />
-      </mesh>
-    );
-};
-
 export default function NewEdit() {
+  let gridLen = 100;
+  let gridBoxCount = 100;
+  // Metric Scale
+  // let gridLen = 256;
+  // let gridBoxCount = 64;
+
   const [isOrtho, setCam] = useState(true);
   const toggleCam = () => {
     setCam((active) => !active);
@@ -125,26 +96,12 @@ export default function NewEdit() {
   const toggleClass = () => setActive(!isActive);
 
   // add new object
-  const [isShape, setShape] = useState([]);
+  // const [isShape, setShape] = useState([]);
 
   const [shapeCount, setShapeCount] = useState(0);
   useEffect(() => {
 
   },[isOrtho]);
-
-  // function onMouseMove(event) {
-  //   if(isOrtho){
-  //        mouseLoc.x = (event.clientX / window.innerWidth) * 2 - 1;
-  //        mouseLoc.z = - (event.clientY / window.innerHeight) * 2 + 1;
-
-  //        mouseLoc.x = Math.round(mouseLoc.x * window.innerWidth* 1.25)/100;
-  //        mouseLoc.z = Math.round(mouseLoc.z * window.innerHeight *-1.25)/100;
-
-  //        // Grid-locking can be made optional
-  //        mouseLoc.x = Math.round(mouseLoc.x) + posi[0];
-  //        mouseLoc.z = Math.round(mouseLoc.z) + posi[2];
-  //     }
-  // }
 
   const [objects, addObj, setOrtho, saveScene] = useStore((state) => [
     state.objects,
@@ -167,15 +124,16 @@ export default function NewEdit() {
   }
 
   return (
-    <>
+    <div className='canvas-cont'>
       <Canvas sRGB>
         <Sky sunPosition={[100, 20, 100]} />
         <ambientLight intensity={0.25} />
         <pointLight castShadow intensity={0.7} position={[100, 100, 100]} />
-        <gridHelper args={[100, 100, `white`, `gray`]} />
+        <gridHelper args={[gridLen, gridBoxCount, `red`, `gray`]} />
         {/* <spotLight position={[100, 150, 100]} angle={0.3}/>
         <ambientLight intensity={0.25} /> */}
-        <Physics gravity={[0, -30, 0]}>
+        {/* <Physics gravity={[0, -30, 0]}> */}
+        <Physics gravity={[0, 0, 0]}>
           {isOrtho? <MakeOrtho /> : <MakePersp />}
           {/* {isOrtho? <MakeOrtho isShape={isShape} /> : <MakePersp isShape={isShape} />} */}
           <Ground position={[0, -0.5, 0]} />
@@ -190,7 +148,7 @@ export default function NewEdit() {
                 setShape={shape}
                 nkey={shapeCount} 
               />
-          ):(
+            ):(
               <Obj 
                 isOrtho={true} 
                 key = {key}
@@ -198,7 +156,7 @@ export default function NewEdit() {
                 setShape={shape}
                 nkey={shapeCount} 
               />
-          )
+            )
           )}
         </Physics>
 
@@ -254,6 +212,6 @@ export default function NewEdit() {
         </div>
       </div> */}
 
-    </>
+    </div>
   );
 }

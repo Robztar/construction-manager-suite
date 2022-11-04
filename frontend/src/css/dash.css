@@ -1,9 +1,19 @@
 .dash-cont {
   display: grid;
+  place-content: center;
+  row-gap: 5vh;
+  overflow-y: auto;
+  width: 100vw;
+  margin: 5vh 5%;
+}
+
+.dash-sect {
+  position: relative;
+  display: grid;
   place-items: center;
   background: whitesmoke;
-  height: 90%;
-  width: 90%;
+  height: 90vh;
+  width: 90vw;
 }
 
 .dash-title {
@@ -15,9 +25,10 @@
   align-items: center;
   place-items: center;
   width: 100%;
+  padding: 0 2%;
   grid-template-columns: repeat(3, 1fr);
-  -moz-column-gap: 2vw;
-       column-gap: 2vw;
+  -moz-column-gap: 2%;
+       column-gap: 2%;
 }
 
 .project {
@@ -25,34 +36,25 @@
   align-items: center;
   place-content: center;
   height: 30vh;
+  width: 100%;
+  text-decoration: none;
   background: white;
   grid-template-rows: 3fr 1fr;
+  grid-template-columns: 1fr;
 }
 
 .proj-thumb {
   display: grid;
-  padding: 1% 0;
-  width: 30vw;
-  height: 98%;
+  width: 100%;
+  height: 100%;
   background: url(../images/Cross-section.png);
   background-size: cover;
   background-position: center;
 }
 
 .proj-title {
-  text-align: center;
-  border: none;
-  text-decoration: none !important;
+  display: grid;
+  place-items: center;
   color: black;
-}
-
-.enter-btn {
-  background: yellow;
-  font-size: 1rem;
-  border: none;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
+  height: 100%;
 }/*# sourceMappingURL=dash.css.map */

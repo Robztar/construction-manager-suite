@@ -89,12 +89,12 @@ export default function Edit() {
      const toggleClass = () => setActive(!isActive);
 
      return (
-          <>
+          <div className='canvas-cont'>
                <Canvas shadowMap sRGB className='canvas'>
                     <Sky sunPosition={[100, 20, 100]} />
                     <ambientLight intensity={0.25} />
                     <pointLight castShadow intensity={0.7} position={[100, 100, 100]} />
-                    {isOrtho? <gridHelper args={[100, 100, `white`, `gray`]} /> : null}
+                    {isOrtho? <gridHelper args={[100, 100, `yellow`, `gray`]} /> : null}
                     <Physics gravity={[0, -30, 0]}>
                          {isOrtho? <MakeOrtho /> : <MakePersp />}
                          {/* <Room /> */}
@@ -130,19 +130,19 @@ export default function Edit() {
                     <div className={`object-menu ${isActive ? 'active' : ''}`}>
                          <div className="object-li" id='box'>
                               <p className="object-n" onClick={addNew} data-type={'custom'} data-shape={"box"}>Box</p>
-                              <p className="object-t box" onClick={addNew} data-type={'custom'} data-shape={"box"}>img</p>
+                              <p className="object-t box" onClick={addNew} data-type={'custom'} data-shape={"box"}></p>
                          </div>
                          <div className="object-li">
                               <p className="object-n" onClick={addNew} data-type={'custom'} data-shape={'sphere'}>Sphere</p>
-                              <p className="object-t sphere" onClick={addNew} data-type={'custom'} data-shape={'sphere'}>img2</p>
+                              <p className="object-t sphere" onClick={addNew} data-type={'custom'} data-shape={'sphere'}></p>
                          </div>
                          <div className="object-li">
                               <p className="object-n" onClick={addNew} data-type={'custom'} data-shape={'cylinder'}>Cylinder</p>
-                              <p className="object-t cylinder" onClick={addNew} data-type={'custom'} data-shape={'cylinder'}>img3</p>
+                              <p className="object-t cylinder" onClick={addNew} data-type={'custom'} data-shape={'cylinder'}></p>
                          </div>
                          <div className="object-li">
                               <p className="object-n" onClick={addNew} data-type={'model'} data-shape={'shiba'}>Shiba</p>
-                              <p className="object-t shiba" onClick={addNew} data-type={'model'} data-shape={'shiba'}>img4</p>
+                              <p className="object-t shiba" onClick={addNew} data-type={'model'} data-shape={'shiba'}></p>
                          </div>
                     </div>
                </div>
@@ -162,6 +162,6 @@ export default function Edit() {
                     </div>
                }
                
-          </>
+          </div>
      );
 }
