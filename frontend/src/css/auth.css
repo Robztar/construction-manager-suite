@@ -1,0 +1,41 @@
+.auth-cont {
+  display: grid;
+  place-items: center;
+  background: whitesmoke;
+  height: 90%;
+  width: 90%;
+}
+
+.auth-form {
+  margin-top: 1rem;
+  min-width: 300px;
+  padding: 1rem;
+  padding-left: 1.5rem;
+  background: rgba(173, 216, 230, 0.35);
+  border-radius: 0.5rem;
+}
+
+.auth-title {
+  font-size: 3rem;
+  text-align: center;
+}
+
+.auth-input {
+  margin-bottom: 1rem;
+  width: 80%;
+  padding: 4px;
+  border-radius: 3px;
+  border: none;
+  background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7));
+}
+
+.auth-btn {
+  background: rgb(0, 217, 255);
+  font-size: 1rem;
+  border: none;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}/*# sourceMappingURL=auth.css.map */

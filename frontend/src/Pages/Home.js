@@ -6,24 +6,18 @@ const Home = ()=>{
      return (
           <div className="gen-cont">
                <div className="home-cont">
-                    <h1 className="welcome-title">Welcome to Your <span>Construction Manager</span></h1>
-                    <section>
+                    <h1 className="welcome-title">Welcome to <br/> <span>GroundUp</span> <br/> House Designer </h1>
+                    <section className='btn-cont'>
                          <Link to="/signup">
-                              <button className="auth-btn" type="submit">Sign Up</button>
+                              <button className="op-btn" type="submit">Sign Up</button>
                          </Link>
                          <Link to="/login">
-                              <button className="auth-btn" type="submit">Log In</button>
+                              <button className="op-btn" type="submit">Log In</button>
+                         </Link>
+                         <Link to="/dash">
+                              <button className="op-btn" type="submit">Enter Now</button>
                          </Link>
                     </section>
-                    <section>
-                         <Link to="/edit">
-                              <button className="enter-btn" type="submit">Enter Now</button>
-                         </Link>
-                         <Link to="/test">
-                              <button className="enter-btn" type="submit">Test Mode</button>
-                         </Link>
-                    </section>
-                    
                </div>
           </div>
      );

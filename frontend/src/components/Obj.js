@@ -1,10 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-
-// DELETE THIS LIB FROM NODE MODULES
-import Pickr from '@simonwep/pickr';
-import '@simonwep/pickr/dist/themes/nano.min.css'; 
+// Threejs GLTF support:
+     // https://www.youtube.com/watch?v=WBe3xrV4CPM
+     // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 // https://docs.pmnd.rs/react-three-fiber/getting-started/introduction
 //  - Ecosystem: List of libraries that may be useful:
@@ -13,15 +12,14 @@ import '@simonwep/pickr/dist/themes/nano.min.css';
      // flexbox (idk)
      // zustand (STATE MANAGEMENT)
      // mouse/touch gestures (useDrag)
+
+// import { Html, ScrollControls, Scroll } from '@react-three/drei'
 import { Html } from '@react-three/drei';
-// https://stackoverflow.com/questions/69785504/how-to-add-a-jsx-component-inside-a-react-three-fiber-canvas
-// - Helped with HTML inclusion
-// - import { Html, ScrollControls, Scroll } from '@react-three/drei'
 
 import { useStore } from '../hooks/objStore';
 import * as textures from '../textures';
 
-// ----- New Bug Alert ------
+// ----- Bug Alert ------
 // 1. The Attribute window sticks with the object when the camera moves
      // only does this in ortho mode
      // possible solution: remove it using keyboard controls
@@ -31,11 +29,8 @@ import * as textures from '../textures';
           // b) from objStore
 
 // Up Next:
-     // 1. Default color picker is weird... try 
-          // a) fix it (maybe impossible)
-          // b) use basic calor panels to choose from
-     // 2. Enable textures for objects (+add its GUI)
-     // 3. Increase objects catalogue (+add to options)
+     // DONE [1,2]
+     // ...3. Increase objects catalogue (+add to options)
      // 4. Increase textures catalogue
      // 5. Implement measurement scale
      // 6. Readjust object sizing and positioning (to scale)
@@ -48,8 +43,16 @@ import * as textures from '../textures';
 export const Obj = ({ setShape, unique}) =>{
      const ref = useRef();
 
-     const [objects, setPos, changeColor, changeTexture, setActive, removeObj, setTextureMenu, setTextureOptions, setMatType] = useStore((state) => [
-          state.objects,
+     const [ objects, 
+          setPos, 
+          changeColor, 
+          changeTexture, 
+          setActive, 
+          removeObj, 
+          setTextureMenu, 
+          setTextureOptions, 
+          setMatType
+     ] = useStore((state) => [ state.objects,
           state.setPos,
           state.changeColor,
           state.changeTexture,
@@ -63,17 +66,20 @@ export const Obj = ({ setShape, unique}) =>{
      let objInstance = objects.find(o => o.key === unique);
 
      let prevPos = [0,0,0];
-     // let objColor = 'blue';
      if (objInstance) prevPos = objInstance.pos;
      var mouseLoc = {x:prevPos[0], y:prevPos[1], z:prevPos[2]};
 
-     const allColors = {
-          box : 'red',
-          sphere : 'blue'
-     }
+     // const allColors = {
+     //      box : 'red',
+     //      sphere : 'blue'
+     // }
+
+     // More Geometry types
+     // https://threejs.org/docs/index.html?q=Geometry#api/en/geometries/CylinderGeometry
      const allShapes = {
           box : new THREE.BoxBufferGeometry(1,1,1),
-          sphere : new THREE.SphereBufferGeometry(0.5,16,16)
+          sphere : new THREE.SphereBufferGeometry(0.5,16,16),
+          cylinder : new THREE.CylinderBufferGeometry(0.5,0.5,1,30),
      }
      
      const Attribute = () =>{
@@ -99,17 +105,9 @@ export const Obj = ({ setShape, unique}) =>{
                               X</div>
                     </div>
                     <div className='attr-menu'>
-                         {/* Color menu (CALLAPSED for readability) */}
                          <div 
                               className={`attr-li ${textureOptions || colorMenu ? 'active' : ''}`}
                               style={{'grid-template-columns': '1fr'}}
-                              // onClick={(e) =>{
-                              //      e.stopPropagation();
-                              //      // setColMenu(!colorMenu);
-                              //      // setColMenu(true);
-                              //      setTextureOptions(unique);
-                              //      console.log('Options active: ' + textureOptions);
-                              // }}
                          >
                               {(() =>{ 
                                    if(textureOptions){
@@ -139,17 +137,17 @@ export const Obj = ({ setShape, unique}) =>{
                                                             e.stopPropagation();
                                                             setTextureMenu(unique);
                                                             setTextureOptions('');
-                                                            setMatType('Concrete',unique);
+                                                            setMatType('Stone',unique);
                                                        }}
-                                                  >Concrete</div>
+                                                  >Stone</div>
                                                   <div className='type-row'
                                                        onClick={(e) =>{
                                                             e.stopPropagation();
                                                             setTextureMenu(unique);
                                                             setTextureOptions('');
-                                                            setMatType('Stone',unique);
+                                                            setMatType('Glass',unique);
                                                        }}
-                                                  >Stone</div>
+                                                  >Glass</div>
                                                   <div className='type-row'
                                                        onClick={(e) =>{
                                                             e.stopPropagation();
@@ -577,12 +575,12 @@ export const Obj = ({ setShape, unique}) =>{
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-wood'
+                                                            className='texture-worn-wood'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
-                                                                 changeTexture('wood', unique);
+                                                                 changeTexture('wornWood', unique);
                                                                  setTextureMenu('');
                                                                  ref.current.material.color.set(objInstance.color);
                                                             }}
@@ -591,89 +589,23 @@ export const Obj = ({ setShape, unique}) =>{
                                                   {/* Wood Row2 */}
                                                   <div className='texture-row'>
                                                        <div 
-                                                            className='texture-wood'
+                                                            className='texture-plywood'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
-                                                                 changeTexture('wood', unique);
+                                                                 changeTexture('plywood', unique);
                                                                  setTextureMenu('');
                                                                  ref.current.material.color.set(objInstance.color);
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-wood'
+                                                            className='texture-laminate'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
-                                                                 changeTexture('wood', unique);
-                                                                 setTextureMenu('');
-                                                                 ref.current.material.color.set(objInstance.color);
-                                                            }}
-                                                       ></div>
-                                                  </div>
-                                             </div>
-                                        )}
-                                        if(matType === 'Concrete'){
-                                        return(
-                                             <div className='texture-li'>
-                                                  {/* Menu Head */}
-                                                  <div className='type-head'> 
-                                                       <div className='type-title'>Concrete</div> 
-                                                       <div className='cancel-row'
-                                                            onClick={(e) =>{
-                                                                 e.stopPropagation();
-                                                                 setTextureMenu('');
-                                                            }}
-                                                       >Cancel</div>
-                                                  </div>
-                                                  {/* Concrete Row1 */}
-                                                  <div className='texture-row'>
-                                                       <div 
-                                                            className='texture-concrete'
-                                                            onClick={(e) =>{
-                                                                 e.stopPropagation();
-                                                                 colorAttr = 'white';
-                                                                 changeColor(colorAttr, unique);
-                                                                 changeTexture('concrete', unique);
-                                                                 setTextureMenu('');
-                                                                 ref.current.material.color.set(objInstance.color);
-                                                                 console.log('current texture is: ' + textureAttr);
-                                                            }}
-                                                       ></div>
-                                                       <div 
-                                                            className='texture-concrete'
-                                                            onClick={(e) =>{
-                                                                 e.stopPropagation();
-                                                                 colorAttr = 'white';
-                                                                 changeColor(colorAttr, unique);
-                                                                 changeTexture('concrete', unique);
-                                                                 setTextureMenu('');
-                                                                 ref.current.material.color.set(objInstance.color);
-                                                            }}
-                                                       ></div>
-                                                  </div>
-                                                  {/* Concrete Row2 */}
-                                                  <div className='texture-row'>
-                                                       <div 
-                                                            className='texture-concrete'
-                                                            onClick={(e) =>{
-                                                                 e.stopPropagation();
-                                                                 colorAttr = 'white';
-                                                                 changeColor(colorAttr, unique);
-                                                                 changeTexture('concrete', unique);
-                                                                 setTextureMenu('');
-                                                                 ref.current.material.color.set(objInstance.color);
-                                                            }}
-                                                       ></div>
-                                                       <div 
-                                                            className='texture-concrete'
-                                                            onClick={(e) =>{
-                                                                 e.stopPropagation();
-                                                                 colorAttr = 'white';
-                                                                 changeColor(colorAttr, unique);
-                                                                 changeTexture('concrete', unique);
+                                                                 changeTexture('laminate', unique);
                                                                  setTextureMenu('');
                                                                  ref.current.material.color.set(objInstance.color);
                                                             }}
@@ -694,52 +626,118 @@ export const Obj = ({ setShape, unique}) =>{
                                                             }}
                                                        >Cancel</div>
                                                   </div>
-                                                  {/* Wood Row1 */}
+                                                  {/* Stone Row1 */}
                                                   <div className='texture-row'>
                                                        <div 
-                                                            className='texture-wood'
+                                                            className='texture-concrete'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
-                                                                 changeTexture('wood', unique);
+                                                                 changeTexture('concrete', unique);
                                                                  setTextureMenu('');
                                                                  ref.current.material.color.set(objInstance.color);
                                                                  console.log('current texture is: ' + textureAttr);
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-wood'
+                                                            className='texture-concrete'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
-                                                                 changeTexture('wood', unique);
+                                                                 changeTexture('concrete', unique);
                                                                  setTextureMenu('');
                                                                  ref.current.material.color.set(objInstance.color);
                                                             }}
                                                        ></div>
                                                   </div>
-                                                  {/* Wood Row2 */}
+                                                  {/* Stone Row2 */}
                                                   <div className='texture-row'>
                                                        <div 
-                                                            className='texture-wood'
+                                                            className='texture-concrete'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
-                                                                 changeTexture('wood', unique);
+                                                                 changeTexture('concrete', unique);
                                                                  setTextureMenu('');
                                                                  ref.current.material.color.set(objInstance.color);
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-wood'
+                                                            className='texture-concrete'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
-                                                                 changeTexture('wood', unique);
+                                                                 changeTexture('concrete', unique);
+                                                                 setTextureMenu('');
+                                                                 ref.current.material.color.set(objInstance.color);
+                                                            }}
+                                                       ></div>
+                                                  </div>
+                                             </div>
+                                        )}
+                                        if(matType === 'Glass'){
+                                        return(
+                                             <div className='texture-li'>
+                                                  {/* Menu Head */}
+                                                  <div className='type-head'> 
+                                                       <div className='type-title'>Glass</div> 
+                                                       <div className='cancel-row'
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 setTextureMenu('');
+                                                            }}
+                                                       >Cancel</div>
+                                                  </div>
+                                                  {/* Glass Row1 */}
+                                                  <div className='texture-row'>
+                                                       <div 
+                                                            className='texture-glass'
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#add8e6';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('glass', unique);
+                                                                 setTextureMenu('');
+                                                                 ref.current.material.color.set(objInstance.color);
+                                                                 console.log('current texture is: ' + textureAttr);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='texture-black-glass'
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = 'black';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('glass', unique);
+                                                                 setTextureMenu('');
+                                                                 ref.current.material.color.set(objInstance.color);
+                                                            }}
+                                                       ></div>
+                                                  </div>
+                                                  {/* Glass Row2 */}
+                                                  <div className='texture-row'>
+                                                       <div 
+                                                            className='texture-red-glass'
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = 'red';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('glass', unique);
+                                                                 setTextureMenu('');
+                                                                 ref.current.material.color.set(objInstance.color);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='texture-orange-glass'
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = 'orange';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('glass', unique);
                                                                  setTextureMenu('');
                                                                  ref.current.material.color.set(objInstance.color);
                                                             }}
@@ -825,19 +823,14 @@ export const Obj = ({ setShape, unique}) =>{
                                         )
                                    }
                               }) () }
+
                          </div>
 
                          {/* ----Adding Textures---- */}
-                         <div className={`attr-li ${ textureOptions ||colorMenu ? 'inactive' : ''}`}
-                              onClick={(e) =>{
-                                   e.stopPropagation();
-                                   // console.log('current color is: ' + objInstance.color);
-                              }}
-                         >
+                         <div className={`attr-li ${ textureOptions ||colorMenu ? 'inactive' : ''}`}>
                               <div className='attr-n'>Soon...</div>
                               <div 
-                                   className='attr-t attr-texture' 
-                                   // style={{'background': 'red'}}
+                                   className='attr-t attr-texture'
                                    onClick={(e) =>{
                                         e.stopPropagation();
                                         colorAttr = 'white';
@@ -845,7 +838,7 @@ export const Obj = ({ setShape, unique}) =>{
                                         changeTexture('wood', unique);
                                         console.log('current texture is: ' + textureAttr);
                                    }}
-                                   ></div>
+                              ></div>
                          </div>
                          
                     </div>
@@ -902,7 +895,13 @@ export const Obj = ({ setShape, unique}) =>{
                          }}
                     >
                          <primitive object={allShapes[setShape]} attach="geometry" />
-                         <meshStandardMaterial attach="material" color={objInstance.color} map={textures[objInstance.texture]} />
+                         <meshStandardMaterial 
+                              attach="material" 
+                              color={objInstance.color} 
+                              map={textures[objInstance.texture]}
+                              opacity={objInstance.texture === 'glass'? 0.6 : 1}
+                              transparent={true}
+                         />
                          {/* <meshStandardMaterial attach="material" color={allColors[setShape]} /> */}
                     </mesh>
                     <Html>

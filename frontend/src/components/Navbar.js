@@ -27,7 +27,7 @@ const Navbar = ({newObj}) => {
                               <div>Project Name</div>
                               <div>Floor Selector</div>
                          </div>
-                         <Link to="/">
+                         <Link to="/dash">
                               <i class="far fa-times-circle"></i>
                          </Link>
                     </div>

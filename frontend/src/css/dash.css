@@ -1,0 +1,58 @@
+.dash-cont {
+  display: grid;
+  place-items: center;
+  background: whitesmoke;
+  height: 90%;
+  width: 90%;
+}
+
+.dash-title {
+  font-size: 2.2rem;
+}
+
+.projects-cont {
+  display: grid;
+  align-items: center;
+  place-items: center;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  -moz-column-gap: 2vw;
+       column-gap: 2vw;
+}
+
+.project {
+  display: grid;
+  align-items: center;
+  place-content: center;
+  height: 30vh;
+  background: white;
+  grid-template-rows: 3fr 1fr;
+}
+
+.proj-thumb {
+  display: grid;
+  padding: 1% 0;
+  width: 30vw;
+  height: 98%;
+  background: url(../images/Cross-section.png);
+  background-size: cover;
+  background-position: center;
+}
+
+.proj-title {
+  text-align: center;
+  border: none;
+  text-decoration: none !important;
+  color: black;
+}
+
+.enter-btn {
+  background: yellow;
+  font-size: 1rem;
+  border: none;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}/*# sourceMappingURL=dash.css.map */

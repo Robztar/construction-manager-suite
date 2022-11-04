@@ -8,8 +8,9 @@ import { FPVControls } from '../components/FPVControls';
 import { Player } from '../components/Player';
 import { Ground } from '../components/Ground';
 // import { Box } from '../components/Box';
-import { Shape } from '../components/Shape';
+// import { Shape } from '../components/Shape';
 import { Obj } from '../components/Obj';
+import { Model } from '../components/Model';
 // import Room from '../components/Room';
 
 import { useKeyboardControls } from '../hooks/useKeyboardControls';
@@ -153,16 +154,15 @@ export default function NewEdit() {
   ]);
   
   const addNew = (e) =>{
-    var addState = isOrtho;
     const shape = e.target.getAttribute("data-shape");
+    const objType = e.target.getAttribute("data-type");
 
     if(!isOrtho){
       toggleCam();
-      addState = !addState;
     }
 
     toggleClass();
-    addObj(null,shape);
+    addObj(null, shape, objType);
     setShapeCount(objects.length);
   }
 
@@ -181,15 +181,25 @@ export default function NewEdit() {
           <Ground position={[0, -0.5, 0]} />
           {/* <Room /> */}
           {/* {isShape} */}
-          {objects.map(({key, shape}) =>(
-                    <Obj 
-                        isOrtho={true} 
-                        key = {key}
-                        unique = {key}
-                        setShape={shape}
-                        nkey={shapeCount} 
-                    />
-          ))}
+          {objects.map(({key, shape, objType}) =>
+            objType === 'model'? (
+              <Model 
+                isOrtho={true} 
+                key = {key}
+                unique = {key}
+                setShape={shape}
+                nkey={shapeCount} 
+              />
+          ):(
+              <Obj 
+                isOrtho={true} 
+                key = {key}
+                unique = {key}
+                setShape={shape}
+                nkey={shapeCount} 
+              />
+          )
+          )}
         </Physics>
 
       </Canvas>
@@ -204,12 +214,20 @@ export default function NewEdit() {
         {/* Objects Menu */}
         <div className={`object-menu ${isActive ? 'active' : ''}`}>
             <div className="object-li" id='box'>
-                  <p className="object-n" onClick={addNew} data-shape={"box"}>Box</p>
-                  <p className="object-t" onClick={addNew} data-shape={"box"}>img</p>
+                  <p className="object-n" onClick={addNew} data-type={'custom'} data-shape={"box"}>Box</p>
+                  <p className="object-t box" onClick={addNew} data-type={'custom'} data-shape={"box"}></p>
             </div>
             <div className="object-li">
-                  <p className="object-n" onClick={addNew} data-shape={'sphere'}>Sphere</p>
-                  <p className="object-t" onClick={addNew} data-shape={'sphere'}>img2</p>
+                  <p className="object-n" onClick={addNew} data-type={'custom'} data-shape={'sphere'}>Sphere</p>
+                  <p className="object-t sphere" onClick={addNew} data-type={'custom'} data-shape={'sphere'}></p>
+            </div>
+            <div className="object-li">
+                  <p className="object-n" onClick={addNew} data-type={'custom'} data-shape={'cylinder'}>Cylinder</p>
+                  <p className="object-t cylinder" onClick={addNew} data-type={'custom'} data-shape={'cylinder'}></p>
+            </div>
+            <div className="object-li">
+                  <p className="object-n" onClick={addNew} data-type={'model'} data-shape={'shiba'}>Shiba</p>
+                  <p className="object-t shiba" onClick={addNew} data-type={'model'} data-shape={'shiba'}></p>
             </div>
         </div>
       </div>

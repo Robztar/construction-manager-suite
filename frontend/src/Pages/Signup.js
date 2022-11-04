@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom';
 const Signup = ()=>{
      return (
           <div className="gen-cont">
-               <div className="home-cont">
-                    <h1 className="welcome-title">Sign-Up Page</h1>
+               <div className="auth-cont">
+                    <h1 className="auth-title">Sign-Up Page</h1>
                     <form className='auth-form'>
                          <input className='auth-input' type="text" name="fname" placeholder="First Name" required/> 
                          <br/>
@@ -17,7 +17,7 @@ const Signup = ()=>{
                          <br/>
                          <input className='auth-input' type="password" name="cpwd" placeholder="Confirm Password" required/> 
                     </form>
-                    <Link to="/edit">
+                    <Link to="/dash">
                          <button className="auth-btn" type="submit">Sign Up</button>
                     </Link>
                     <Link to="/login">

@@ -12,13 +12,13 @@ export const useStore = create((set) => ({
      // texture: '#ff00e0',
      texture: 'blank',
      iniPos: [0,1,0],
-     iniShape: '#ff0000',
+     iniShape: '#BFBFBF',
 
      // Check for objects in localStorage
      objects: getLocalStorage('world') || [],
      
      // add whatever is requested
-     addObj: (texture, shape) =>{
+     addObj: (texture, shape, objType) =>{
           // var addState = true;
           set((state) => ({
                objects: [...state.objects,
@@ -26,6 +26,7 @@ export const useStore = create((set) => ({
                          key: nanoid(), 
                          pos: state.iniPos, 
                          objNo: state.objects.length,
+                         objType: objType,
                          shape: shape,
                          color: state.iniShape,
                          texture: state.texture,
