@@ -19,14 +19,14 @@ import { useStore } from '../hooks/objStore';
 
 import Navbar from '../components/Navbar';
 
-// -------Search 'Metric Scale'---------
-  // To see the (commented) progress made on making 
-  // the scene metric-scaled (also see Obj.js)
+// -------Search 'Measurement Scale'---------
+  // To see the progress made on scaling the canvas 
+  // (also see Obj.js and objStore.js)
 
 
 let pos = [0,1,0];
 
-const MakeOrtho = ({isShape}) => {
+const MakeOrtho = ({scale}) => {
 // const MakeOrtho = ({ lookX, lookY, lookZ }) => {
   // const [objects, addObj, setOrtho, saveScene] = useStore((state) => [
   //   state.objects,
@@ -35,6 +35,14 @@ const MakeOrtho = ({isShape}) => {
   //   state.saveWorld
   // ]);
   const vec = new THREE.Vector3();
+
+  // Measurement Scale
+  let zoom;
+  if(scale === 'metric'){
+    zoom = 10;
+  }else{
+    zoom = 20;
+  }
 
   const { moveForward, moveBackward, moveLeft, moveRight} = useKeyboardControls();
 
@@ -56,41 +64,47 @@ const MakeOrtho = ({isShape}) => {
   });
   return(
     <>
-      <OrthographicCamera makeDefault zoom={40} />
-      {/* Metric Scale */}
-      {/* <OrthographicCamera makeDefault zoom={10} /> */}
-      {isShape}
+      <OrthographicCamera makeDefault zoom={zoom} />
     </>
   );
 }
 
-const MakePersp = ({isShape}) =>{
-  let userPos = [0,1,10];
-  // Metric Scale
-  // let userPos = [0,6,10];
+const MakePersp = ({scale}) =>{
+  // Measurement Scale
+  let userPos
+  if(scale === 'metric'){
+    userPos = [0,6,10];
+  }else{
+    userPos = [0,5.42,10];
+  }
+  
   return(
     <>
       <Player position={userPos} />
       <FPVControls />
       <PerspectiveCamera makeDefault />
-      {isShape}
     </>
   )
 }
 
 export default function NewEdit() {
-  let gridLen = 100;
-  let gridBoxCount = 100;
-  // Metric Scale
-  // let gridLen = 256;
-  // let gridBoxCount = 64;
+  const [objects, addObj, setOrtho, setScale, convDimensions, saveScene] = useStore((state) => [
+    state.objects,
+    state.addObj,
+    state.setOrtho,
+    state.setScale,
+    state.convDimensions,
+    state.saveWorld
+  ]);
+  
+  let gridLen;
+  let gridBoxCount;
 
   const [isOrtho, setCam] = useState(true);
   const toggleCam = () => {
     setCam((active) => !active);
     setOrtho(!isOrtho);
   }
-  // function getCam() {return isOrtho};
 
   const [isActive, setActive] = useState(false);
   const toggleClass = () => setActive(!isActive);
@@ -99,17 +113,37 @@ export default function NewEdit() {
   // const [isShape, setShape] = useState([]);
 
   const [shapeCount, setShapeCount] = useState(0);
-  useEffect(() => {
+  // useEffect(() => {
 
-  },[isOrtho]);
+  // },[isOrtho]);
 
-  const [objects, addObj, setOrtho, saveScene] = useStore((state) => [
-    state.objects,
-    state.addObj,
-    state.setOrtho,
-    state.saveWorld
-  ]);
-  
+  // Measurement Scale
+  let objTest = objects[0];
+  let scaleState = 'metric';
+  if(objTest){
+    // console.log(objTest.scale);
+    scaleState = objTest.scale;
+  }
+  const [envScale, setEnvScale] = useState(scaleState);
+  const makeMetric = () => {
+    setEnvScale('metric');
+    setScale('metric');
+    convDimensions([12,12,12]);
+  }
+  const makeImperial = () => {
+    setEnvScale('imperial');
+    setScale('imperial');
+    convDimensions([10,10,10]);
+  }
+  if(envScale === 'metric'){
+    gridLen = 256;
+    gridBoxCount = 64;
+  }
+  else if(envScale === 'imperial'){
+    gridLen = 208;
+    gridBoxCount = 104;
+  }
+
   const addNew = (e) =>{
     const shape = e.target.getAttribute("data-shape");
     const objType = e.target.getAttribute("data-type");
@@ -134,9 +168,9 @@ export default function NewEdit() {
         <ambientLight intensity={0.25} /> */}
         {/* <Physics gravity={[0, -30, 0]}> */}
         <Physics gravity={[0, 0, 0]}>
-          {isOrtho? <MakeOrtho /> : <MakePersp />}
-          {/* {isOrtho? <MakeOrtho isShape={isShape} /> : <MakePersp isShape={isShape} />} */}
-          <Ground position={[0, -0.5, 0]} />
+          {/* Measurement Scale */}
+          {isOrtho? <MakeOrtho scale={envScale} /> : <MakePersp scale={envScale} />}
+          <Ground position={[0, -0.5, 0]} scale={envScale} />
           {/* <Room /> */}
           {/* {isShape} */}
           {objects.map(({key, shape, objType}) =>
@@ -198,6 +232,15 @@ export default function NewEdit() {
             <div className="selector" id="two-d" onClick={toggleCam}>2D</div>
           }
         </div>
+      </div>
+
+      {/* Measurement Scale */}
+      <div className='scale-cont'>
+        {envScale === 'metric'? 
+            <div className="sel-scale" onClick={makeImperial}>Imperial</div> 
+            : 
+            <div className="sel-scale" onClick={makeMetric}>Metric</div>
+        }
       </div>
 
 

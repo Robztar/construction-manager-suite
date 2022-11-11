@@ -233,6 +233,34 @@
   background-position: center;
 }
 
+.scale-cont {
+  position: absolute;
+  bottom: 6.5%;
+  margin: 0 3vw 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.sel-scale {
+  background: white;
+  height: 2.2rem;
+  width: 5.4rem;
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 50%;
+  transition: 0.5s;
+}
+
+.sel-scale:hover {
+  opacity: 100%;
+  border-radius: 1rem;
+  transition: 0.5s;
+}
+
 .switch-cont {
   position: absolute;
   bottom: 5%;

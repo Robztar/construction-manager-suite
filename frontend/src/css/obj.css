@@ -45,14 +45,12 @@
   position: relative;
   place-items: center;
   align-items: start;
-  grid-auto-rows: 5rem;
   row-gap: 10px;
   width: auto;
 }
 
 .attr-li {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   place-items: center;
   background: rgba(255, 255, 255, 0.4);
   width: 10rem;
@@ -255,43 +253,54 @@
   background: url(../images/wood.jpg);
 }
 
-#color-input {
-  border: none;
-  width: 100%;
-  height: 100%;
+.pos-props {
+  display: grid;
+  place-content: center;
+  width: 12rem;
+  height: 35vh;
+  grid-template-rows: 1fr 1fr;
+  row-gap: 1vh;
+  cursor: default;
+  transition: 0.5s;
+}
+
+.pos-props.inactive {
+  display: none;
+  transition: 0.5s;
+}
+
+.props-head {
   background: none;
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  cursor: pointer;
+  text-align: center;
+  text-decoration: underline;
 }
 
-#color-input::-webkit-color-swatch {
-  border: none;
+.props-row {
+  background: rgba(255, 255, 255, 0.5);
+  display: grid;
+  grid-template-rows: 1fr 3fr;
 }
 
-#color-input::-moz-color-swatch {
-  border: none;
-}
-
-.picker-cont {
-  display: flex;
-  justify-content: center;
+.props-type {
+  display: grid;
+  place-content: center;
   align-items: center;
-  width: 1.2rem;
-  height: 12rem;
+  text-decoration: underline;
 }
 
-.rgb-window {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(to bottom, red, magenta, blue, aqua, lime, yellow, red);
+.props-opts {
+  display: grid;
+  place-content: center;
+  align-items: center;
+  grid-auto-rows: 1fr;
 }
 
-.sat-window {
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle closest-side, rgb(255, 255, 255), transparent);
+.prop {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  place-content: center;
+  align-items: center;
+  width: 10rem;
 }
 
 .attr-footer {

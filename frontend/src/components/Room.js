@@ -1,34 +1,64 @@
 import React from 'react';
 
-import { useStore } from '../hooks/useStore';
-import { useInterval } from '../hooks/useInterval';
+import Floor from './Floor';
 import Wall from './Wall';
 
-export default function Room() {
-     const [room, addWall, removeWall, saveScene] = useStore((state) => [
-          state.room,
-          state.addWall,
-          state.removeWall,
-          state.saveWorld,
-     ]);
+// import React, { useState, useRef, useEffect } from 'react';
+// import { useFrame } from '@react-three/fiber';
+// import * as THREE from 'three';
 
-  // useInterval(
-  //   () => {
-  //     saveScene(cubes);
-  //   },
-  //   // every 10 seconds
-  //   10000,
-  // );
+import { useStore } from '../hooks/objStore';
 
-     return room.map((wall) => {
+export const Room = ({ setShape, unique}) =>{
+     const [ objects, iniDim] = useStore((state) => [ state.objects, state.iniDim]);
+     
+     let objInstance = objects.find(o => o.key === unique);
+
+     let conversion = iniDim;
+     let dimensions;
+
+     if (objInstance) {
+          dimensions = [
+               objInstance.dimTemp[0]*conversion[0],
+               objInstance.dimTemp[1]*conversion[1],
+               objInstance.dimTemp[2]*conversion[2]
+          ];
+          // console.log('Still here');
           return (
-               <Wall
-                    key={wall.key}
-                    texture={wall.texture}
-                    position={wall.pos}
-                    addWall={addWall}
-                    removeWall={removeWall}
-               />
+               <>
+                    <Floor
+                         instance={objInstance}
+                         unique={unique}
+                         dimensions={dimensions}
+                    />
+                    <Wall
+                         instance={objInstance}
+                         unique={unique}
+                         dimensions={dimensions}
+                         wallNo={0}
+                    />
+                    <Wall
+                         instance={objInstance}
+                         unique={unique}
+                         dimensions={dimensions}
+                         wallNo={1}
+                    />
+                    <Wall
+                         instance={objInstance}
+                         unique={unique}
+                         dimensions={dimensions}
+                         wallNo={2}
+                    />
+                    <Wall
+                         instance={objInstance}
+                         unique={unique}
+                         dimensions={dimensions}
+                         wallNo={3}
+                    />
+               </>
           );
-     });
+     } else{
+          // console.log('Left the chat');
+          return null;
+     }
 }

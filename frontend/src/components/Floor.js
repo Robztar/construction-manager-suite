@@ -1,44 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-// Threejs GLTF support:
-     // https://www.youtube.com/watch?v=WBe3xrV4CPM
-     // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-
-// https://docs.pmnd.rs/react-three-fiber/getting-started/introduction
-//  - Ecosystem: List of libraries that may be useful:
-     // GLTFs into JSX
-     // Postprocessing (idk)
-     // flexbox (idk)
-     // zustand (STATE MANAGEMENT)
-     // mouse/touch gestures (useDrag)
-
-// import { Html, ScrollControls, Scroll } from '@react-three/drei'
 import { Html } from '@react-three/drei';
 
 import { useStore } from '../hooks/objStore';
 import * as textures from '../textures';
 
-// ----- Bug Alert ------
-// 1. The Attribute window sticks with the object when the camera moves
-     // only does this in ortho mode
-     // 7. Make 'Attribute' an external component:
-          // i) Convert all local variables to obj properties     
-          // ii) Add it under the same umbrella where the obj is created on edit page
-
-// Up Next:
-     // 1. Build a room functionality
-     // 2. Create mini-attribute modifier on click, rather than full attribute menu
-     // 3. Implement saveState to local computer
-     // 4. Implement remove State from local computer
-     // 5. Increase objects catalogue (+add to options)
-     // 6. Fix texture mapping on objects
-     // 7. Increase textures catalogue
-
-export const Obj = ({ setShape, unique}) =>{
+// export const Floor = ({ setShape, unique}) =>{
+export const Floor = ({ ...props }) =>{
      const ref = useRef();
+     const unique = props.unique;
+     const objInstance = props.instance;
+     const dimensions = props.dimensions;
 
-     const [ objects, iniDim,
+     const [ 
           setPos, 
           changeColor, 
           changeTexture, 
@@ -48,7 +23,7 @@ export const Obj = ({ setShape, unique}) =>{
           setTextureOptions, 
           setMatType,
           setDimTemp,
-     ] = useStore((state) => [ state.objects, state.iniDim,
+     ] = useStore((state) => [
           state.setPos,
           state.changeColor,
           state.changeTexture,
@@ -59,57 +34,25 @@ export const Obj = ({ setShape, unique}) =>{
           state.setMatType,
           state.setDimTemp,
      ]);
-     
-     let objInstance = objects.find(o => o.key === unique);
 
      // Measurement Scale
      let prevPos = [0,0,0];
-     let allShapes;
-     let conversion = iniDim
-     let dimensions;
+     let box;
      let ground = -0.5;
      let actUnits;
 
-     if (objInstance) {
-          prevPos = objInstance.pos;
-          dimensions = [
-               objInstance.dimTemp[0]*conversion[0],
-               objInstance.dimTemp[1]*conversion[1],
-               objInstance.dimTemp[2]*conversion[2]
-          ];
-          prevPos[1] = (dimensions[1]/2)+ground;
-          // console.log(prevPos[1]);
-
-          // More Geometry types
-          // https://threejs.org/docs/index.html?q=Geometry#api/en/geometries/CylinderGeometry
-          if(objInstance.scale === 'metric'){
-               allShapes = {
-                    box : new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]),
-                    // box : new THREE.BoxBufferGeometry(12,12,12),
-                    sphere : new THREE.SphereBufferGeometry(0.5,16,16),
-                    cylinder : new THREE.CylinderBufferGeometry(0.5,0.5,1,30),
-               }
-               actUnits = [dimensions[0]/4,dimensions[1]/4,dimensions[2]/4];
-          }
-          else if (objInstance.scale === 'imperial'){
-               allShapes = {
-                    box : new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]),
-                    // box : new THREE.BoxBufferGeometry(10,10,10),
-                    sphere : new THREE.SphereBufferGeometry(0.5,16,16),
-                    cylinder : new THREE.CylinderBufferGeometry(0.5,0.5,1,30),
-               }
-               actUnits = [dimensions[0],dimensions[1],dimensions[2]];
-          }
+     prevPos = objInstance.pos;
+     prevPos[1] = (dimensions[1]/2)+ground;
+     
+     if(objInstance.scale === 'metric'){
+          box = new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]);
+          actUnits = [dimensions[0]/4,dimensions[1]/4,dimensions[2]/4];
+     }else if (objInstance.scale === 'imperial'){
+          box = new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]);
+          actUnits = [dimensions[0],dimensions[1],dimensions[2]];
      }
 
      let mouseLoc = {x:prevPos[0], y:prevPos[1], z:prevPos[2]};
-
-     // const allColors = {
-     //      box : 'red',
-     //      sphere : 'blue'
-     // }
-
-
      
      const Attribute = () =>{
           // Texture Attribute Management
@@ -118,10 +61,6 @@ export const Obj = ({ setShape, unique}) =>{
           let colorMenu = objInstance.textureMenu;
           let textureOptions = objInstance.textureOptions;
           let matType = objInstance.matType;
-
-          // Position Attribute Management
-          // let posMenu;
-          // let width;
 
           return(
                <div 
@@ -975,83 +914,38 @@ export const Obj = ({ setShape, unique}) =>{
           ref.current.position.set(mouseLoc.x, mouseLoc.y, mouseLoc.z);
      });
 
-     if (objInstance) {
-          // console.log('Pos still here: ' + objInstance.pos);
-          return (
-               <>
-                    <mesh 
-                         ref = {ref}
-                         className={'object-box'}
-                         onPointerDown={(event) =>{
-                              event.stopPropagation();
-                              document.addEventListener('mousemove', onMouseMove);
-                         }} 
-                         onPointerUp={(event) =>{
-                              event.stopPropagation();
-                              document.removeEventListener('mousemove',onMouseMove);
-                              var [x,y,z] = [mouseLoc.x,mouseLoc.y,mouseLoc.z];
-                              console.log('key I try to use: ' + unique);
-                              setPos([x,y,z], unique);
-                         }}
-                         onClick={() => {
-                              setActive(unique);
-                         }}
-                    >
-                         <primitive object={allShapes[setShape]} attach="geometry" />
-                         <meshStandardMaterial 
-                              attach="material" 
-                              color={objInstance.color} 
-                              map={textures[objInstance.texture]}
-                              opacity={objInstance.texture === 'glass'? 0.6 : 1}
-                              transparent={true}
-                         />
-                         {/* <meshStandardMaterial attach="material" color={allColors[setShape]} /> */}
-                    </mesh>
-                    <Html>
-                         <Attribute />
-                    </Html>
-               </>
-               
-          );
-     } else{
-          // console.log('Pos has left the chat');
-          return null;
-     }
+     return (
+          <>
+               <mesh 
+                    ref = {ref}
+                    className={'object-box'}
+                    onPointerDown={(event) =>{
+                         event.stopPropagation();
+                         document.addEventListener('mousemove', onMouseMove);
+                    }} 
+                    onPointerUp={(event) =>{
+                         event.stopPropagation();
+                         document.removeEventListener('mousemove',onMouseMove);
+                         var [x,y,z] = [mouseLoc.x,mouseLoc.y,mouseLoc.z];
+                         console.log('key I try to use: ' + unique);
+                         setPos([x,y,z], unique);
+                    }}
+                    onClick={() => {
+                         setActive(unique);
+                    }}
+               >
+                    <primitive object={box} attach="geometry" />
+                    <meshStandardMaterial 
+                         attach="material" 
+                         color={objInstance.color} 
+                         map={textures[objInstance.texture]}
+                         opacity={objInstance.texture === 'glass'? 0.6 : 1}
+                         transparent={true}
+                    />
+               </mesh>
+               <Html>
+                    <Attribute />
+               </Html>
+          </>
+     )
 }
-
-// Buggy input-type:color implementation
-//<div className='attr-li'>
-// <label className='attr-n' htmlFor='color-input'> Color </label>
-// <input 
-//           className='attr-t'
-//           id='color-input'
-//           type={'color'} 
-//           // value={colorAttr} 
-//           value={objInstance.color} 
-//           onChange={(e) =>{
-//                colorAttr = e.target.value;
-//                ref.current.material.color.set(colorAttr);
-//           }}
-//           // onChange={function(e){
-//           //      colorAttr = e.target.value;
-//           //      ref.current.material.color.set(colorAttr);
-//           // }}
-//      />
-// </div>
-// <div className='attr-li'
-//      onClick={(e) =>{
-//           e.stopPropagation();
-//           changeColor(colorAttr, unique);
-//           console.log('current color is: ' + objInstance.color);
-//      }}
-// >Submit
-// </div>
-// <div className='attr-li'
-//      onClick={(e) =>{
-//           e.stopPropagation();
-//           // changeColor(colorAttr, unique);
-//           ref.current.material.color.set(objInstance.color);
-//           console.log('current color is: ' + objInstance.color);
-//      }}
-// >Cancel
-// </div>

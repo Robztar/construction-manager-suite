@@ -71,7 +71,7 @@ export const Model = ({ setShape, unique}) =>{
                     <div className='attr-menu'>
                          {/* ----Features Coming Soon---- */}
                          {/* <div className={`attr-li ${ textureOptions ||colorMenu ? 'inactive' : ''}`}> */}
-                         <div className='attr-li'>
+                         <div className='attr-li' style={{'grid-template-columns': '1fr 1fr'}}>
                               <div className='attr-n'>Soon...</div>
                               <div 
                                    className='attr-t'

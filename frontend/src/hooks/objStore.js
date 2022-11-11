@@ -11,9 +11,13 @@ export const useStore = create((set) => ({
      // Default texture
      // texture: '#ff00e0',
      texture: 'blank',
+     iniScale: 'metric',
+     iniDim: [12,12,12],
+     // iniConv: 1,
      iniPos: [0,0,0],
      iniShape: '#BFBFBF',
      playerIni: [0,3,10],
+     
 
      // Check for objects in localStorage
      objects: getLocalStorage('world') || [],
@@ -25,7 +29,10 @@ export const useStore = create((set) => ({
                objects: [...state.objects,
                     { 
                          key: nanoid(), 
-                         pos: state.iniPos, 
+                         pos: state.iniPos,
+                         // dimensions: state.iniDim,
+                         dimTemp: [1,1,1],
+                         scale: state.iniScale,
                          objNo: state.objects.length,
                          objType: objType,
                          shape: shape,
@@ -94,6 +101,17 @@ export const useStore = create((set) => ({
           }))
      },
 
+     // Set dimensions of the object
+     setDimTemp: (temp, id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, dimTemp: temp})
+                         : object
+               ),
+          }))
+     },
+
      // Makes the object's own attribute menu appear (and closes all others)
      setActive: (id) =>{
           set((state) =>({
@@ -135,6 +153,24 @@ export const useStore = create((set) => ({
                          ? ({...object, ortho: cam})
                          : object
                ),
+          }))
+     },
+
+     // Sets the scale of the canvas
+     setScale: (scale) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.scale !== scale
+                    // object.objNo === id
+                         ? ({...object, scale: scale})
+                         : object
+               ),
+          }))
+     },
+     // Sets the conversion of the dimensions
+     convDimensions: (newDim) =>{
+          set((state) =>({
+               iniDim : newDim
           }))
      },
 

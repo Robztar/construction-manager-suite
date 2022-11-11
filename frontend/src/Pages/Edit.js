@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import { Canvas, useThree, useFrame } from '@react-three/fiber';
+import React, {useState} from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { Sky, OrthographicCamera, PerspectiveCamera } from '@react-three/drei';
 import { Physics } from '@react-three/cannon';
 import * as THREE from 'three';
@@ -17,15 +17,23 @@ import Navbar from '../components/Navbar';
 import SpaceReminder from '../components/SpaceReminder';
 import pointer from '../images/cursor.png';
 
-//---------- UPDATED - Works ------------//
-// - Perspective (with movement) - check
-// - Ortho (with movement) - check
+// -------Search 'Measurement Scale'---------
+  // To see the progress made on scaling the canvas 
+  // (also see Obj.js and objStore.js)
 
 // ---------------- Camera Controls ----------------
 let pos = [0,1,0];
 
-const MakeOrtho = () => {
+const MakeOrtho = ({scale}) => {
      const vec = new THREE.Vector3();
+
+     // Measurement Scale
+     let zoom;
+     if(scale === 'metric'){
+          zoom = 10;
+     }else{
+          zoom = 20;
+     }
 
      const { moveForward, moveBackward, moveLeft, moveRight} = useKeyboardControls();
 
@@ -37,7 +45,7 @@ const MakeOrtho = () => {
      useFrame((state) => {
           const step = 1;
           const x = pos[0];
-          const y = 5;
+          const y = 100;
           const z = pos[2];
           state.camera.position.lerp(vec.set(x, y, z), step);
           state.camera.lookAt(x,0,z);
@@ -45,15 +53,22 @@ const MakeOrtho = () => {
      });
      return(
           <>
-               <OrthographicCamera makeDefault zoom={40} />
+               <OrthographicCamera makeDefault zoom={zoom} />
           </>
      );
 }
 
-const MakePersp = () =>{
+const MakePersp = ({scale}) =>{
+     // Measurement Scale
+     let userPos
+     if(scale === 'metric'){
+          userPos = [0,6,10];
+     }else{
+          userPos = [0,5.42,10];
+     }
      return(
           <>
-               <Player position={[0, 3, 10]} />
+               <Player position={userPos} />
                <FPVControls />
                <PerspectiveCamera makeDefault />
           </>
@@ -61,19 +76,51 @@ const MakePersp = () =>{
 }
 
 export default function Edit() {
+     // Measurement Scale
+     const [objects, addObj, setOrtho, setScale, convDimensions, saveScene] = useStore((state) => [
+          state.objects,
+          state.addObj,
+          state.setOrtho,
+          state.setScale,
+          state.convDimensions,
+          state.saveWorld
+     ]);
+     
+     let gridLen;
+     let gridBoxCount;
+
+     let objTest = objects[0];
+     let scaleState = 'metric';
+     if(objTest){
+          // console.log(objTest.scale);
+          scaleState = objTest.scale;
+     }
+     const [envScale, setEnvScale] = useState(scaleState);
+     const makeMetric = () => {
+          setEnvScale('metric');
+          setScale('metric');
+          convDimensions([12,12,12]);
+     }
+     const makeImperial = () => {
+          setEnvScale('imperial');
+          setScale('imperial');
+          convDimensions([10,10,10]);
+     }
+     if(envScale === 'metric'){
+          gridLen = 256;
+          gridBoxCount = 64;
+     }else if(envScale === 'imperial'){
+          gridLen = 208;
+          gridBoxCount = 104;
+     }
+     
      const [isOrtho, setCam] = useState(true);
      const toggleCam = () => {
           setCam((active) => !active);
           setOrtho(!isOrtho);
      }
-     var [shapeCount, setShapeCount] = useState(0);
+     const [shapeCount, setShapeCount] = useState(0);
 
-     const [objects, addObj, setOrtho, saveScene] = useStore((state) => [
-          state.objects,
-          state.addObj,
-          state.setOrtho,
-          state.saveWorld
-     ]);
      const addNew = (e) =>{
           const shape = e.target.getAttribute("data-shape");
           const objType = e.target.getAttribute("data-type");
@@ -94,11 +141,11 @@ export default function Edit() {
                     <Sky sunPosition={[100, 20, 100]} />
                     <ambientLight intensity={0.25} />
                     <pointLight castShadow intensity={0.7} position={[100, 100, 100]} />
-                    {isOrtho? <gridHelper args={[100, 100, `yellow`, `gray`]} /> : null}
-                    <Physics gravity={[0, -30, 0]}>
-                         {isOrtho? <MakeOrtho /> : <MakePersp />}
-                         {/* <Room /> */}
-                         <Ground position={[0, -0.5, 0]} />
+                    {/* Measurement Scale */}
+                    {isOrtho? <gridHelper args={[gridLen, gridBoxCount, `yellow`, `gray`]} /> : null}
+                    <Physics gravity={[0, 0, 0]}>
+                         {isOrtho? <MakeOrtho scale={envScale} /> : <MakePersp scale={envScale} />}
+                         <Ground position={[0, -0.5, 0]} scale={envScale} />
                     </Physics>
                     {objects.map(({key, shape, objType}) =>
                          objType === 'model'? (
@@ -147,6 +194,14 @@ export default function Edit() {
                     </div>
                </div>
                {isOrtho? null : <SpaceReminder />}
+               {/* Measurement Scale */}
+               <div className='scale-cont'>
+                    {envScale === 'metric'? 
+                         <div className="sel-scale" onClick={makeImperial}>Imperial</div> 
+                         : 
+                         <div className="sel-scale" onClick={makeMetric}>Metric</div>
+                    }
+               </div>
                <div className="switch-cont">
                     <div className="switch">
                          {isOrtho? 

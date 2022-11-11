@@ -12,11 +12,23 @@ import grass from '../images/grass.jpg';
 
 export const Ground = (props) => {
   const [ref] = usePlane(() => ({ 
-    rotation: [-Math.PI / 2, 0, 0], ...props 
+    rotation: [-Math.PI / 2, 0, 0], 
+    position: props.position
+    // ...props 
   }));
 
-  const length = 256;
-  const width = 256;
+  let length;
+  let width;
+
+  // Measurement Scale
+  if(props.scale === 'metric'){
+    length = 256;
+    width = 256;
+  }
+  else if(props.scale === 'imperial'){
+    length = 208;
+    width = 208;
+  }
   
   const texture = useMemo(() => {
     const t = new TextureLoader().load(grass)
@@ -26,9 +38,10 @@ export const Ground = (props) => {
     return t
   }, [])
 
-  // const [setActive] = useStore((state) => [
-  //   state.setActive
-  // ]);
+  
+  
+
+  
 
   texture.magFilter = NearestFilter;
   texture.minFilter = LinearMipMapLinearFilter;
@@ -49,3 +62,25 @@ export const Ground = (props) => {
     </mesh>
   );
 };
+
+
+  // const [objects] = useStore((state) => [
+  //   state.objects
+  // ]);
+  // let objTest = objects[0];
+
+  
+  // if(objTest){
+  //   if(objects[0].scale === 'metric'){
+  //     length = 256;
+  //     width = 256;
+  //   }
+  //   else if(objects[0].scale === 'imperial'){
+  //     length = 208;
+  //     width = 208;
+  //   }
+  // }
+  // else{
+  //   length = 256;
+  //   width = 256;
+  // }
