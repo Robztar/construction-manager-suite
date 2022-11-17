@@ -88,13 +88,14 @@ const MakePersp = ({scale}) =>{
 }
 
 export default function NewEdit() {
-  const [objects, addObj, setOrtho, setScale, convDimensions, saveScene] = useStore((state) => [
+  const [objects, addObj, setOrtho, setScale, convDimensions, saveScene, resetScene] = useStore((state) => [
     state.objects,
     state.addObj,
     state.setOrtho,
     state.setScale,
     state.convDimensions,
-    state.saveWorld
+    state.saveWorld,
+    state.resetWorld,
   ]);
   
   let gridLen;
@@ -197,13 +198,14 @@ export default function NewEdit() {
       </Canvas>
       <Navbar />
 
+      {/* Objects Drop-Menu */}
       <div className={`top drop-menu ${isActive ? 'active' : ''}`} > 
         {/* Hamburger */}
         <div className={`exham extgl ${isActive ? 'active' : ''}`} onClick={toggleClass}>
             <div className="tripbar">
             </div>
         </div>
-        {/* Objects Menu */}
+        {/* Objects List */}
         <div className={`object-menu ${isActive ? 'active' : ''}`}>
             <div className="object-li" id='box'>
                   <p className="object-n" onClick={addNew} data-type={'custom'} data-shape={"box"}>Box</p>
@@ -222,6 +224,17 @@ export default function NewEdit() {
                   <p className="object-t shiba" onClick={addNew} data-type={'model'} data-shape={'shiba'}></p>
             </div>
         </div>
+      </div>
+
+      {/* New Ideo - Settings Icon 
+        Copy style of functionaility of Drop menu
+        Position like state-btn-cont
+        Contain: -State Buttons -Scale Switch */}
+        
+      {/* Save/Reset World */}
+      <div className='top state-btn-cont'>
+        <div className='state-save state-btn' onClick={saveScene}>Save</div>
+        <div className='state-reset state-btn' onClick={resetScene}>Reset</div>
       </div>
 
       <div className="switch-cont">

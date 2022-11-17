@@ -12,6 +12,7 @@ import Shiba from './Shiba_deadpool';
                // - https://sketchfab.com/features/gltf
 // Model validator - https://github.khronos.org/glTF-Validator/
 // Loading models - https://docs.pmnd.rs/react-three-fiber/tutorials/loading-models
+               // - https://blog.logrocket.com/configure-3d-models-react-three-fiber/
 
 // More help with gltf/glb models
 //   R3F (50mins) - https://www.youtube.com/watch?v=2jwqotdQmdQ

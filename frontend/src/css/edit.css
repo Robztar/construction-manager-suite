@@ -233,6 +233,49 @@
   background-position: center;
 }
 
+.state-btn-cont {
+  margin: 12vh 82vw 0;
+  width: 15vw;
+  transition: 0.5s;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.state-btn {
+  height: 5vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.272);
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.state-save {
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.state-save:hover {
+  background: rgb(0, 81, 255);
+  color: white;
+  transition: 0.5s;
+}
+
+.state-reset {
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.state-reset:hover {
+  background: rgb(255, 0, 0);
+  color: white;
+  transition: 0.5s;
+}
+
 .scale-cont {
   position: absolute;
   bottom: 6.5%;
