@@ -8,9 +8,11 @@ const setLocalStorage = (key, value) =>
      window.localStorage.setItem(key, JSON.stringify(value));
 
 export const useStore = create((set) => ({
-     iniScale: 'metric',      // default measurement scale
+     ortho: true,             // default canvas camera state
+     scale: 'metric',         // default measurement scale
+     conv: 12,                // default (metric) measurement standard 
+     // iniDim: [12,12,12],
      iniPos: [0,0,0],         // default object position
-     iniDim: [12,12,12],      // default (metric) measurement standard 
      iniColor: '#BFBFBF',   // default color
      texture: 'blank',        // default texture
 
@@ -24,10 +26,7 @@ export const useStore = create((set) => ({
           set((state) => ({
                objects: [...state.objects,
                     { 
-                         // --- Global properties
-                         ortho: true,             // Canvas camera state
-                         scale: state.iniScale,   //measurement scale in use
-                         // --- Individual Object properties
+                         // scale: state.scale,      //measurement scale in use
                          key: nanoid(),           //unique identifier
                          pos: state.iniPos,       //position of object
                          dimTemp: [1,1,1],        //multiplier of the scale standard (iniDim)
@@ -66,31 +65,23 @@ export const useStore = create((set) => ({
      },
 
      // Updates with the current ortho mode
-     setOrtho: (cam) =>{
+     switchOrtho: (cam) =>{
           set((state) =>({
-               objects: state.objects.map((object) =>
-                    object.ortho !== cam
-                         ? ({...object, ortho: cam})
-                         : object
-               ),
+               ortho : cam
           }))
      },
 
      // Sets the measurement scale of the canvas
-     setScale: (scale) =>{
+     switchScale: (newScale) =>{
           set((state) =>({
-               objects: state.objects.map((object) =>
-                    object.scale !== scale
-                         ? ({...object, scale: scale})
-                         : object
-               ),
+               scale : newScale
           }))
      },
 
      // Sets the conversion of the standard scale dimensions
-     convDimensions: (newDim) =>{
+     switchConv: (newConv) =>{
           set((state) =>({
-               iniDim : newDim
+               conv : newConv
           }))
      },
 

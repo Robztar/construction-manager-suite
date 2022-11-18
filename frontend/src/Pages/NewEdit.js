@@ -88,23 +88,26 @@ const MakePersp = ({scale}) =>{
 }
 
 export default function NewEdit() {
-  const [objects, addObj, setOrtho, setScale, convDimensions, saveScene, resetScene] = useStore((state) => [
+  const [objects, scale, addObj, switchOrtho, switchScale, switchConv, saveScene, resetScene] = useStore((state) => [
     state.objects,
+    state.scale,
     state.addObj,
-    state.setOrtho,
-    state.setScale,
-    state.convDimensions,
+    state.switchOrtho,
+    state.switchScale,
+    state.switchConv,
     state.saveWorld,
     state.resetWorld,
   ]);
   
   let gridLen;
   let gridBoxCount;
+  // const [gridLen, setGridLen] = useState(256);
+  // const [gridBoxCount, setGridBoxCount] = useState(64);
 
   const [isOrtho, setCam] = useState(true);
   const toggleCam = () => {
     setCam((active) => !active);
-    setOrtho(!isOrtho);
+    switchOrtho(!isOrtho);
   }
 
   const [isActive, setActive] = useState(false);
@@ -122,19 +125,20 @@ export default function NewEdit() {
   let objTest = objects[0];
   let scaleState = 'metric';
   if(objTest){
-    // console.log(objTest.scale);
-    scaleState = objTest.scale;
+    scaleState = scale;
   }
   const [envScale, setEnvScale] = useState(scaleState);
   const makeMetric = () => {
     setEnvScale('metric');
-    setScale('metric');
-    convDimensions([12,12,12]);
+    switchScale('metric');
+    switchConv(12);
+    console.log(scale);
   }
   const makeImperial = () => {
     setEnvScale('imperial');
-    setScale('imperial');
-    convDimensions([10,10,10]);
+    switchScale('imperial');
+    switchConv(10);
+    console.log(scale);
   }
   if(envScale === 'metric'){
     gridLen = 256;

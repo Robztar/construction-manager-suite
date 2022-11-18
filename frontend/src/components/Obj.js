@@ -38,7 +38,7 @@ import * as textures from '../textures';
 export const Obj = ({ setShape, unique}) =>{
      const ref = useRef();
 
-     const [ objects, iniDim,
+     const [ objects, conv, scale, ortho,
           setPos, 
           changeColor, 
           changeTexture, 
@@ -48,7 +48,7 @@ export const Obj = ({ setShape, unique}) =>{
           setTextureOptions, 
           setMatType,
           setDimTemp,
-     ] = useStore((state) => [ state.objects, state.iniDim,
+     ] = useStore((state) => [ state.objects, state.conv, state.scale, state.ortho,
           state.setPos,
           state.changeColor,
           state.changeTexture,
@@ -65,7 +65,7 @@ export const Obj = ({ setShape, unique}) =>{
      // Measurement Scale
      let prevPos = [0,0,0];
      let allShapes;
-     let conversion = iniDim
+     let conversion = conv
      let dimensions;
      let ground = -0.5;
      let actUnits;
@@ -73,16 +73,16 @@ export const Obj = ({ setShape, unique}) =>{
      if (objInstance) {
           prevPos = objInstance.pos;
           dimensions = [
-               objInstance.dimTemp[0]*conversion[0],
-               objInstance.dimTemp[1]*conversion[1],
-               objInstance.dimTemp[2]*conversion[2]
+               objInstance.dimTemp[0]*conversion,
+               objInstance.dimTemp[1]*conversion,
+               objInstance.dimTemp[2]*conversion
           ];
           prevPos[1] = (dimensions[1]/2)+ground;
           // console.log(prevPos[1]);
 
           // More Geometry types
           // https://threejs.org/docs/index.html?q=Geometry#api/en/geometries/CylinderGeometry
-          if(objInstance.scale === 'metric'){
+          if(scale === 'metric'){
                allShapes = {
                     box : new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]),
                     // box : new THREE.BoxBufferGeometry(12,12,12),
@@ -91,7 +91,7 @@ export const Obj = ({ setShape, unique}) =>{
                }
                actUnits = [dimensions[0]/4,dimensions[1]/4,dimensions[2]/4];
           }
-          else if (objInstance.scale === 'imperial'){
+          else if (scale === 'imperial'){
                allShapes = {
                     box : new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]),
                     // box : new THREE.BoxBufferGeometry(10,10,10),
@@ -894,9 +894,9 @@ export const Obj = ({ setShape, unique}) =>{
                                                   onChange={(e) =>{
                                                        let rVal = e.target.value;
                                                        let rDimTemp;
-                                                       if(objInstance.scale === 'metric'){
+                                                       if(scale === 'metric'){
                                                             rDimTemp=[rVal/3, actUnits[1]/3,actUnits[2]/3]
-                                                       }else if(objInstance.scale === 'imperial'){
+                                                       }else if(scale === 'imperial'){
                                                             rDimTemp=[rVal/10, actUnits[1]/10,actUnits[2]/10]
                                                        }
                                                        console.log(rVal);
@@ -919,9 +919,9 @@ export const Obj = ({ setShape, unique}) =>{
                                                   onChange={(e) =>{
                                                        let rVal = e.target.value;
                                                        let rDimTemp;
-                                                       if(objInstance.scale === 'metric'){
+                                                       if(scale === 'metric'){
                                                             rDimTemp=[actUnits[0]/3, actUnits[1]/3, rVal/3]
-                                                       }else if(objInstance.scale === 'imperial'){
+                                                       }else if(scale === 'imperial'){
                                                             rDimTemp=[actUnits[0]/10, actUnits[1]/10, rVal/10]
                                                        }
                                                        console.log(rVal);
@@ -953,7 +953,7 @@ export const Obj = ({ setShape, unique}) =>{
 
      // Mouse-move Funtionality
      function onMouseMove(event) {
-          if(objInstance.ortho){
+          if(ortho){
                mouseLoc.x = (event.clientX / window.innerWidth) * 2 - 1;
                mouseLoc.z = - (event.clientY / window.innerHeight) * 2 + 1;
      

@@ -76,4 +76,17 @@ code {
   width: fit-content;
   padding: 0.5rem 1rem;
   cursor: pointer;
+}
+
+.fa-times-circle {
+  border-radius: 50%;
+  font-size: 2rem;
+  color: gray;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.fa-times-circle:hover {
+  color: red;
+  transition: 0.3s ease;
 }/*# sourceMappingURL=style.css.map */

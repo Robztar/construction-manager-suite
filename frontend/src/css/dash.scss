@@ -20,7 +20,7 @@
 .dash-title{
      font-size: 2.2rem;
 }
-.projects-cont{
+.proj-tiles-cont{
      display: grid;
      align-items: center;
      place-items: center;
@@ -30,13 +30,14 @@
      grid-template-columns: repeat(3, 1fr);
      column-gap: 2%;
 }
-.project{
+.proj-tile{
      display: grid;
      align-items: center;
      place-content: center;
      height: 30vh;
      width: 100%;
      text-decoration: none;
+     cursor: pointer;
      // width: 30vw;
      // background: blue;
      background: white;

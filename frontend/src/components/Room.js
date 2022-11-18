@@ -41,11 +41,12 @@ import { useStore } from '../hooks/objStore';
 
 
 export const Room = ({ setShape, unique}) =>{
-     const [ objects, iniDim] = useStore((state) => [ state.objects, state.iniDim]);
+     const [ objects, conv, scale, ortho] = 
+     useStore((state) => [ state.objects, state.conv, state.scale, state.ortho]);
      
      let objInstance = objects.find(o => o.key === unique);
 
-     let conversion = iniDim;
+     let conversion = conv;
 
      if (objInstance) {
           return (
@@ -61,6 +62,8 @@ export const Room = ({ setShape, unique}) =>{
                          instance={objInstance}
                          unique={unique}
                          conversion={conversion}
+                         scale={scale}
+                         ortho={ortho}
                     />
                     {/* Top */}
                     <Wall
@@ -68,6 +71,8 @@ export const Room = ({ setShape, unique}) =>{
                          unique={unique}
                          rotY={Math.PI/2}
                          conversion={conversion}
+                         scale={scale}
+                         ortho={ortho}
                          wallNo={0}
                     />
                     {/* Left */}
@@ -76,6 +81,8 @@ export const Room = ({ setShape, unique}) =>{
                          unique={unique}
                          rotY={0}
                          conversion={conversion}
+                         scale={scale}
+                         ortho={ortho}
                          wallNo={1}
                     />
                     {/* Right */}
@@ -84,6 +91,8 @@ export const Room = ({ setShape, unique}) =>{
                          unique={unique}
                          rotY={0}
                          conversion={conversion}
+                         scale={scale}
+                         ortho={ortho}
                          wallNo={2}
                     />
                     {/* Bottom */}
@@ -92,6 +101,8 @@ export const Room = ({ setShape, unique}) =>{
                          unique={unique}
                          rotY={Math.PI/2}
                          conversion={conversion}
+                         scale={scale}
+                         ortho={ortho}
                          wallNo={3}
                     />
                </>

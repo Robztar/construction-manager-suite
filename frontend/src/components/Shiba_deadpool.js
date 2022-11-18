@@ -17,6 +17,7 @@ export default function Shiba({...props}) {
 
   const unique = props.unique;
   const setActive = props.setActive;
+  const ortho = props.ortho;
   
   let modelInstance = props.instance;
   let prevPos = modelInstance.pos;
@@ -25,7 +26,7 @@ export default function Shiba({...props}) {
   const setPos = props.setPos;
 
   function onMouseMove(event) {
-    if(modelInstance.ortho){
+    if(ortho){
       mouseLoc.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouseLoc.z = - ((event.clientY) / window.innerHeight) * 2 + 1;
 

@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import { Ground } from '../components/Ground';
 import { Obj } from '../components/Obj';
 import { Model } from '../components/Model';
+import { Room } from '../components/Room';
 import { FPVControls } from '../components/FPVControls';
 import { Player } from '../components/Player';
 
@@ -77,13 +78,15 @@ const MakePersp = ({scale}) =>{
 
 export default function Edit() {
      // Measurement Scale
-     const [objects, addObj, setOrtho, setScale, convDimensions, saveScene] = useStore((state) => [
+     const [objects, scale, addObj, switchOrtho, switchScale, switchConv, saveScene, resetScene] = useStore((state) => [
           state.objects,
+          state.scale,
           state.addObj,
-          state.setOrtho,
-          state.setScale,
-          state.convDimensions,
-          state.saveWorld
+          state.switchOrtho,
+          state.switchScale,
+          state.switchConv,
+          state.saveWorld,
+          state.resetWorld,
      ]);
      
      let gridLen;
@@ -93,18 +96,20 @@ export default function Edit() {
      let scaleState = 'metric';
      if(objTest){
           // console.log(objTest.scale);
-          scaleState = objTest.scale;
+          scaleState = scale;
      }
      const [envScale, setEnvScale] = useState(scaleState);
      const makeMetric = () => {
           setEnvScale('metric');
-          setScale('metric');
-          convDimensions([12,12,12]);
+          switchScale('metric');
+          switchConv(12);
+          console.log(scale);
      }
      const makeImperial = () => {
           setEnvScale('imperial');
-          setScale('imperial');
-          convDimensions([10,10,10]);
+          switchScale('imperial');
+          switchConv(10);
+          console.log(scale);
      }
      if(envScale === 'metric'){
           gridLen = 256;
@@ -117,9 +122,8 @@ export default function Edit() {
      const [isOrtho, setCam] = useState(true);
      const toggleCam = () => {
           setCam((active) => !active);
-          setOrtho(!isOrtho);
+          switchOrtho(!isOrtho);
      }
-     const [shapeCount, setShapeCount] = useState(0);
 
      const addNew = (e) =>{
           const shape = e.target.getAttribute("data-shape");
@@ -129,7 +133,6 @@ export default function Edit() {
           }
           toggleClass();
           addObj(null, shape, objType);
-          setShapeCount(objects.length);
      }
 
      const [isActive, setActive] = useState(false);
@@ -147,27 +150,37 @@ export default function Edit() {
                          {isOrtho? <MakeOrtho scale={envScale} /> : <MakePersp scale={envScale} />}
                          <Ground position={[0, -0.5, 0]} scale={envScale} />
                     </Physics>
-                    {objects.map(({key, shape, objType}) =>
-                         objType === 'model'? (
-                              <Model 
-                                   isOrtho={true} 
-                                   key = {key}
-                                   unique = {key}
-                                   setShape={shape}
-                                   nkey={shapeCount} 
-                              />
-                         ):(
-                              <Obj 
-                                   isOrtho={true} 
-                                   key = {key}
-                                   unique = {key}
-                                   setShape={shape}
-                                   nkey={shapeCount} 
-                              />
-                         )
-                    )}
+                    {objects.map(({key, shape, objType}) =>{
+                         if(objType === 'model'){
+                              return(
+                                   <Model 
+                                        key = {key}
+                                        unique = {key}
+                                        setShape={shape}
+                                   />
+                              )
+                         }else if(objType === 'custom'){
+                              return(
+                                   <Obj 
+                                        key = {key}
+                                        unique = {key}
+                                        setShape={shape}
+                                   />
+                              )
+                         }else if(objType === 'room'){
+                              return(
+                                   <Room 
+                                        key = {key}
+                                        unique = {key}
+                                        setShape={shape}
+                                   />
+                              )
+                         }
+                         return null;
+                    })}
                </Canvas>
                <Navbar/>
+               {/* Objects Select Menu */}
                <div className={`top drop-menu ${isActive ? 'active' : ''}`} > 
                     {/* Hamburger */}
                     <div className={`exham extgl ${isActive ? 'active' : ''}`} onClick={toggleClass}>
@@ -175,6 +188,10 @@ export default function Edit() {
                     </div>
                     {/* Objects Menu */}
                     <div className={`object-menu ${isActive ? 'active' : ''}`}>
+                         <div className="object-li" id='room'>
+                              <p className="object-n" onClick={addNew} data-type={'room'} data-shape={"rect"}>Room</p>
+                              <p className="object-t box" onClick={addNew} data-type={'room'} data-shape={"rect"}></p>
+                         </div>
                          <div className="object-li" id='box'>
                               <p className="object-n" onClick={addNew} data-type={'custom'} data-shape={"box"}>Box</p>
                               <p className="object-t box" onClick={addNew} data-type={'custom'} data-shape={"box"}></p>
@@ -194,6 +211,11 @@ export default function Edit() {
                     </div>
                </div>
                {isOrtho? null : <SpaceReminder />}
+               {/* Save/Reset World */}
+               <div className='top state-btn-cont'>
+                    <div className='state-save state-btn' onClick={saveScene}>Save</div>
+                    <div className='state-reset state-btn' onClick={resetScene}>Reset</div>
+               </div>
                {/* Measurement Scale */}
                <div className='scale-cont'>
                     {envScale === 'metric'? 
@@ -202,6 +224,7 @@ export default function Edit() {
                          <div className="sel-scale" onClick={makeMetric}>Metric</div>
                     }
                </div>
+               {/* Switch Camera Mode */}
                <div className="switch-cont">
                     <div className="switch">
                          {isOrtho? 

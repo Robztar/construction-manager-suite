@@ -13,12 +13,14 @@ export const Floor = ({ ...props }) =>{
      const objInstance = props.instance;
      // const dimensions = props.dimensions;
      const conversion = props.conversion;
+     const scale = props.scale;
+     const ortho = props.ortho;
 
      let dimensions = [
-          objInstance.dimTemp[0]*conversion[0],
+          objInstance.dimTemp[0]*conversion,
           // objInstance.dimTemp[1]*conversion[1],
-          0.034*conversion[1],
-          objInstance.dimTemp[2]*conversion[2]
+          0.034*conversion,
+          objInstance.dimTemp[2]*conversion
      ];
      
 
@@ -53,10 +55,10 @@ export const Floor = ({ ...props }) =>{
      prevPos = objInstance.pos;
      prevPos[1] = (dimensions[1]/2)+ground;
      
-     if(objInstance.scale === 'metric'){
+     if(scale === 'metric'){
           box = new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]);
           actUnits = [dimensions[0]/4,dimensions[1]/4,dimensions[2]/4];
-     }else if (objInstance.scale === 'imperial'){
+     }else if (scale === 'imperial'){
           box = new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]);
           actUnits = [dimensions[0],dimensions[1],dimensions[2]];
      }
@@ -842,9 +844,9 @@ export const Floor = ({ ...props }) =>{
                                                   onChange={(e) =>{
                                                        let rVal = e.target.value;
                                                        let rDimTemp;
-                                                       if(objInstance.scale === 'metric'){
+                                                       if(scale === 'metric'){
                                                             rDimTemp=[rVal/3, actUnits[1]/3,actUnits[2]/3]
-                                                       }else if(objInstance.scale === 'imperial'){
+                                                       }else if(scale === 'imperial'){
                                                             rDimTemp=[rVal/10, actUnits[1]/10,actUnits[2]/10]
                                                        }
                                                        console.log(rVal);
@@ -867,9 +869,9 @@ export const Floor = ({ ...props }) =>{
                                                   onChange={(e) =>{
                                                        let rVal = e.target.value;
                                                        let rDimTemp;
-                                                       if(objInstance.scale === 'metric'){
+                                                       if(scale === 'metric'){
                                                             rDimTemp=[actUnits[0]/3, actUnits[1]/3, rVal/3]
-                                                       }else if(objInstance.scale === 'imperial'){
+                                                       }else if(scale === 'imperial'){
                                                             rDimTemp=[actUnits[0]/10, actUnits[1]/10, rVal/10]
                                                        }
                                                        console.log(rVal);
@@ -901,7 +903,7 @@ export const Floor = ({ ...props }) =>{
 
      // Mouse-move Funtionality
      function onMouseMove(event) {
-          if(objInstance.ortho){
+          if(ortho){
                mouseLoc.x = (event.clientX / window.innerWidth) * 2 - 1;
                mouseLoc.z = - (event.clientY / window.innerHeight) * 2 + 1;
      
