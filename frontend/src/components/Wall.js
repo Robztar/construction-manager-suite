@@ -11,7 +11,16 @@ export const Wall = ({ ...props }) =>{
      const ref = useRef();
      const unique = props.unique;
      const objInstance = props.instance;
-     const dimensions = props.dimensions;
+     // const dimensions = props.dimensions;
+     const conversion = props.conversion;
+     const rotY = props.rotY;
+
+     let dimensions = [
+          // objInstance.dimTemp[0]*conversion[0],
+          0.068*conversion[0],
+          objInstance.dimTemp[1]*conversion[1],
+          objInstance.dimTemp[2]*conversion[2]
+     ];
 
      // Convert to wall-dimensions
      const [ 
@@ -919,6 +928,7 @@ export const Wall = ({ ...props }) =>{
           <>
                <mesh 
                     ref = {ref}
+                    rotation={[0,rotY,0]}
                     className={'object-box'}
                     onPointerDown={(event) =>{
                          event.stopPropagation();

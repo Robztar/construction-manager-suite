@@ -14,6 +14,8 @@ export const useStore = create((set) => ({
      iniColor: '#BFBFBF',   // default color
      texture: 'blank',        // default texture
 
+     // New fields coming soon...
+
      // Check for objects in localStorage
      objects: getLocalStorage('world') || [],
      
@@ -188,5 +190,5 @@ export const useStore = create((set) => ({
                }),
           }));
      },
-     
+
 }));
