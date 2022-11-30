@@ -8,6 +8,7 @@ import { Ground } from '../components/Ground';
 import { Obj } from '../components/Obj';
 import { Model } from '../components/Model';
 import { Room } from '../components/Room';
+import { Attribute } from '../components/Attribute';
 import { FPVControls } from '../components/FPVControls';
 import { Player } from '../components/Player';
 
@@ -211,6 +212,10 @@ export default function Edit() {
                     </div>
                </div>
                {isOrtho? null : <SpaceReminder />}
+
+               {/* Object instance Attribute Menu */}
+               <Attribute />
+               
                {/* Save/Reset World */}
                <div className='top state-btn-cont'>
                     <div className='state-save state-btn' onClick={saveScene}>Save</div>

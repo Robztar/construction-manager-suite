@@ -29,7 +29,7 @@ export const useStore = create((set) => ({
                          // scale: state.scale,      //measurement scale in use
                          key: nanoid(),           //unique identifier
                          pos: state.iniPos,       //position of object
-                         dimTemp: [1,1,1],        //multiplier of the scale standard (iniDim)
+                         dimTemp: [1,1,1],        //multiplier of the scale standard (conv)
                          objType: objType,        //type of object
                          shape: shape,            //shape (or name) of object
                          color: state.iniColor,   //color of object
@@ -39,6 +39,29 @@ export const useStore = create((set) => ({
                          textureOptions: false,   //if object's texture options list is shown
                          textureMenu: false,      //if object's texture options are selected
                          matType: 'Plain',        //texture option selected
+                         // Wall attributes
+                         wall: [1,2,3,4],         //array of walls
+                         wallPos: [               //array of position of each wall
+                              [state.iniPos[0], state.iniPos[1], state.iniPos[2]],
+                              [state.iniPos[0], state.iniPos[1], state.iniPos[2]],
+                              [state.iniPos[0], state.iniPos[1], state.iniPos[2]],
+                              [state.iniPos[0], state.iniPos[1], state.iniPos[2]],
+                         ],
+                         wallDimTempX: [          //array of dimTemp of each wall's thickness
+                              0.068,0.068,0.068,0.068
+                         ],
+                         wallDimTempZ: [1,1,1,1], //array of dimTemp of each wall's width
+                         wallDimTempY: [1,1,1,1], //array of dimTemp of each wall's height
+                         
+                         // objType: objType,        //type of object
+                         // shape: shape,            //shape (or name) of object
+                         // color: state.iniColor,   //color of object
+                         // texture: state.texture,  //texture of object
+                         // // Indiviual object's attribute menu states
+                         // active: 'none',          //state of object's attribute menu
+                         // textureOptions: false,   //if object's texture options list is shown
+                         // textureMenu: false,      //if object's texture options are selected
+                         // matType: 'Plain',        //texture option selected
                     },
                ]
           }))
@@ -173,13 +196,26 @@ export const useStore = create((set) => ({
      },
 
      // remove the specified object
-     removeObj: (curPos) => {
+     removeObj: (id) => {
           set((state) => ({
-               objects: state.objects.filter((object) => {
-                    const objPos = object.pos;
-                    return objPos !== curPos;
+               objects: state.objects.filter((object) => object.key !== id)
                }),
-          }));
+          );
+     },
+
+     // ----- Wall Properties Management
+     // Set obj position state
+     setWallPos: (curPos, index, id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         // ? ({...object, wallPos: state.objects.wallPos.map((wall) =>
+                         //      wall[index] = curPos
+                         // )})
+                         ? ({...object, wallPos: curPos})
+                         : object
+               ),
+          }))
      },
 
 }));

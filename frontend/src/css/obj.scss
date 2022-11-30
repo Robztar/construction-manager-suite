@@ -13,11 +13,14 @@
      border-radius: 10px;
      width: auto;
      min-width: 15rem;
-     // padding: 10px;
-     // padding: 1vh;
-     top: -33vh;
+
+     // top: -33vh;
+     // height: 66vh;
+     // right: -48vw;
+     top: 17vh;
      height: 66vh;
-     right: -48vw;
+     // right: calc(100vw - 15rem);
+     right: 3vw;
 }
 .attr-head{
      display: flex;

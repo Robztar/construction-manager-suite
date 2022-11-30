@@ -87,7 +87,7 @@ export const Model = ({ setShape, unique}) =>{
                     <div className='attr-footer'>
                          <div 
                               className='attr-n obj-remove'
-                              onClick={() => removeObj(prevPos)}
+                              onClick={() => removeObj(unique)}
                          >R</div>
                     </div>
                </div>

@@ -12,6 +12,7 @@ import { Ground } from '../components/Ground';
 import { Obj } from '../components/Obj';
 import { Model } from '../components/Model';
 import { Room } from '../components/Room';
+import { Attribute } from '../components/Attribute';
 
 import { useKeyboardControls } from '../hooks/useKeyboardControls';
 import { useStore } from '../hooks/objStore'; 
@@ -259,6 +260,8 @@ export default function NewEdit() {
             </div>
         </div>
       </div>
+
+      <Attribute />
 
       {/* New Ideo - Settings Icon 
         Copy style of functionaility of Drop menu
