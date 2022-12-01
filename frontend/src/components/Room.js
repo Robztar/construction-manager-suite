@@ -84,10 +84,9 @@ export const Room = ({ setShape, unique}) =>{
      // --------- Up Next ----------
      // 1. [DONE] Implement Room Attribute System
           // [DONE] a. MinSelect b. Resizer c. Attribute Menu
-     // 2. Implement room sizing via:
-     //   a. Resizer
-     //   b. [DONE] Attribute Menu
-     // 3. Create a system for resizing directionally
+     // 2. [DONE]Implement room sizing via:
+          // [DONE] a. Resizer b. Attribute Menu
+     // 3. [DONE] Create a system for resizing directionally
           // a. Resize from the center
           // b. Resize to the left/right
           // c. Resize to the top/bottom

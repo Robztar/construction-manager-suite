@@ -63,7 +63,7 @@ export const Attribute = () =>{
                               Attribute Menu
                          </h3>
                          <i 
-                              class="fas fa-times attr-exit"
+                              className="fas fa-times attr-exit"
                               onClick={()=>setAttrMenu('')}
                          ></i>
                     </div>
@@ -835,7 +835,7 @@ export const Attribute = () =>{
                                    setAttrMenu('');
                                    // setActive('');
                               }}
-                         ><i class="fas fa-trash-alt"></i></div>
+                         ><i className="fas fa-trash-alt"></i></div>
                     </div>
                </div>
           )

@@ -33,7 +33,7 @@ export const MinSelect = ({...props}) =>{
                          setActive('');
                     }}
                >
-                    <i class="fas fa-expand-alt"></i>
+                    <i className="fas fa-expand-alt"></i>
                </div>
                <div 
                     className='min-select sel-menu'
@@ -43,9 +43,9 @@ export const MinSelect = ({...props}) =>{
                          setActive('');
                     }}
                >
-                    <i class="fas fa-bars"></i>
-                    {/* <i class="fas fa-info"></i> */}
-                    {/* <i class="fas fa-info-circle"></i> */}
+                    <i className="fas fa-bars"></i>
+                    {/* <i className="fas fa-info"></i> */}
+                    {/* <i className="fas fa-info-circle"></i> */}
                </div>
           </div>
      )
