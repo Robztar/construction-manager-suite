@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 
 import { Floor } from './Floor';
 import { Wall } from './Wall';
-import { Html } from '@react-three/drei'
+
 
 // import React, { useState, useRef, useEffect } from 'react';
 // import { useFrame } from '@react-three/fiber';
@@ -82,10 +82,8 @@ export const Room = ({ setShape, unique}) =>{
      });
 
      // --------- Up Next ----------
-     // 1. Implement Room Attribute System
-          // a. MinSelect
-          // b. Resizer
-          // c. Attribute Menu
+     // 1. [DONE] Implement Room Attribute System
+          // [DONE] a. MinSelect b. Resizer c. Attribute Menu
      // 2. Implement room sizing via:
      //   a. Resizer
      //   b. [DONE] Attribute Menu

@@ -1,5 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Html } from '@react-three/drei'
 import * as THREE from 'three';
+
+import { MinSelect } from './MinSelect';
+import { Resizer } from './Resizer';
 
 import { useStore } from '../hooks/objStore';
 import * as textures from '../textures';
@@ -44,6 +48,10 @@ export const Floor = ({ ...props }) =>{
                          transparent={true}
                     />
                </mesh>
+               <Html>
+                    <MinSelect unique={unique} instance={objInstance} />
+                    <Resizer unique={unique} instance={objInstance} />
+               </Html>
           </>
      )
 }

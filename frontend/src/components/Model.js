@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { Html } from '@react-three/drei'
 import * as THREE from 'three';
-import { Html } from '@react-three/drei';
+
+import { MinSelect } from './MinSelect';
+import { Resizer } from './Resizer';
 
 import { useStore } from '../hooks/objStore';
 import * as textures from '../textures';
@@ -109,6 +112,8 @@ export const Model = ({ setShape, unique}) =>{
 
                          <Html>
                               <Attribute />
+                              {/* <MinSelect /> */}
+                              {/* <Resizer /> */}
                          </Html>
                     </>
                     

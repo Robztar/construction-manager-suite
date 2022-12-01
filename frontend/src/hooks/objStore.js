@@ -35,7 +35,9 @@ export const useStore = create((set) => ({
                          color: state.iniColor,   //color of object
                          texture: state.texture,  //texture of object
                          // Indiviual object's attribute menu states
-                         active: 'none',          //state of object's attribute menu
+                         active: 'none',          //state of object's MinSelect
+                         resize: 'none',          //state of object's Resizer
+                         attrMenu: 'none',        //state of object's Attribute menu
                          textureOptions: false,   //if object's texture options list is shown
                          textureMenu: false,      //if object's texture options are selected
                          matType: 'Plain',        //texture option selected
@@ -109,13 +111,33 @@ export const useStore = create((set) => ({
      },
 
 // ----- Object Menu Management -----
-     // Makes the object's own attribute menu appear (and closes all others)
+     // Makes the object's own MinSelect appear (and closes all others)
      setActive: (id) =>{
           set((state) =>({
                objects: state.objects.map((object) =>
                     object.key === id
                          ? ({...object, active: 'grid'})
                          : ({...object, active: 'none'})
+               ),
+          }))
+     },
+     // Makes the object's own Resizer appear (and closes all others)
+     setResize: (id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, resize: 'grid'})
+                         : ({...object, resize: 'none'})
+               ),
+          }))
+     },
+     // Makes the object's own Attribute menu appear (and closes all others)
+     setAttrMenu: (id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, attrMenu: 'grid'})
+                         : ({...object, attrMenu: 'none'})
                ),
           }))
      },

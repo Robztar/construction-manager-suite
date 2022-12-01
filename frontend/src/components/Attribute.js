@@ -10,6 +10,7 @@ export const Attribute = () =>{
           changeColor, 
           changeTexture, 
           setActive, 
+          setAttrMenu, 
           removeObj, 
           setTextureMenu, 
           setTextureOptions, 
@@ -19,6 +20,7 @@ export const Attribute = () =>{
           state.changeColor,
           state.changeTexture,
           state.setActive,
+          state.setAttrMenu,
           state.removeObj,
           state.setTextureMenu,
           state.setTextureOptions,
@@ -26,7 +28,7 @@ export const Attribute = () =>{
           state.setDimTemp,
      ]);
 
-     let objInstance = objects.find(o => o.active === 'grid');
+     let objInstance = objects.find(o => o.attrMenu === 'grid');
      let dimensions;
      let actUnits;
 
@@ -54,17 +56,16 @@ export const Attribute = () =>{
           return(
                <div 
                     className='float attr-cont'
-                    style={{'display': objInstance.active}}
+                    style={{'display': objInstance.attrMenu}}
                >
                     <div className="attr-head">
                          <h3 className='attr-title'>
                               Attribute Menu
                          </h3>
-                         <div 
-                              className='attr-exit'
-                              onClick={()=>setActive('')}
-                         >
-                              X</div>
+                         <i 
+                              class="fas fa-times attr-exit"
+                              onClick={()=>setAttrMenu('')}
+                         ></i>
                     </div>
                     <div className='attr-menu'>
                          <div 
@@ -831,9 +832,10 @@ export const Attribute = () =>{
                               className='attr-n obj-remove'
                               onClick={() => {
                                    removeObj(unique);
-                                   setActive('');
+                                   setAttrMenu('');
+                                   // setActive('');
                               }}
-                         >R</div>
+                         ><i class="fas fa-trash-alt"></i></div>
                     </div>
                </div>
           )

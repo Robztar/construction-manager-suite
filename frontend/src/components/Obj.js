@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { Html } from '@react-three/drei'
 import * as THREE from 'three';
+
+import { MinSelect } from './MinSelect';
+import { Resizer } from './Resizer';
 // Threejs GLTF support:
      // https://www.youtube.com/watch?v=WBe3xrV4CPM
      // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -150,6 +154,10 @@ export const Obj = ({ setShape, unique}) =>{
                          />
                          {/* <meshStandardMaterial attach="material" color={allColors[setShape]} /> */}
                     </mesh>
+                    <Html>
+                         <MinSelect unique={unique} instance={objInstance} />
+                         <Resizer unique={unique} instance={objInstance} />
+                    </Html>
                </>
                
           );
