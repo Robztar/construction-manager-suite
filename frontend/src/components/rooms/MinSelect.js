@@ -1,4 +1,4 @@
-import { useStore } from '../hooks/objStore';
+import { useStore } from '../../hooks/objStore';
 
 // Find a way to choose layout among:
      // Objects Menu
@@ -10,10 +10,14 @@ export const MinSelect = ({...props}) =>{
           setActive, 
           setResize,
           setAttrMenu,
+          setFurnishMenu,
+          setWallMenu,
      ] = useStore((state) => [
           state.setActive,
           state.setResize,
           state.setAttrMenu,
+          state.setFurnishMenu,
+          state.setWallMenu,
      ]);
 
      // let objInstance = objects.find(o => o.active === 'grid');
@@ -29,18 +33,47 @@ export const MinSelect = ({...props}) =>{
                     className='min-select sel-resize'
                     onClick={() => {
                          setResize(unique);
+                         setFurnishMenu('');
                          setAttrMenu('');
                          setActive('');
+                         setWallMenu('');
                     }}
                >
                     <i className="fas fa-expand-alt"></i>
                </div>
                <div 
+                    className='min-select sel-furnish'
+                    onClick={() => {
+                         setFurnishMenu(unique);
+                         setResize('');
+                         setAttrMenu('');
+                         setActive('');
+                         setWallMenu('');
+                    }}
+               >
+                    <i className="fas fa-couch"></i>
+               </div>
+               <div 
+                    className='min-select sel-wall'
+                    onClick={() => {
+                         setWallMenu(unique);
+                         setFurnishMenu('');
+                         setResize('');
+                         setAttrMenu('');
+                         setActive('');
+                    }}
+               >
+                    <i className="fas fa-th"></i>     
+                    {/* <i className="fas fa-door-open"></i> */}
+               </div>
+               <div 
                     className='min-select sel-menu'
                     onClick={() => {
                          setAttrMenu(unique);
+                         setFurnishMenu('');
                          setResize('');
                          setActive('');
+                         setWallMenu('');
                     }}
                >
                     <i className="fas fa-bars"></i>

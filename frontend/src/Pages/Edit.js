@@ -4,19 +4,21 @@ import { Sky, OrthographicCamera, PerspectiveCamera } from '@react-three/drei';
 import { Physics } from '@react-three/cannon';
 import * as THREE from 'three';
 
-import { Ground } from '../components/Ground';
-import { Obj } from '../components/Obj';
-import { Model } from '../components/Model';
-import { Room } from '../components/Room';
-import { Attribute } from '../components/Attribute';
-import { FPVControls } from '../components/FPVControls';
-import { Player } from '../components/Player';
+import { Ground } from '../components/environment/Ground';
+import { Obj } from '../components/objects/Obj';
+import { Model } from '../components/objects/Model';
+import { Room } from '../components/rooms/Room';
+import { Attribute } from '../components/html/Attribute';
+import { FurnishMenu } from '../components/html/FurnishMenu';
+import { WallMenu } from '../components/html/WallMenu';
+import { FPVControls } from '../components/environment/FPVControls';
+import { Player } from '../components/environment/Player';
 
 import { useKeyboardControls } from '../hooks/useKeyboardControls';
 import { useStore } from '../hooks/objStore'; 
 
-import Navbar from '../components/Navbar';
-import SpaceReminder from '../components/SpaceReminder';
+import Navbar from '../components/html/Navbar';
+import SpaceReminder from '../components/html/SpaceReminder';
 import pointer from '../images/cursor.png';
 
 // -------Search 'Measurement Scale'---------
@@ -215,6 +217,10 @@ export default function Edit() {
 
                {/* Object instance Attribute Menu */}
                <Attribute />
+               {/* Object instance Fixtures Menu */}
+               <FurnishMenu />
+               {/* Object instance  Wall Menu */}
+               <WallMenu />
                
                {/* Save/Reset World */}
                <div className='top state-btn-cont'>

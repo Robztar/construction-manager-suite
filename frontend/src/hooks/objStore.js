@@ -38,8 +38,8 @@ export const useStore = create((set) => ({
                          active: 'none',          //state of object's MinSelect
                          resize: 'none',          //state of object's Resizer
                          attrMenu: 'none',        //state of object's Attribute menu
-                         textureOptions: false,   //if object's texture options list is shown
-                         textureMenu: false,      //if object's texture options are selected
+                         furnishMenu: 'none',     //state of object's Furnish Menu
+                         wallMenu: 'none',        //state of object's Walls Menu
                          matType: 'Plain',        //texture option selected
                          // Wall attributes
                          wall: [1,2,3,4],         //array of walls
@@ -54,6 +54,23 @@ export const useStore = create((set) => ({
                          ],
                          wallDimTempZ: [1,1,1,1], //array of dimTemp of each wall's width
                          wallDimTempY: [1,1,1,1], //array of dimTemp of each wall's height
+                         activeWallNo: null,      //wall actively being used
+                         wallActive: ['none','none','none','none'],      //state of wall's Select
+                         wallAttrMenu: ['none','none','none','none'],        //state of wall's Attribute menu
+                         fixMenu: ['none','none','none','none'],         //state of object's Fixtures Menu
+                         fixture: [],             //array of fixture objects
+                         wallTexture: [           //texture of wall
+                              state.texture,
+                              state.texture,
+                              state.texture,
+                              state.texture
+                         ],
+                         wallColor: [           //color of wall
+                              state.iniColor,
+                              state.iniColor,
+                              state.iniColor,
+                              state.iniColor
+                         ],
                          
                          // objType: objType,        //type of object
                          // shape: shape,            //shape (or name) of object
@@ -141,23 +158,23 @@ export const useStore = create((set) => ({
                ),
           }))
      },
-     // sets the mode of the texture options window's mode
-     setTextureOptions: (id) =>{
+     // Makes the object's own Furnishing menu appear (and closes all others)
+     setFurnishMenu: (id) =>{
           set((state) =>({
                objects: state.objects.map((object) =>
                     object.key === id
-                         ? ({...object, textureOptions: true})
-                         : ({...object, textureOptions: false})
+                         ? ({...object, furnishMenu: 'grid'})
+                         : ({...object, furnishMenu: 'none'})
                ),
           }))
      },
-     // Sets the texture window's mode
-     setTextureMenu: (id) =>{
+     // Makes the object's own Walls Menu appear (and closes all others)
+     setWallMenu: (id) =>{
           set((state) =>({
                objects: state.objects.map((object) =>
                     object.key === id
-                         ? ({...object, textureMenu: true})
-                         : ({...object, textureMenu: false})
+                         ? ({...object, wallMenu: 'grid'})
+                         : ({...object, wallMenu: 'none'})
                ),
           }))
      },
@@ -239,5 +256,70 @@ export const useStore = create((set) => ({
                ),
           }))
      },
+     setActiveWallNo: (id, wallNo) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, activeWallNo: wallNo})
+                         : ({...object, activeWallNo: null})
+               ),
+          }))
+     },
+     // Set wall color
+     changeWallColor: (curColor, id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, wallColor: curColor})
+                         : object
+               ),
+          }))
+     },
+     // Set obj texture
+     changeWallTexture: (curTexture, id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, wallTexture: curTexture})
+                         : object
+               ),
+          }))
+     },
+
+     // setWallActive: (id, curWall) =>{
+     //      set((state) =>({
+     //           objects: state.objects.map((object) =>
+     //                object.key === id
+     //                     ? ({...object, wallActive: curWall})
+     //                     : ({...object, wallActive: ['none','none','none','none']})
+     //           ),
+     //      }))
+     // },
+     // Makes the object's own Fixtures menu appear (and closes all others)
+     // setFixMenu: (id) =>{
+     //      set((state) =>({
+     //           objects: state.objects.map((object) =>
+     //                object.key === id
+     //                     ? ({...object, fixMenu: 'grid'})
+     //                     : ({...object, fixMenu: 'none'})
+     //           ),
+     //      }))
+     // },
+     addFixture: (wallNo, id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, 
+                              fixture: [...state.objects.fixture, 
+                                   {
+                                        wallNo: wallNo, 
+                                        windowID: nanoid()
+                                   }
+                              ]})
+                         : object
+               ),
+          }))
+     },
+     
 
 }));

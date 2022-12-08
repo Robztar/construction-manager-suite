@@ -7,8 +7,8 @@ import {
   LinearMipMapLinearFilter,
 } from 'three';
 
-import grass from '../images/grass.jpg';
-// import { useStore } from '../hooks/objStore';
+import grass from '../../images/grass.jpg';
+// import { useStore } from '../../hooks/objStore';
 
 export const Ground = (props) => {
   const [ref] = usePlane(() => ({ 

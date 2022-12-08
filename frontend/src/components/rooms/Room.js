@@ -9,7 +9,7 @@ import { Wall } from './Wall';
 // import { useFrame } from '@react-three/fiber';
 // import * as THREE from 'three';
 
-import { useStore } from '../hooks/objStore';
+import { useStore } from '../../hooks/objStore';
 
 // ---- The Plan ----
 // -New Wall attributes in objStore
@@ -87,16 +87,13 @@ export const Room = ({ setShape, unique}) =>{
      // 2. [DONE]Implement room sizing via:
           // [DONE] a. Resizer b. Attribute Menu
      // 3. [DONE] Create a system for resizing directionally
-          // a. Resize from the center
-          // b. Resize to the left/right
-          // c. Resize to the top/bottom
+          // [DONE]a. Resize to the left/right b. Resize to the top/bottom
      // 4. Have modes for Attribute Menu
-          // a. Rooms (and maybe for walls as well)
+          // a. [DONE] Rooms (and maybe for walls as well)
           // b. Models
           // c. Objects
      // 5. Update Attribute Menu Design
-          // Set Tile design for Properties that Can be opened
-          // Width/Length value units (cm, mm, in, fractions)
+          // [DONE] Set Tile design for Properties that Can be opened [DONE] Width/Length value units (cm, mm, in, fractions)
           // Implement Rotation
           // Show texture color
           // Show the Object Name being updated

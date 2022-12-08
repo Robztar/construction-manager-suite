@@ -1,12 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Html } from '@react-three/drei'
+import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 
 import { MinSelect } from './MinSelect';
 import { Resizer } from './Resizer';
 
-import { useStore } from '../hooks/objStore';
-import * as textures from '../textures';
+import { useStore } from '../../hooks/objStore';
+import * as textures from '../../textures';
 
 export const Floor = ({ ...props }) =>{
      const unique = props.unique;
@@ -24,6 +24,14 @@ export const Floor = ({ ...props }) =>{
      
 
      const [ setActive ] = useStore((state) => [state.setActive]);
+     const toggleActive = () =>{
+          if(objInstance.active === 'none'){
+               setActive(unique);
+          }else{
+               setActive('');
+          }
+          
+     }
 
      let box;
      if(scale === 'metric'){
@@ -36,7 +44,8 @@ export const Floor = ({ ...props }) =>{
           <>
                <mesh 
                     onClick={() => {
-                         setActive(unique);
+                         // setActive(unique);
+                         toggleActive();
                     }}
                >
                     <primitive object={box} attach="geometry" />

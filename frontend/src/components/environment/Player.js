@@ -3,7 +3,7 @@ import { useSphere } from '@react-three/cannon';
 import { useThree, useFrame } from '@react-three/fiber';
 // import { FPVControls } from './FPVControls';
 // import { FPVdrag } from './FPVdrag';
-import { useKeyboardControls } from '../hooks/useKeyboardControls';
+import { useKeyboardControls } from '../../hooks/useKeyboardControls';
 import { Vector3 } from 'three';
 
 const SPEED = 6;

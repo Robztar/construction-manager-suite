@@ -1,4 +1,4 @@
-import { useStore } from '../hooks/objStore';
+import { useStore } from '../../hooks/objStore';
 import { useState, useEffect } from 'react';
 
 export const Resizer = ({...props}) =>{
@@ -43,7 +43,8 @@ export const Resizer = ({...props}) =>{
                setUnitZ(dimensions[2]);
           }
      },[objInstance]);
-     // Check Scale Also
+     // },[objInstance,scale]);
+     // Checking both works but causes position and size glitches
 
      return(
           <div 
@@ -124,6 +125,7 @@ export const Resizer = ({...props}) =>{
                          <input 
                               className='resizer-input'
                               // defaultValue={actUnits[0]}
+                              type="number"
                               value={unitX}
                               onChange={(e) => setUnitX(e.target.value)}
                               // value={unitX.current}
@@ -268,6 +270,7 @@ export const Resizer = ({...props}) =>{
                          ></i>
                          <input 
                               className='resizer-input'value={unitZ}
+                              type="number"
                               onChange={(e) => setUnitZ(e.target.value)}
                               id="length"
                          />

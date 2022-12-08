@@ -4,21 +4,23 @@ import * as THREE from 'three';
 import { OrthographicCamera, PerspectiveCamera, Sky } from '@react-three/drei';
 import { Physics} from '@react-three/cannon';
 
-import { FPVControls } from '../components/FPVControls';
-import { Player } from '../components/Player';
-import { Ground } from '../components/Ground';
+import { FPVControls } from '../components/environment/FPVControls';
+import { Player } from '../components/environment/Player';
+import { Ground } from '../components/environment/Ground';
 // import { Box } from '../components/Box';
 // import { Shape } from '../components/Shape';
-import { Obj } from '../components/Obj';
-import { Model } from '../components/Model';
-import { Room } from '../components/Room';
-import { Attribute } from '../components/Attribute';
+import { Obj } from '../components/objects/Obj';
+import { Model } from '../components/objects/Model';
+import { Room } from '../components/rooms/Room';
+import { Attribute } from '../components/html/Attribute';
+import { FurnishMenu } from '../components/html/FurnishMenu';
+import { WallMenu } from '../components/html/WallMenu';
 
 import { useKeyboardControls } from '../hooks/useKeyboardControls';
 import { useStore } from '../hooks/objStore'; 
 // import { DragControls } from '../js/DragControls';
 
-import Navbar from '../components/Navbar';
+import Navbar from '../components/html/Navbar';
 
 // -------Search 'Measurement Scale'---------
   // To see the progress made on scaling the canvas 
@@ -262,6 +264,8 @@ export default function NewEdit() {
       </div>
 
       <Attribute />
+      <FurnishMenu />
+      <WallMenu />
 
       {/* New Ideo - Settings Icon 
         Copy style of functionaility of Drop menu

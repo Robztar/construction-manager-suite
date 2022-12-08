@@ -1,5 +1,5 @@
-import { useStore } from '../hooks/objStore';
-
+import { useStore } from '../../hooks/objStore';
+import { useState } from 'react';
 // Find a way to choose layout among:
      // Objects Menu
      // Models Menu
@@ -9,28 +9,31 @@ export const Attribute = () =>{
      const [ objects, conversion, scale,
           changeColor, 
           changeTexture, 
-          setActive, 
+          // setActive, 
           setAttrMenu, 
-          removeObj, 
-          setTextureMenu, 
-          setTextureOptions, 
+          removeObj,
           setMatType,
           setDimTemp,
      ] = useStore((state) => [ state.objects, state.conv, state.scale,
           state.changeColor,
           state.changeTexture,
-          state.setActive,
+          // state.setActive,
           state.setAttrMenu,
           state.removeObj,
-          state.setTextureMenu,
-          state.setTextureOptions,
           state.setMatType,
           state.setDimTemp,
      ]);
+     
+     const[textureOptions,setOptions] = useState(false);    // Texture Options Menu
+     const[textureMenu,setTextureMenu] = useState(false);   // Textures / Colors Menu
+     const[propMenu,setPropMenu] = useState(false);    // Properties Menu
+     const[detMenu,setDetMenu] = useState(false); // Details Menu
+
 
      let objInstance = objects.find(o => o.attrMenu === 'grid');
      let dimensions;
      let actUnits;
+     let actSubUnits;
 
      if(objInstance){
           let unique = objInstance.key;
@@ -41,16 +44,56 @@ export const Attribute = () =>{
           ];
           if(scale === 'metric'){
                actUnits = [dimensions[0]/4,dimensions[1]/4,dimensions[2]/4];
-          }
-          else if (scale === 'imperial'){
+               actSubUnits = [
+                    // X-axis
+                    [
+                         Math.floor(actUnits[0]), //metre
+                         Math.floor((actUnits[0] % 1) * 100),   //cm
+                         // Math.floor((actUnits[0] % 0.01) * 1000)  //mm
+                         Math.floor((((actUnits[0] % 1) * 100) % 1) * 10)  //mm
+                    ],
+                    // Y-axis
+                    [
+                         Math.floor(actUnits[1]), //metre
+                         Math.floor((actUnits[1] % 1) * 100),   //cm
+                         Math.floor((((actUnits[1] % 1) * 100) % 1) * 10)  //mm
+                    ],
+                    // Z-axis
+                    [
+                         Math.floor(actUnits[2]), //metre
+                         Math.floor((actUnits[2] % 1) * 100),   //cm
+                         Math.floor((((actUnits[2] % 1) * 100) % 1) * 10)  //mm
+                    ],
+               ];
+               // console.log("Width is "+ actSubUnits[0][0]+"m, "+actSubUnits[0][1]+"cm, "+actSubUnits[0][2]+"mm.");
+          }else if (scale === 'imperial'){
                actUnits = [dimensions[0],dimensions[1],dimensions[2]];
+               actSubUnits = [
+                    // X-axis
+                    [
+                         Math.floor(actUnits[0]), //foot
+                         Math.floor((actUnits[0] % 1) * 12),   //in
+                         Math.floor((((actUnits[0] % 1) * 12) % 1) * 16)  //fract
+                    ],
+                    // Y-axis
+                    [
+                         Math.floor(actUnits[1]), //foot
+                         Math.floor((actUnits[1] % 1) * 12),   //in
+                         Math.floor((((actUnits[1] % 1) * 12) % 1) * 16)   //fract
+                    ],
+                    // Z-axis
+                    [
+                         Math.floor(actUnits[2]), //metre
+                         Math.floor((actUnits[2] % 1) * 12),   //in
+                         Math.floor((((actUnits[2] % 1) * 12) % 1) * 16)  //fract
+                    ],
+               ];
+               // console.log("Width is "+ actSubUnits[0][0]+"ft, "+actSubUnits[0][1]+" , "+actSubUnits[0][2]+"in.");
           }
 
           // Texture Attribute Management
           let colorAttr = objInstance.color;
           let textureAttr = objInstance.texture;
-          let colorMenu = objInstance.textureMenu;
-          let textureOptions = objInstance.textureOptions;
           let matType = objInstance.matType;
 
           return(
@@ -64,12 +107,21 @@ export const Attribute = () =>{
                          </h3>
                          <i 
                               className="fas fa-times attr-exit"
-                              onClick={()=>setAttrMenu('')}
+                              onClick={()=>{
+                                   setAttrMenu('');
+                                   setOptions(false);
+                                   setTextureMenu(false);
+                                   setPropMenu(false);
+                                   setDetMenu(false);
+                              }}
                          ></i>
                     </div>
                     <div className='attr-menu'>
                          <div 
-                              className={`attr-li ${textureOptions || colorMenu ? 'active' : ''}`}
+                              className={`attr-li 
+                                   ${ textureMenu || textureOptions ? 'active' : ''}
+                                   ${ propMenu || detMenu ? 'inactive' : ''}
+                              `}
                               // style={{'grid-template-columns': '1fr'}}
                          >
                               {(() =>{ 
@@ -79,55 +131,53 @@ export const Attribute = () =>{
                                                   <div className='type-row'
                                                        onClick={(e) =>{
                                                             e.stopPropagation();
-                                                            setTextureMenu(unique);
-                                                            setTextureOptions('');
+                                                            setOptions(false);
+                                                            setTextureMenu(true);
                                                             setMatType('Plain',unique);
-                                                            console.log('Options active: ' + textureOptions);
-                                                            console.log('Menu active: ' + colorMenu);
-                                                            console.log('Mat Type active: ' + matType);
+                                                            // console.log('Options active: ' + textureOptions);
                                                        }}
                                                   >Plain</div>
                                                   <div className='type-row'
                                                        onClick={(e) =>{
                                                             e.stopPropagation();
-                                                            setTextureMenu(unique);
-                                                            setTextureOptions('');
+                                                            setOptions(false);
+                                                            setTextureMenu(true);
                                                             setMatType('Wood',unique);
                                                        }}
                                                   >Wood</div>
                                                   <div className='type-row'
                                                        onClick={(e) =>{
                                                             e.stopPropagation();
-                                                            setTextureMenu(unique);
-                                                            setTextureOptions('');
+                                                            setOptions(false);
+                                                            setTextureMenu(true);
                                                             setMatType('Stone',unique);
                                                        }}
                                                   >Stone</div>
                                                   <div className='type-row'
                                                        onClick={(e) =>{
                                                             e.stopPropagation();
-                                                            setTextureMenu(unique);
-                                                            setTextureOptions('');
+                                                            setOptions(false);
+                                                            setTextureMenu(true);
                                                             setMatType('Glass',unique);
                                                        }}
                                                   >Glass</div>
                                                   <div className='type-row'
                                                        onClick={(e) =>{
                                                             e.stopPropagation();
-                                                            setTextureMenu(unique);
-                                                            setTextureOptions('');
+                                                            setOptions(false);
+                                                            setTextureMenu(true);
                                                             setMatType('Metal',unique);
                                                        }}
                                                   >Metal</div>
                                                   <div className='type-row cancel'
                                                        onClick={(e) =>{
                                                             e.stopPropagation();
-                                                            setTextureOptions('');
+                                                            setOptions(false);
                                                        }}
                                                   >Cancel</div>
                                              </div>
                                         )
-                                   } else if(colorMenu){ 
+                                   } else if(textureMenu){ 
                                         if(matType === 'Plain'){
                                         return(
                                              <div className='color-li'>
@@ -137,7 +187,7 @@ export const Attribute = () =>{
                                                        <div className='cancel-row'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        >Cancel</div>
                                                   </div>
@@ -151,7 +201,7 @@ export const Attribute = () =>{
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                                  console.log('current color is: ' + objInstance.color);
                                                             }}
                                                        ></div>
@@ -163,7 +213,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#BFBFBF';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -174,7 +224,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#808080';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -182,10 +232,10 @@ export const Attribute = () =>{
                                                             style={{'background': '#404040'}}
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
-                                                                 colorAttr = '#808080';
+                                                                 colorAttr = '#404040';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -196,7 +246,7 @@ export const Attribute = () =>{
                                                                  colorAttr = 'black';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -210,7 +260,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#FFCCCC';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -221,7 +271,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#FF6666';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -232,7 +282,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#FF0000';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -243,7 +293,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#990000';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -254,7 +304,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#330000';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -269,7 +319,7 @@ export const Attribute = () =>{
                                                                  colorAttr = 'orange';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -284,7 +334,7 @@ export const Attribute = () =>{
                                                                  colorAttr = 'yellow';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -299,7 +349,7 @@ export const Attribute = () =>{
                                                                  colorAttr = 'lime';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -314,7 +364,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#CCFFE5';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -325,7 +375,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#66FFB2';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -336,7 +386,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#00FF80';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -347,7 +397,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#00994C';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -358,7 +408,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#003319';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -373,7 +423,7 @@ export const Attribute = () =>{
                                                                  colorAttr = 'cyan';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -388,7 +438,7 @@ export const Attribute = () =>{
                                                                  colorAttr = 'blue';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -403,7 +453,7 @@ export const Attribute = () =>{
                                                                  colorAttr = 'purple';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -418,7 +468,7 @@ export const Attribute = () =>{
                                                                  colorAttr = 'magenta';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -433,7 +483,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#FFCCE5';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -444,7 +494,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#FF66B2';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -455,7 +505,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#FF007F';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -466,7 +516,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#99004C';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
@@ -477,7 +527,7 @@ export const Attribute = () =>{
                                                                  colorAttr = '#330019';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -492,54 +542,54 @@ export const Attribute = () =>{
                                                        <div className='cancel-row'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        >Cancel</div>
                                                   </div>
                                                   {/* Wood Row1 */}
                                                   <div className='texture-row'>
                                                        <div 
-                                                            className='texture-wood'
+                                                            className='texture-item t-wood'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('wood', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                                  console.log('current texture is: ' + textureAttr);
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-worn-wood'
+                                                            className='texture-item t-worn-wood'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('wornWood', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
                                                   {/* Wood Row2 */}
                                                   <div className='texture-row'>
                                                        <div 
-                                                            className='texture-plywood'
+                                                            className='texture-item t-plywood'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('plywood', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-laminate'
+                                                            className='texture-item t-laminate'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('laminate', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -554,54 +604,54 @@ export const Attribute = () =>{
                                                        <div className='cancel-row'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        >Cancel</div>
                                                   </div>
                                                   {/* Stone Row1 */}
                                                   <div className='texture-row'>
                                                        <div 
-                                                            className='texture-concrete'
+                                                            className='texture-item t-concrete'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('concrete', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                                  console.log('current texture is: ' + textureAttr);
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-concrete'
+                                                            className='texture-item t-concrete'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('concrete', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
                                                   {/* Stone Row2 */}
                                                   <div className='texture-row'>
                                                        <div 
-                                                            className='texture-concrete'
+                                                            className='texture-item t-concrete'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('concrete', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-concrete'
+                                                            className='texture-item t-concrete'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('concrete', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -616,54 +666,58 @@ export const Attribute = () =>{
                                                        <div className='cancel-row'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        >Cancel</div>
                                                   </div>
                                                   {/* Glass Row1 */}
                                                   <div className='texture-row'>
                                                        <div 
-                                                            className='texture-glass'
+                                                            className='t-glass'
+                                                            style={{'background': '#add8e6'}}
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = '#add8e6';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('glass', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                                  console.log('current texture is: ' + textureAttr);
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-black-glass'
+                                                            className='t-glass'
+                                                            style={{'background': 'black'}}
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'black';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('glass', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
                                                   {/* Glass Row2 */}
                                                   <div className='texture-row'>
                                                        <div 
-                                                            className='texture-red-glass'
+                                                            className='t-glass'
+                                                            style={{'background': 'red'}}
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'red';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('glass', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-orange-glass'
+                                                            className='t-glass'
+                                                            style={{'background': 'orange'}}
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'orange';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('glass', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -678,54 +732,54 @@ export const Attribute = () =>{
                                                        <div className='cancel-row'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        >Cancel</div>
                                                   </div>
                                                   {/* Wood Row1 */}
                                                   <div className='texture-row'>
                                                        <div 
-                                                            className='texture-wood'
+                                                            className='texture-item t-wood'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('wood', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                                  console.log('current texture is: ' + textureAttr);
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-wood'
+                                                            className='texture-item t-wood'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('wood', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
                                                   {/* Wood Row2 */}
                                                   <div className='texture-row'>
                                                        <div 
-                                                            className='texture-wood'
+                                                            className='texture-item t-wood'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('wood', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-wood'
+                                                            className='texture-item t-wood'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('wood', unique);
-                                                                 setTextureMenu('');
+                                                                 setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
@@ -735,97 +789,317 @@ export const Attribute = () =>{
                                    } else {
                                         return(
                                              <div className='attr-n'
-                                             onClick={(e) =>{
-                                                  e.stopPropagation();
-                                                  setTextureOptions(unique);
-                                                  console.log('Options active: ' + textureOptions);
-                                             }}>Texture</div>
+                                                  onClick={(e) =>{
+                                                       e.stopPropagation();
+                                                       setOptions(true);
+                                                       console.log('Options active: ' + textureOptions);
+                                                  }}
+                                             >Floor Texture</div>
                                         )
                                    }
                               }) () }
 
                          </div>
 
-                         {/* ----Changing Object Properties ...soon---- */}
+                         {/* ----- Changing Object Properties ----- */}
                          <div 
-                              className={`pos-props ${ textureOptions || colorMenu ? 'inactive' : ''}`}
+                              className={`attr-li 
+                                   ${ propMenu ? 'active' : ''} 
+                                   ${ textureMenu || textureOptions || detMenu ? 'inactive' : ''}
+                              `}
                          >
                               {/* {(() =>{ }) () } */}
-                         
-                              {/* <div className='props-head'
-                                   onClick={(e) =>{
-                                        e.stopPropagation();
-                                        // setTextureOptions(unique);
-                                        // console.log('Options active: ' + textureOptions);
-                                   }}
-                              >Properties</div> */}
-                              <div className='props-row'>
-                                   <div className='props-type'>Properties</div>
-                                   <div className='props-opts'>
-                                        <div className='prop'>
-                                             {/* Have a separation of units
-                                                  _m _cm or _' _"
-                                                  based on the type of scale
-                                             */}
-                                             <label className='prop-n'>Width: </label>
-                                             <input 
-                                                  type="number"
-                                                  // Min max should be decided based on scale 
-                                                  min='0' 
-                                                  max='10'
-                                                  value={actUnits[0]} 
-                                                  id="width"
-                                                  // Step should be decided based on scale
-                                                  step="1"
-                                                  onChange={(e) =>{
-                                                       let rVal = e.target.value;
-                                                       let rDimTemp;
-                                                       if(scale === 'metric'){
-                                                            rDimTemp=[rVal/3, actUnits[1]/3,actUnits[2]/3]
-                                                       }else if(scale === 'imperial'){
-                                                            rDimTemp=[rVal/10, actUnits[1]/10,actUnits[2]/10]
-                                                       }
-                                                       console.log(rVal);
-                                                       setDimTemp(rDimTemp, unique);
+                              {(() =>{ 
+                                   if(propMenu){
+                                        return(
+                                             <div className='props-li'>
+                                                  <div className='props-head'>
+                                                       <div className='props-type'>Properties</div>
+                                                       <div className='props-done'
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 setPropMenu(false);
+                                                            }}
+                                                       ><i className="fas fa-check-circle"></i></div>
+                                                       {/* >Done</div> */}
+                                                  </div>
+                                                  
+                                                  <div className='props-opts'>
+                                                       <div className='prop'>
+                                                            <label className='prop-n'>Width</label>
+                                                            <div className='prop-fields'>
+                                                                 <input 
+                                                                      className='prop-input'
+                                                                      id="width-l"
+                                                                      type="number"
+                                                                      min='0' 
+                                                                      value={actSubUnits[0][0]}
+                                                                      step="1"
+                                                                      onChange={(e) =>{
+                                                                           let lg = parseInt(e.target.value);
+                                                                           let med = actSubUnits[0][1]
+                                                                           let sm = actSubUnits[0][2] + 0.1;
+                                                                           let tot;
+                                                                           let rDimTemp;
+                                                                           if(scale === 'metric'){
+                                                                                tot = lg + (med/100) + (sm/1000);
+                                                                                // console.log("Width is "+lg+"m, "+med+"cm, "+sm+"mm.");
+                                                                                // console.log("Total Width is " + tot);
+                                                                                rDimTemp=[tot/3, actUnits[1]/3,actUnits[2]/3];
+                                                                           }else if(scale === 'imperial'){
+                                                                                let ret_sm = sm/(12*16);
+                                                                                tot = lg + (med/12) + (ret_sm);
+                                                                                // console.log("Width is "+lg+"ft, "+med+" and "+sm+"/16 in.");
+                                                                                // console.log("Total Width is " + tot);
+                                                                                rDimTemp=[tot/10, actUnits[1]/10,actUnits[2]/10];
+                                                                           }
+                                                                           setDimTemp(rDimTemp, unique);
+                                                                      }}
+                                                                 />
+                                                                 <input 
+                                                                      className='prop-input'
+                                                                      id="width-m"
+                                                                      type="number"
+                                                                      min='0' 
+                                                                      max='100'
+                                                                      value={actSubUnits[0][1]}
+                                                                      step="1"
+                                                                      onChange={(e) =>{
+                                                                           let lg = actSubUnits[0][0];
+                                                                           let med = parseInt(e.target.value);
+                                                                           let sm = actSubUnits[0][2] + 0.1;
+                                                                           let tot;
+                                                                           let rDimTemp;
+                                                                           if(scale === 'metric'){
+                                                                                tot = lg + (med/100) + (sm/1000);
+                                                                                rDimTemp=[tot/3, actUnits[1]/3,actUnits[2]/3]
+                                                                           }else if(scale === 'imperial'){
+                                                                                let ret_sm = sm/(12*16);
+                                                                                tot = lg + (med/12) + (ret_sm);
+                                                                                rDimTemp=[tot/10, actUnits[1]/10,actUnits[2]/10]
+                                                                           }
+                                                                           setDimTemp(rDimTemp, unique);
+                                                                      }}
+                                                                 />
+                                                                 <input 
+                                                                      className='prop-input'
+                                                                      type="number"
+                                                                      id="width-s"
+                                                                      min='0' 
+                                                                      max='16'
+                                                                      value={actSubUnits[0][2]} 
+                                                                      step="1"
+                                                                      onChange={(e) =>{
+                                                                           let lg = actSubUnits[0][0];
+                                                                           let med = actSubUnits[0][1];
+                                                                           let sm = parseFloat(e.target.value) + 0.1;
+                                                                           let tot;
+                                                                           let rDimTemp;
+                                                                           if(scale === 'metric'){
+                                                                                tot = lg + (med/100) + (sm/1000);
+                                                                                rDimTemp=[tot/3, actUnits[1]/3,actUnits[2]/3]
+                                                                           }else if(scale === 'imperial'){
+                                                                                let ret_sm = sm/(12*16);
+                                                                                tot = lg + (med/12) + (ret_sm);
+                                                                                rDimTemp=[tot/10, actUnits[1]/10,actUnits[2]/10]
+                                                                           }
+                                                                           setDimTemp(rDimTemp, unique);
+                                                                      }}
+                                                                 />
+                                                            </div>
+                                                            <div className='prop-names'>
+                                                                 <div className='prop-sub'>
+                                                                      {scale==='metric'?'m':'ft'}
+                                                                 </div>
+                                                                 <div className='prop-sub border-l-r'>
+                                                                      {scale==='metric'?'cm':'in'}
+                                                                 </div>
+                                                                 <div className='prop-sub'>
+                                                                      {scale==='metric'?'mm':
+                                                                      <div className='in-fract'>
+                                                                           <sup>x</sup>/<sub>16</sub>
+                                                                      </div>}
+                                                                 </div>
+                                                            </div>
+                                                       </div>
+                                                       <div className='prop'>
+                                                            <label className='prop-n'>Length</label>
+                                                            <div className='prop-fields'>
+                                                                 <input 
+                                                                      className='prop-input'
+                                                                      id="length-l"
+                                                                      type="number"
+                                                                      min='0' 
+                                                                      value={actSubUnits[2][0]}
+                                                                      step="1"
+                                                                      onChange={(e) =>{
+                                                                           let lg = parseInt(e.target.value);
+                                                                           let med = actSubUnits[2][1]
+                                                                           let sm = actSubUnits[2][2] + 0.1;
+                                                                           let tot;
+                                                                           let rDimTemp;
+                                                                           if(scale === 'metric'){
+                                                                                tot = lg + (med/100) + (sm/1000);
+                                                                                rDimTemp=[actUnits[0]/3, actUnits[1]/3, tot/3];
+                                                                           }else if(scale === 'imperial'){
+                                                                                let ret_sm = sm/(12*16);
+                                                                                tot = lg + (med/12) + (ret_sm);
+                                                                                rDimTemp=[actUnits[0]/10, actUnits[1]/10, tot/10];
+                                                                           }
+                                                                           setDimTemp(rDimTemp, unique);
+                                                                      }}
+                                                                 />
+                                                                 <input 
+                                                                      className='prop-input'
+                                                                      id="length-m"
+                                                                      type="number"
+                                                                      min='0' 
+                                                                      max='100'
+                                                                      value={actSubUnits[2][1]}
+                                                                      step="1"
+                                                                      onChange={(e) =>{
+                                                                           let lg = actSubUnits[2][0];
+                                                                           let med = parseInt(e.target.value);
+                                                                           let sm = actSubUnits[2][2] + 0.1;
+                                                                           let tot;
+                                                                           let rDimTemp;
+                                                                           if(scale === 'metric'){
+                                                                                tot = lg + (med/100) + (sm/1000);
+                                                                                rDimTemp=[actUnits[0]/3, actUnits[1]/3, tot/3];
+                                                                           }else if(scale === 'imperial'){
+                                                                                let ret_sm = sm/(12*16);
+                                                                                tot = lg + (med/12) + (ret_sm);
+                                                                                rDimTemp=[actUnits[0]/10, actUnits[1]/10, tot/10];
+                                                                           }
+                                                                           setDimTemp(rDimTemp, unique);
+                                                                      }}
+                                                                 />
+                                                                 <input 
+                                                                      className='prop-input'
+                                                                      type="number"
+                                                                      id="length-s"
+                                                                      min='0' 
+                                                                      max='16'
+                                                                      value={actSubUnits[2][2]} 
+                                                                      step="1"
+                                                                      onChange={(e) =>{
+                                                                           let lg = actSubUnits[2][0];
+                                                                           let med = actSubUnits[2][1];
+                                                                           let sm = parseFloat(e.target.value) + 0.1;
+                                                                           let tot;
+                                                                           let rDimTemp;
+                                                                           if(scale === 'metric'){
+                                                                                tot = lg + (med/100) + (sm/1000);
+                                                                                rDimTemp=[actUnits[0]/3, actUnits[1]/3, tot/3];
+                                                                           }else if(scale === 'imperial'){
+                                                                                let ret_sm = sm/(12*16);
+                                                                                tot = lg + (med/12) + (ret_sm);
+                                                                                rDimTemp=[actUnits[0]/10, actUnits[1]/10, tot/10];
+                                                                           }
+                                                                           setDimTemp(rDimTemp, unique);
+                                                                      }}
+                                                                 />
+                                                            </div>
+                                                            <div className='prop-names'>
+                                                                 <div className='prop-sub'>
+                                                                      {scale==='metric'?'m':'ft'}
+                                                                 </div>
+                                                                 <div className='prop-sub border-l-r'>
+                                                                      {scale==='metric'?'cm':'in'}
+                                                                 </div>
+                                                                 <div className='prop-sub'>
+                                                                      {scale==='metric'?'mm':
+                                                                      <div className='in-fract'>
+                                                                           <sup>x</sup>/<sub>16</sub>
+                                                                      </div>}
+                                                                 </div>
+                                                            </div>
+                                                       </div> 
+                                                       <div className='prop'>
+                                                            <label className='prop-n'>Rotation</label>
+                                                            <div className='prop-fields' style={{'grid-template-columns': '1fr'}}>
+                                                                 <input 
+                                                                      className='prop-input'
+                                                                      type="number" 
+                                                                      min='0' 
+                                                                      max='360'
+                                                                      // value={0} 
+                                                                      defaultValue={0}
+                                                                      id="rotation"
+                                                                      step="10"
+                                                                      onChange={(e) =>{
+                                                                           let rVal = e.target.value;
+                                                                           console.log(rVal);
+                                                                      }}
+                                                                 />
+                                                            </div>
+                                                            <div className='prop-names' style={{'grid-template-columns': '1fr'}}>Degrees</div>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        )
+                                   }else {
+                                        return(
+                                             <div className='attr-n'
+                                                  onClick={(e) =>{
+                                                       e.stopPropagation();
+                                                       setPropMenu(true);
                                                   }}
-                                             />
-                                             {/* <input type="range" min="0" max="10" value="5" class="slider" id="myRange"/> */}
-                                        </div>
-                                        <div className='prop'>
-                                        <label className='prop-n'>Lenth: </label>
-                                             <input 
-                                                  type="number" 
-                                                  // Min max should be decided based on scale
-                                                  min='0' 
-                                                  max='10'
-                                                  value={actUnits[2]} 
-                                                  id="length"
-                                                  // Step should be decided based on scale
-                                                  step="1"
-                                                  onChange={(e) =>{
-                                                       let rVal = e.target.value;
-                                                       let rDimTemp;
-                                                       if(scale === 'metric'){
-                                                            rDimTemp=[actUnits[0]/3, actUnits[1]/3, rVal/3]
-                                                       }else if(scale === 'imperial'){
-                                                            rDimTemp=[actUnits[0]/10, actUnits[1]/10, rVal/10]
-                                                       }
-                                                       console.log(rVal);
-                                                       setDimTemp(rDimTemp, unique);
-                                                  }}
-                                             />
-                                        </div> 
-                                        <div className='prop'>Rotation: </div> 
-                                   </div>
-                              </div>
-                              <div className='props-row'>
-                              <div className='props-n'>Something Else</div>
-                                   <div className='props-opts'>
-                                        <div className='prop'>idk: </div>
-                                   </div>
-                              </div>
+                                             >Properties</div>
+                                        )
+                                   }
+                              }) () }
                          </div>
-                         
+
+                         {/* ---- Object Details ---- */}
+                         <div 
+                              className={`attr-li 
+                                   ${ detMenu ? 'active' : ''} 
+                                   ${ textureMenu || textureOptions || propMenu ? 'inactive' : ''}
+                              `}
+                         >
+                              {(() =>{ 
+                                   if(detMenu){
+                                        return(
+                                             <div className='props-li'>
+                                                  <div className='props-head'>
+                                                       <div className='props-type'>Details</div>
+                                                       <div className='props-done'
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 setDetMenu(false);
+                                                            }}
+                                                       ><i className="fas fa-check-circle"></i></div>
+                                                  </div>
+                                                  
+                                                  <div className='props-opts'>
+                                                       <div className='prop'>
+                                                            <label className='prop-n'>Name</label>
+                                                            <div className='prop-fields'>
+                                                                 <input 
+                                                                      className=''
+                                                                      value={'Obj Name'} 
+                                                                      id=""
+                                                                      onChange={(e) =>{}}
+                                                                 />
+                                                            </div>
+                                                            <label className='prop-names'>Obj</label>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        )
+                                   }else {
+                                        return(
+                                             <div className='attr-n'
+                                                  onClick={(e) =>{
+                                                       e.stopPropagation();
+                                                       setDetMenu(true);
+                                                  }}
+                                             >Details</div>
+                                        )
+                                   }
+                              }) () }
+                         </div>
                     </div>
                     <div className='attr-footer'>
                          <div 

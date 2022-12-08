@@ -3,11 +3,11 @@ import { useFrame } from '@react-three/fiber';
 import { Html } from '@react-three/drei'
 import * as THREE from 'three';
 
-import { MinSelect } from './MinSelect';
-import { Resizer } from './Resizer';
+import { MinSelect } from '../rooms/MinSelect';
+import { Resizer } from '../rooms/Resizer';
 
-import { useStore } from '../hooks/objStore';
-import * as textures from '../textures';
+import { useStore } from '../../hooks/objStore';
+import * as textures from '../../textures';
 
 // --- GLTF/GLB ---
 import Shiba from './Shiba_deadpool';

@@ -3,8 +3,8 @@ import { useFrame } from '@react-three/fiber';
 import { Html } from '@react-three/drei'
 import * as THREE from 'three';
 
-import { MinSelect } from './MinSelect';
-import { Resizer } from './Resizer';
+import { MinSelect } from '../rooms/MinSelect';
+import { Resizer } from '../rooms/Resizer';
 // Threejs GLTF support:
      // https://www.youtube.com/watch?v=WBe3xrV4CPM
      // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -19,8 +19,8 @@ import { Resizer } from './Resizer';
 
 // import { Html, ScrollControls, Scroll } from '@react-three/drei'
 
-import { useStore } from '../hooks/objStore';
-import * as textures from '../textures';
+import { useStore } from '../../hooks/objStore';
+import * as textures from '../../textures';
 
 // ----- Bug Alert ------
 // 1. The Attribute window sticks with the object when the camera moves
