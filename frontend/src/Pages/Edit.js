@@ -81,7 +81,12 @@ const MakePersp = ({scale}) =>{
 
 export default function Edit() {
      // Measurement Scale
-     const [objects, scale, addObj, switchOrtho, switchScale, switchConv, saveScene, resetScene] = useStore((state) => [
+     const [objects, scale, 
+          addObj, switchOrtho, 
+          switchScale, switchConv, 
+          saveWorld, resetWorld,
+          saveFixtures, resetFixtures,
+     ] = useStore((state) => [
           state.objects,
           state.scale,
           state.addObj,
@@ -90,6 +95,8 @@ export default function Edit() {
           state.switchConv,
           state.saveWorld,
           state.resetWorld,
+          state.saveFixtures,
+          state.resetFixtures,
      ]);
      
      let gridLen;
@@ -140,6 +147,15 @@ export default function Edit() {
 
      const [isActive, setActive] = useState(false);
      const toggleClass = () => setActive(!isActive);
+
+     const saveScene = () =>{
+          saveFixtures();
+          saveWorld();
+     }
+     const resetScene = () =>{
+          resetFixtures();
+          resetWorld();
+     }
 
      return (
           <div className='canvas-cont'>

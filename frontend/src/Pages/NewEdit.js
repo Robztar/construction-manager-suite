@@ -91,15 +91,25 @@ const MakePersp = ({scale}) =>{
 }
 
 export default function NewEdit() {
-  const [objects, scale, addObj, switchOrtho, switchScale, switchConv, saveScene, resetScene] = useStore((state) => [
-    state.objects,
-    state.scale,
+  const [objects, scale, 
+    addObj, 
+    switchOrtho, 
+    switchScale, 
+    switchConv, 
+    saveWorld, 
+    resetWorld,
+    saveFixtures, 
+    resetFixtures,
+  ] = 
+    useStore((state) => [state.objects, state.scale,
     state.addObj,
     state.switchOrtho,
     state.switchScale,
     state.switchConv,
     state.saveWorld,
     state.resetWorld,
+    state.saveFixtures,
+    state.resetFixtures,
   ]);
   
   let gridLen;
@@ -163,6 +173,15 @@ export default function NewEdit() {
     toggleClass();
     addObj(null, shape, objType);
     setShapeCount(objects.length);
+  }
+
+  const saveScene = () =>{
+    saveFixtures();
+    saveWorld();
+  }
+  const resetScene = () =>{
+    resetFixtures();
+    resetWorld();
   }
 
   return (

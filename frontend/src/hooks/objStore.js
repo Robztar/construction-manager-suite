@@ -15,6 +15,7 @@ export const useStore = create((set) => ({
      iniPos: [0,0,0],         // default object position
      iniColor: '#BFBFBF',   // default color
      texture: 'blank',        // default texture
+     fixtures: getLocalStorage('fixtures') || [],             //array of fixture objects
 
      // New fields coming soon...
 
@@ -55,10 +56,6 @@ export const useStore = create((set) => ({
                          wallDimTempZ: [1,1,1,1], //array of dimTemp of each wall's width
                          wallDimTempY: [1,1,1,1], //array of dimTemp of each wall's height
                          activeWallNo: null,      //wall actively being used
-                         wallActive: ['none','none','none','none'],      //state of wall's Select
-                         wallAttrMenu: ['none','none','none','none'],        //state of wall's Attribute menu
-                         fixMenu: ['none','none','none','none'],         //state of object's Fixtures Menu
-                         fixture: [],             //array of fixture objects
                          wallTexture: [           //texture of wall
                               state.texture,
                               state.texture,
@@ -275,7 +272,7 @@ export const useStore = create((set) => ({
                ),
           }))
      },
-     // Set obj texture
+     // Set wall texture
      changeWallTexture: (curTexture, id) =>{
           set((state) =>({
                objects: state.objects.map((object) =>
@@ -286,40 +283,92 @@ export const useStore = create((set) => ({
           }))
      },
 
-     // setWallActive: (id, curWall) =>{
-     //      set((state) =>({
-     //           objects: state.objects.map((object) =>
-     //                object.key === id
-     //                     ? ({...object, wallActive: curWall})
-     //                     : ({...object, wallActive: ['none','none','none','none']})
-     //           ),
-     //      }))
-     // },
-     // Makes the object's own Fixtures menu appear (and closes all others)
-     // setFixMenu: (id) =>{
-     //      set((state) =>({
-     //           objects: state.objects.map((object) =>
-     //                object.key === id
-     //                     ? ({...object, fixMenu: 'grid'})
-     //                     : ({...object, fixMenu: 'none'})
-     //           ),
-     //      }))
-     // },
-     addFixture: (wallNo, id) =>{
+     //Add New Fixtures
+     addFixture: (wallNo, fixType, id, dim, col, text) =>{
           set((state) =>({
-               objects: state.objects.map((object) =>
-                    object.key === id
-                         ? ({...object, 
-                              fixture: [...state.objects.fixture, 
-                                   {
-                                        wallNo: wallNo, 
-                                        windowID: nanoid()
-                                   }
-                              ]})
-                         : object
+               fixtures: [...state.fixtures, 
+                    {
+                         key: nanoid(),
+                         objId: id,
+                         wallNum: wallNo,
+                         type: fixType,
+                         pos: state.iniPos,
+                         dimTemp: dim,
+                         color: col,   //color of fixture
+                         texture: text,  //texture of fixture
+                    }
+               ]
+          }))
+     },
+
+     // Set fixture color
+     changeFixColor: (curColor, id) =>{
+          set((state) =>({
+               fixtures: state.fixtures.map((fix) =>
+                    fix.key === id
+                         ? ({...fix, color: curColor})
+                         : fix
                ),
           }))
      },
-     
+     // Set fixture texture
+     changeFixTexture: (curTexture, id) =>{
+          set((state) =>({
+               fixtures: state.fixtures.map((fix) =>
+                    fix.key === id
+                         ? ({...fix, texture: curTexture})
+                         : fix
+               ),
+          }))
+     },
+
+     // Set standard dimension multiplier of the fixture
+     setFixDimTemp: (temp, id) =>{
+          set((state) =>({
+               fixtures: state.fixtures.map((fix) =>
+                    fix.key === id
+                         ? ({...fix, dimTemp: temp})
+                         : fix
+               ),
+          }))
+     },
+
+     // Set Fixture Position
+     setFixPos: (curPos, id) =>{
+          set((state) =>({
+               fixtures: state.fixtures.map((fix) =>
+                    fix.key === id
+                         ? ({...fix, pos: curPos})
+                         : fix
+               ),
+          }))
+     },
+
+     // remove the specified fixture
+     removeFix: (id) => {
+          set((state) => ({
+               fixtures: state.fixtures.filter((fix) => fix.key !== id)
+               }),
+          );
+     },
+
+     // save fixtures to local storage
+     saveFixtures: () =>{
+          set((state) => {
+               setLocalStorage('fixtures', state.fixtures);
+          })
+     },
+
+     // reset fixtures in local storage to empty
+     resetFixtures: () =>{
+          // Empty but fixtures state
+          set(() => ({
+               fixtures: []
+          }))
+          // Set fixtures Storage as empty
+          set((state) => {
+               setLocalStorage('fixtures', []);
+          })
+     },
 
 }));

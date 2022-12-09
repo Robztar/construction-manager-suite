@@ -62,6 +62,17 @@
   justify-content: space-around;
   align-items: center;
 }
+.navbar .fa-times-circle {
+  border-radius: 50%;
+  font-size: 2rem;
+  color: gray;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.navbar .fa-times-circle:hover {
+  color: red;
+  transition: 0.3s ease;
+}
 
 .home-btn {
   background: none;

@@ -3,6 +3,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 
+import { Fixtures } from './Fixtures';
+
 import { useStore } from '../../hooks/objStore';
 import * as textures from '../../textures';
 
@@ -29,15 +31,17 @@ export const Wall = ({ ...props }) =>{
           // Different Attribute Menu
           // Diff dimensions
           // Diff colors and textures
-     const [ 
+     const [ fixtures,
           setActiveWallNo,
-          setWallActive,
           setWallPos,
-     ] = useStore((state) => [
+     ] = useStore((state) => [ state.fixtures,
           state.setActiveWallNo,
-          state.setWallActive,
           state.setWallPos,
      ]);
+
+     // Fixtures Management
+     let fixInstances = fixtures.filter(e => e.objId === unique);
+     // console.log("Fixture Instance = "+ fixInstances);
 
      // Wall width (thickness) = 8in = 20.32cm = 0.203m (dimTemp = 0.068)
      let dimensions = [
@@ -52,9 +56,12 @@ export const Wall = ({ ...props }) =>{
      let box;
      let ground = -0.5;
      if(ortho){
+     // if(wallNo === 2){
      // if(wallNo === 0){
           viewedHeight /= 2;
-          ground *=6
+          // ground *=6;
+          // viewedHeight = 2;
+          ground *=6;
      }
 
      let wallPos = [0,0,0];
@@ -76,21 +83,15 @@ export const Wall = ({ ...props }) =>{
 
      let prevPos = wallPos;
      
-     console.log("Wall No: "+wallNo+", Prev (Active) Pos: "+prevPos);
-     console.log("Wall Angle: "+rotY);
+     // console.log("Wall No: "+wallNo+", Prev (Active) Pos: "+prevPos);
+     // console.log("Wall Angle: "+rotY);
      prevPos[1] = (dimensions[1]/2)+ground;  //lift off the ground
-
-     // let mouseLoc = {x:prevPos[0], y:prevPos[1], z:prevPos[2]};
-
 
      if(scale === 'metric'){
           box = new THREE.BoxBufferGeometry(dimensions[0],viewedHeight,dimensions[2]);
      }else if (scale === 'imperial'){
-          box = new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]);
+          box = new THREE.BoxBufferGeometry(dimensions[0],viewedHeight,dimensions[2]);
      }
-
-     // let wallDisplay = ['none','none','none','none'];
-     // wallDisplay[wallNo] = 'grid';
 
      let wallColor = objInstance.wallColor[wallNo];
      let wallTexture = objInstance.wallTexture[wallNo];
@@ -117,11 +118,16 @@ export const Wall = ({ ...props }) =>{
 
 
      return (
-          <>
+          <group
+               position={prevPos}
+               rotation={[0,rotY,0]}
+          >
                <mesh 
                     // ref = {ref}
-                    position={prevPos}
-                    rotation={[0,rotY,0]}
+
+                    // position={prevPos}
+                    // rotation={[0,rotY,0]}
+
                     // onClick={() => {
                     //      toggleWallActive();
                     // }}
@@ -134,10 +140,26 @@ export const Wall = ({ ...props }) =>{
                          opacity={wallTexture === 'glass'? 0.6 : 1}
                          transparent={true}
                     />
+                    
                     <Html>
                          <WallNoDisp />
                     </Html>
                </mesh>
-          </>
+               {fixInstances.map(({key, wallNum, type}) =>{
+                    if(wallNum === wallNo){
+                         return(
+                              <Fixtures 
+                                   key={key}
+                                   fixId={key}
+                                   objInstance={objInstance}
+                                   wallNo={wallNo}
+                                   ortho={ortho}
+                                   conversion={conversion}
+                              />
+                         )
+                    }
+                    return null;
+               })}
+          </group>
      )
 }

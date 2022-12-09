@@ -1,5 +1,10 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { Html } from '@react-three/drei';
+// import { useState, useEffect } from 'react';
+
+import { MinSelect } from './MinSelect';
+import { Resizer } from './Resizer';
 
 import { Floor } from './Floor';
 import { Wall } from './Wall';
@@ -26,7 +31,7 @@ export const Room = ({ setShape, unique}) =>{
      const ref = useRef();
      const [ objects, conv, scale, ortho,
           setPos, 
-          setActive
+          setActive,
      ] = 
      useStore((state) => [ state.objects, state.conv, state.scale, state.ortho,
           state.setPos,
@@ -44,9 +49,6 @@ export const Room = ({ setShape, unique}) =>{
      //      objInstance.dimTemp[1]*conversion,
      //      objInstance.dimTemp[2]*conversion
      // ];
-
-     // let elevation;
-
      if(objInstance){
           prevPos = objInstance.pos;
           prevPos[1] = 0;
@@ -81,6 +83,14 @@ export const Room = ({ setShape, unique}) =>{
           // console.log("mouseLoc: " + mouseLoc.z);
      });
 
+     const toggleActive = () =>{
+          if(objInstance.active === 'none'){
+               setActive(unique);
+          }else{
+               setActive('');
+          }
+     }
+
      // --------- Up Next ----------
      // 1. [DONE] Implement Room Attribute System
           // [DONE] a. MinSelect b. Resizer c. Attribute Menu
@@ -97,9 +107,8 @@ export const Room = ({ setShape, unique}) =>{
           // Implement Rotation
           // Show texture color
           // Show the Object Name being updated
-     // 6. Allow adding windows/doors
-          // a. Use either objects or models
-          // b. make them visible and changeable from ortho mode
+     // 6. [DONE] Allow adding windows/doors
+          // [DONE]a. Use either objects or models b. make them visible and changeable from ortho mode
      // 7. Create New Menu for:
           // Save/Reset Page
           // Page metric/imperial scaling
@@ -109,6 +118,8 @@ export const Room = ({ setShape, unique}) =>{
           // a. If the orthographic camera is moved,
           // b. ... the object is offset from the cursor
           // c. Possible solution: Try "raycaster".
+          // d. Other Solution: ScreenX (/Y):
+               // https://extendscript.docsforadobe.dev/user-interface-tools/event-handling.html#screenx-and-screeny
 
 
      if (objInstance) {
@@ -126,6 +137,10 @@ export const Room = ({ setShape, unique}) =>{
                          var [x,y,z] = [mouseLoc.x,mouseLoc.y,mouseLoc.z];
                          console.log('key I try to use: ' + unique);
                          setPos([x,y,z], unique);
+                    }}
+                    onClick={() => {
+                         // setActive(unique);
+                         toggleActive();
                     }}
                >
                     {/* Ceiling (soon) - off on ortho mode */}
@@ -152,6 +167,7 @@ export const Room = ({ setShape, unique}) =>{
                          ortho={ortho}
                          wallNo={0}
                     />
+
                     {/* Right */}
                     <Wall
                          instance={objInstance}
@@ -162,7 +178,8 @@ export const Room = ({ setShape, unique}) =>{
                          ortho={ortho}
                          wallNo={1}
                     />
-                    {/* Top */}
+                    
+                    {/* Bottom */}
                     <Wall
                          instance={objInstance}
                          unique={unique}
@@ -172,7 +189,8 @@ export const Room = ({ setShape, unique}) =>{
                          ortho={ortho}
                          wallNo={2}
                     />
-                    {/* Bottom */}
+                    
+                    {/* Top */}
                     <Wall
                          instance={objInstance}
                          unique={unique}
@@ -182,6 +200,11 @@ export const Room = ({ setShape, unique}) =>{
                          ortho={ortho}
                          wallNo={3}
                     />
+                    
+                    <Html>
+                         <MinSelect unique={unique} instance={objInstance} />
+                         <Resizer unique={unique} instance={objInstance} />
+                    </Html>
                </group>
           );
      } else{

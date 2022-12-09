@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Html } from '@react-three/drei';
+// import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 
-import { MinSelect } from './MinSelect';
-import { Resizer } from './Resizer';
+// import { MinSelect } from './MinSelect';
+// import { Resizer } from './Resizer';
 
 import { useStore } from '../../hooks/objStore';
 import * as textures from '../../textures';
@@ -23,15 +23,7 @@ export const Floor = ({ ...props }) =>{
      ];
      
 
-     const [ setActive ] = useStore((state) => [state.setActive]);
-     const toggleActive = () =>{
-          if(objInstance.active === 'none'){
-               setActive(unique);
-          }else{
-               setActive('');
-          }
-          
-     }
+     // const [ setActive ] = useStore((state) => [state.setActive]);
 
      let box;
      if(scale === 'metric'){
@@ -43,10 +35,10 @@ export const Floor = ({ ...props }) =>{
      return (
           <>
                <mesh 
-                    onClick={() => {
-                         // setActive(unique);
-                         toggleActive();
-                    }}
+                    // onClick={() => {
+                    //      // setActive(unique);
+                    //      toggleActive();
+                    // }}
                >
                     <primitive object={box} attach="geometry" />
                     <meshStandardMaterial 
@@ -57,10 +49,10 @@ export const Floor = ({ ...props }) =>{
                          transparent={true}
                     />
                </mesh>
-               <Html>
+               {/* <Html>
                     <MinSelect unique={unique} instance={objInstance} />
                     <Resizer unique={unique} instance={objInstance} />
-               </Html>
+               </Html> */}
           </>
      )
 }

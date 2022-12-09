@@ -80,6 +80,17 @@
   width: 100%;
   background: rgb(255, 255, 255);
 }
+.proj-window-header .fa-times-circle {
+  border-radius: 50%;
+  font-size: 2rem;
+  color: gray;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.proj-window-header .fa-times-circle:hover {
+  color: red;
+  transition: 0.3s ease;
+}
 
 .proj-controls {
   display: flex;

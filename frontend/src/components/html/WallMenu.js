@@ -1,29 +1,37 @@
 import { useStore } from '../../hooks/objStore';
 import { useState } from 'react';
+import { FixTureMenu } from './FixtureMenu';
 
 export const WallMenu = () =>{
-     const [ objects, conversion, scale,
+     const [ 
+          objects, conversion, scale, fixtures,
           changeWallColor, 
           changeWallTexture, 
           setActiveWallNo, 
           setWallMenu, 
           setMatType,
+          addFixture,
           setDimTemp,
-     ] = useStore((state) => [ state.objects, state.conv, state.scale,
+     ] = useStore((state) => [ 
+          state.objects, state.conv, state.scale, state.fixtures,
           state.changeWallColor,
           state.changeWallTexture,
           state.setActiveWallNo,
           state.setWallMenu,
           state.setMatType,
+          state.addFixture,
           state.setDimTemp,
      ]);
      
-     const[wallMain,setWallMain] = useState(true);    //Main Interface
+     const[wallMain,setWallMain] = useState(true);     //Main Interface
      const[wallSpec,setWallSpec] = useState(false);    //Main Interface
-     // const[addMenu,setAddMenu] = useState(false);    //Wall add fixture Interface
-     const[fixMenu,setFixMenu] = useState(false);    //Wall fixtures Interface
-     const[fixTypeMenu,setFixTypeMenu] = useState(false);    //Wall fixture type Interface
-     const[editMenu,setEdit] = useState(false);    //Wall edit Interface
+     const[fixMenu,setFixMenu] = useState(false);      //Wall fixtures Interface
+     const[fixTypeMenu,setFixTypeMenu] = useState(false);   //Wall fixture type Interface
+     const[fixCat,setFixCat] = useState(null);         //Fixture category
+     const[addMenu,setAddMenu] = useState(false);      //Wall add fixture Interface
+     const[fixEdit,setFixEditMenu] = useState(false);      //Wall fixture editing Interface
+     const[activeFix,setActiveFix] = useState('');      //active fixture Id Interface
+     const[editMenu,setEdit] = useState(false);        //Wall edit Interface
      const[textureOptions,setOptions] = useState(false);    // Texture Options Menu
      const[textureMenu,setTextureMenu] = useState(false);   // Textures / Colors Menu
      const[propMenu,setPropMenu] = useState(false);    // Properties Menu
@@ -37,6 +45,12 @@ export const WallMenu = () =>{
      if(objInstance){
           let unique = objInstance.key;
           let activeWallNo = objInstance.activeWallNo;
+
+          // Fixtures Management
+          let fixInstance = fixtures.filter(e => e.objId === unique);
+          // console.log("Fixture Instance = "+ fixInstance);
+
+          // (Not retrofitted) Dimension Development
           dimensions = [
                objInstance.dimTemp[0]*conversion,
                objInstance.dimTemp[1]*conversion,
@@ -92,7 +106,6 @@ export const WallMenu = () =>{
 
           // Texture Attribute Management
           let matType = objInstance.matType;
-
           let wallColor = objInstance.wallColor;
           let wallTexture = objInstance.wallTexture;
 
@@ -114,10 +127,13 @@ export const WallMenu = () =>{
                                    setWallSpec(false);
                                    setFixMenu(false);
                                    setFixTypeMenu(false);
+                                   setAddMenu(false);
+                                   setFixEditMenu(false);
                                    setEdit(false);
                                    setOptions(false);
                                    setTextureMenu(false);
                                    setPropMenu(false);
+                                   setActiveFix('');
                               }}
                          ></i>
                     </div>
@@ -199,6 +215,7 @@ export const WallMenu = () =>{
                                                        e.stopPropagation();
                                                        setFixMenu(false);
                                                        setFixTypeMenu(true);
+                                                       setFixCat('Window');
                                                   }}
                                              >Windows</div>
                                         </div>
@@ -208,6 +225,7 @@ export const WallMenu = () =>{
                                                        e.stopPropagation();
                                                        setFixMenu(false);
                                                        setFixTypeMenu(true);
+                                                       setFixCat('Door')
                                                   }}
                                              >Doors</div>
                                         </div>
@@ -1188,14 +1206,157 @@ export const WallMenu = () =>{
                          }else if(fixTypeMenu){
                               return(
                                    <div className='wall-menu'>
-                                        <div className='wall-li'>
-                                             <div className='wall-n'
-                                                  onClick={(e) =>{
-                                                       e.stopPropagation();
-                                                       setFixMenu(true);
-                                                       setFixTypeMenu(false);
-                                                  }}
-                                             >Fixture Type</div>
+                                        <div className='wall-li active'>
+                                             <div className='fix-li'>
+                                                  <div className='fix-head'>
+                                                       <div className='fix-type'>{fixCat}</div>
+                                                       <div className='fix-done'
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 setFixMenu(true);
+                                                                 setFixTypeMenu(false);
+                                                                 // setFixCat(null);
+                                                            }}
+                                                       ><i className="fas fa-times-circle"></i></div>
+                                                  </div>
+                                                  
+                                                  <div className='fix-opts'>
+                                                       <div className='add-fixture'
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 setAddMenu(true);
+                                                                 setFixTypeMenu(false);
+                                                            }}
+                                                       >
+                                                            <label className='fix-n'>{fixCat}</label>
+                                                            <i className="fas fa-plus-circle"></i>
+                                                       </div>
+                                                       {fixInstance.map(({key, wallNum, type}) =>{
+                                                            if(type[0] === fixCat && wallNum === activeWallNo){
+                                                                 return(
+                                                                      <div 
+                                                                           className='fixture'
+                                                                           key={key}
+                                                                           fixid={key}
+                                                                           onClick={()=>{
+                                                                                setFixTypeMenu(false);
+                                                                                setActiveFix(key);
+                                                                                setFixEditMenu(true);
+                                                                           }}
+                                                                      >
+                                                                           <label className='fix-n'>{type[1]} {type[0]}</label>
+                                                                      </div>
+                                                                 )
+                                                            }
+                                                            return null;
+                                                       })}
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </div>
+                              )
+                         }else if(addMenu){
+                              return(
+                                   <div className='wall-menu'>
+                                        <div className='wall-li active'>
+                                             <div className='fix-li'>
+                                                  <div className='fix-head'>
+                                                       <div className='fix-type'>Add {fixCat}</div>
+                                                       <div className='fix-done'
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 setFixTypeMenu(true);
+                                                                 setAddMenu(false);
+                                                            }}
+                                                       ><i className="fas fa-times-circle"></i></div>
+                                                  </div>
+                                                  
+                                                  <div className='fix-opts'>
+                                                       <div className='add-fixture'
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 let model;
+                                                                 let dimensions;
+                                                                 let defColor;
+                                                                 let defTexture;
+                                                                 if(fixCat === 'Door'){
+                                                                      model = 'Exterior';
+                                                                      dimensions = [0.068,0.667,0.3];
+                                                                      defColor = 'white';
+                                                                      defTexture = 'wood';
+                                                                 }else{
+                                                                      model = 'Standard';
+                                                                      dimensions = [0.068,0.4,0.3];
+                                                                      defColor = '#add8e6';
+                                                                      defTexture = 'glass';
+                                                                 }
+                                                                 addFixture(
+                                                                      activeWallNo, [fixCat, model], 
+                                                                      unique, dimensions,
+                                                                      defColor, defTexture
+                                                                 );
+                                                                 setFixTypeMenu(true);
+                                                                 setAddMenu(false);
+                                                            }}
+                                                       >
+                                                            <i className="fas fa-plus-circle"></i>
+                                                            <label className='fix-n'>
+                                                                 {fixCat === 'Door'? 'Exterior ':'Standard '}
+                                                                 {/* {(() =>{ }) () } */}
+                                                                 {fixCat}
+                                                            </label>
+                                                       </div>
+                                                       <div className='add-fixture'
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 let model;
+                                                                 let dimensions;
+                                                                 let defColor;
+                                                                 let defTexture;
+                                                                 if(fixCat === 'Door'){
+                                                                      model = 'Interior';
+                                                                      dimensions = [0.068,0.667,0.3];
+                                                                      defColor = 'white';
+                                                                      defTexture = 'wood';
+                                                                 }else{
+                                                                      model = 'Tall';
+                                                                      dimensions = [0.068,0.5,0.2];
+                                                                      defColor = '#add8e6';
+                                                                      defTexture = 'glass';
+                                                                 }
+                                                                 addFixture(
+                                                                      activeWallNo, [fixCat, model], 
+                                                                      unique, dimensions,
+                                                                      defColor, defTexture
+                                                                 );
+                                                                 setFixTypeMenu(true);
+                                                                 setAddMenu(false);
+                                                            }}
+                                                       >
+                                                            <i className="fas fa-plus-circle"></i>
+                                                            <label className='fix-n'>
+                                                                 {fixCat === 'Door'? 'Interior ':'Tall '}
+                                                                 {/* {(() =>{ }) () } */}
+                                                                 {fixCat}
+                                                            </label>
+                                                       </div>
+                                                  </div>
+                                             </div>
+                                        </div>
+                                   </div>
+                              )
+                         }else if(fixEdit){
+                              return(
+                                   <div className='wall-menu'>
+                                        <div className='wall-li active'>
+                                             <FixTureMenu
+                                                  fixId={activeFix}
+                                                  setActiveFix={setActiveFix}
+                                                  setFixEditMenu={setFixEditMenu}
+                                                  setFixTypeMenu={setFixTypeMenu}
+                                                  objInstance={objInstance}
+                                                  wallNo={activeWallNo}
+                                             />
                                         </div>
                                    </div>
                               )
@@ -1239,11 +1400,18 @@ export const WallMenu = () =>{
                                                   }else if(fixTypeMenu){
                                                        setFixMenu(true);
                                                        setFixTypeMenu(false);
+                                                  }else if(addMenu){
+                                                       setFixTypeMenu(true);
+                                                       setAddMenu(false);
+                                                  }else if(fixEdit){
+                                                       setFixTypeMenu(true);
+                                                       setFixEditMenu(false);
+                                                       setActiveFix('');
                                                   }
                                                   
                                              }}
                                         ><i className="fas fa-arrow-left"></i></div>
-                                        <div className='wall-foot'>Wall {objInstance.activeWallNo + 1}</div>
+                                        <div className='wall-foot'>Wall {activeWallNo + 1}</div>
                                         <div 
                                              className='wall-foot go-wall-main'
                                              onClick={() => {
@@ -1256,6 +1424,9 @@ export const WallMenu = () =>{
                                                   setTextureMenu(false);
                                                   setPropMenu(false);
                                                   setFixTypeMenu(false);
+                                                  setAddMenu(false);
+                                                  setFixEditMenu(false);
+                                                  setActiveFix('');
                                              }}
                                         ><i className="fas fa-home"></i></div>
 
@@ -1264,17 +1435,6 @@ export const WallMenu = () =>{
                          }
                     }) () }
                     {/* {(() =>{ }) () } */}
-
-                    {/* <div className='wall-footer'>
-                         <div 
-                              className='wall-n'
-                              onClick={() => {
-                                   // removeObj(unique);
-                                   // setAttrMenu('');
-                                   // setActive('');
-                              }}
-                         ><i className="fas fa-trash-alt"></i></div>
-                    </div> */}
                </div>
           )
      }else{

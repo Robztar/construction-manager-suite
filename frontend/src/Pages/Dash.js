@@ -4,39 +4,95 @@ import { useStore } from '../hooks/objStore';
 import { useState } from 'react';
 
 const Dash = ()=>{
-     const [objects, conversion, scale, saveScene, resetScene] 
-     = useStore((state) => [ state.objects, state.conv, state.scale,
+     const [objects, fixtures,
+          conversion, scale, 
+          saveScene, 
+          resetWorld,
+          resetFixtures,
+     ] 
+     = useStore((state) => [ state.objects, state.fixtures,
+          state.conv, state.scale,
           state.saveWorld,
-          state.resetWorld,]);
-     
-     let objBoxes = objects.filter(obj => obj.shape === 'box' && obj.texture === 'blank');
-     // console.log(objBoxes);
-     // let volumes = [];
-     let totalArea = 0;
+          state.resetWorld,
+          state.resetFixtures,
+     ]);
+     // .....Scrap later
+     // let objBoxes = objects.filter(obj => obj.shape === 'box' && obj.texture === 'blank');
+     // objBoxes.forEach(element => {
+     //      // console.log(element)
+     //      // volumes = [...volumes, 
+     //      //      (element.dimTemp[1]*conversion)
+     //      //      *(element.dimTemp[2]*conversion)
+     //      //      *(element.dimTemp[2]*conversion)
+     //      // ];
+     //      totalArea += 
+     //      (element.dimTemp[0]*conversion)
+     //      *(element.dimTemp[2]*conversion);
+
+     //      totalVolume += 
+     //      (element.dimTemp[0]*conversion)
+     //      *(element.dimTemp[1]*conversion)
+     //      *(element.dimTemp[2]*conversion);
+     //      // console.log(element.dimTemp[1]);
+     // });
+
+     let totalArea = 0;       //Floor Area
+     let floorVol = 0;     //Floor Volume (Special)
+
+
+     let rccVol = 0;     //Volume of the concrete parts
+     let woodVol = 0;         //Volume of the wooden parts
+
+     // Ignore for now
      let totalVolume = 0;
      let unit;
-     objBoxes.forEach(element => {
-          // console.log(element)
-          // volumes = [...volumes, 
-          //      (element.dimTemp[1]*conversion)
-          //      *(element.dimTemp[2]*conversion)
-          //      *(element.dimTemp[2]*conversion)
-          // ];
-          totalArea += 
-          (element.dimTemp[0]*conversion)
-          *(element.dimTemp[2]*conversion);
+     
+     // Civil Engineering Videos
+          // https://www.youtube.com/watch?v=0mI8soDEI9o (Ratio Explanation)
+          // https://www.youtube.com/watch?v=qCbFe1hE3mw
+          // https://www.youtube.com/watch?v=Ma6VTyZel6I
+          // https://www.youtube.com/watch?v=_1NEcehp1hw
 
+     // All construction materials estimated
+          // https://www.my-island-jamaica.com/materials-needed-to-build-a-house-in-jamaica.html
+          // https://happho.com/choose-building-materials-estimate-cost-quantities-house-construction/
+          // https://www.veriaconcyclopedia.com/v/esti/esti-chbr
+
+     // Foundation Estimation
+          // https://www.hunker.com/13401739/how-to-estimate-a-concrete-foundation
+          // https://www.hunker.com/12001614/how-to-calculate-rebar-needed-in-a-concrete-foundation
+          // https://theconstructor.org/practical-guide/measurement-of-reinforced-concrete-works/8228/
+          // https://theconstructor.org/practical-guide/material-estimation/
+
+     // Calculate concrete blocks needed
+          // https://www.hunker.com/13401526/how-to-calculate-how-many-concrete-blocks-are-needed-for-a-garage
+          // https://www.lceted.com/2022/05/concrete-block-calculator-estimator.html
+
+     let rooms = objects.filter(obj => obj.type === 'room' && obj.shape === 'rect');
+     rooms.forEach(elem => {
+          // Floor Area
+          totalArea += 
+          (elem.dimTemp[0]*conversion)
+          *(elem.dimTemp[2]*conversion);
+
+          // Floor Volume
+          floorVol += (totalArea * 2);
+
+          // Do later
+          // if(elem.material === 'rcc'){
+          //      rccVol += (totalArea * 2)
+          // }
+          // if(elem.material === 'wood'){
+          //      woodVol += (totalArea * 2)
+          // }
+
+          // Ignore for now
           totalVolume += 
-          (element.dimTemp[0]*conversion)
-          *(element.dimTemp[1]*conversion)
-          *(element.dimTemp[2]*conversion);
-          // console.log(element.dimTemp[1]);
+          (elem.dimTemp[0]*conversion)
+          *(elem.dimTemp[1]*conversion)
+          *(elem.dimTemp[2]*conversion);
      });
-     // console.log(volumes);
-     // Convert total Volume to each scale type
-     // metric: totalVolume /= (4**3) -> (x metres^3)
-     // imperial: totalVolume -> (x feet^3)
-     // console.log('Unit volume = '+ totalVolume + " units of blank material");
+
      if(scale === 'metric'){
           totalArea /= (4**2)
           totalVolume /= (4**3)
@@ -44,13 +100,31 @@ const Dash = ()=>{
      }else if(scale === 'imperial'){
           unit = 'ft'
      }
-     console.log("Total volume = "+ totalVolume + " "+unit+" of blank material");
+     // console.log("Total volume = "+ totalVolume + " "+unit+" of blank material");
+
+     let wetVol = 0;          //Wet Concrete volume
+     let dryVol = 0;          //Dry Mix volume
+     let cementVol = 0;       //Cement volume
+     let cementBags = 0;      //No. of Cement Bags
+     let sandVol = 0;         //Sand Volume
+     let aggrVol = 0;         //Aggregate Volume
+     let block = 0;        //All the blocks needed
+     let steel = 0;        //All the steel needed
 
      const [projWindow, setProjWindow] = useState('');
      const changeView = (e) => {
           const projName = e.target.getAttribute("data-proj");
           // console.log(projName);
           setProjWindow(projName);
+     }
+
+     // const saveScene = () =>{
+     //      saveFixtures();
+     //      saveWorld();
+     // }
+     const resetScene = () =>{
+          resetFixtures();
+          resetWorld();
      }
 
      return (
