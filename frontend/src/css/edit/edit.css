@@ -62,17 +62,6 @@
   justify-content: space-around;
   align-items: center;
 }
-.navbar .fa-times-circle {
-  border-radius: 50%;
-  font-size: 2rem;
-  color: gray;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-.navbar .fa-times-circle:hover {
-  color: red;
-  transition: 0.3s ease;
-}
 
 .home-btn {
   background: none;
@@ -90,6 +79,21 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.nav-icons i {
+  border-radius: 50%;
+  font-size: 2rem;
+  padding: 0 0.5rem;
+  color: gray;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.nav-icons .fa-save:hover {
+  color: rgb(0, 140, 255);
+}
+.nav-icons .fa-times-circle:hover {
+  color: red;
 }
 
 .drop-menu {
@@ -231,75 +235,136 @@
   background-position: center;
 }
 
-.state-btn-cont {
-  margin: 12vh 82vw 0;
-  width: 15vw;
-  transition: 0.5s;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.state-btn {
-  height: 5vh;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.set-menu-cont {
+  margin: 12vh 0 0;
+  right: 3vw;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.272);
-  cursor: pointer;
   transition: 0.5s;
-}
-
-.state-save {
-  border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;
-}
-
-.state-save:hover {
-  background: rgb(0, 81, 255);
-  color: white;
-  transition: 0.5s;
-}
-
-.state-reset {
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
-}
-
-.state-reset:hover {
-  background: rgb(255, 0, 0);
-  color: white;
-  transition: 0.5s;
-}
-
-.scale-cont {
-  position: absolute;
-  bottom: 6.5%;
-  margin: 0 3vw 0;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  flex-direction: column;
 }
 
-.sel-scale {
-  background: white;
-  height: 2.2rem;
-  width: 5.4rem;
-  border-radius: 0.5rem;
+.set-menu-cont.active {
+  width: auto;
+  height: auto;
+  transition: 0.5s;
+}
+
+.set-icon {
+  height: 4rem;
+  width: 4rem;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.5s;
+}
+.set-icon :hover {
+  color: yellow;
+}
+
+.set-icon:hover {
+  color: yellow;
+}
+
+.set-icon.active {
+  align-self: flex-end;
+  transform: rotate(180deg);
+}
+
+.set-icon.active:hover {
+  color: rgb(255, 77, 77);
+}
+
+.set-menu {
+  display: none;
+  transition: 0.5s;
+}
+
+.set-menu.active {
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+  display: grid;
+  place-items: center;
+  grid-template-rows: 1fr 1fr;
+  row-gap: 1rem;
+  transition: 0.5s;
+}
+
+.set-li {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: space-around;
+  background: rgba(255, 255, 255, 0.4);
+  transition: 0.5s;
   cursor: pointer;
-  opacity: 50%;
+}
+
+.set-li:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+}
+
+.set-scale {
+  border-radius: 2rem;
+  transition: 0.5s;
+  width: 11rem;
+  padding: 0.33rem;
+  cursor: default;
+}
+
+.set-scale:hover {
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 2rem;
+}
+
+.set-n {
+  display: grid;
+  place-items: center;
+  width: 50%;
+  height: 2.5rem;
+  margin: 0;
   transition: 0.5s;
 }
 
-.sel-scale:hover {
-  opacity: 100%;
-  border-radius: 1rem;
-  transition: 0.5s;
+.set-metric {
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+.set-metric.active {
+  background: yellow;
+  width: 70%;
+}
+
+.set-imperial {
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+.set-imperial.active {
+  background: yellow;
+  width: 70%;
+}
+
+.set-reset {
+  width: 8rem;
+  background: rgba(255, 193, 193, 0.7);
+}
+.set-reset i {
+  color: red;
+}
+
+.set-reset:hover {
+  background: rgb(255, 101, 101);
+}
+.set-reset:hover i {
+  color: black;
 }
 
 .switch-cont {

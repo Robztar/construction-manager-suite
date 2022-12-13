@@ -144,6 +144,27 @@ export const Room = ({ setShape, unique}) =>{
                     }}
                >
                     {/* Ceiling (soon) - off on ortho mode */}
+                    {ortho? null:
+                         <Floor 
+                              instance={objInstance}
+                              unique={unique}
+                              conversion={conversion}
+                              scale={scale}
+                              ortho={ortho}
+                              height={objInstance.wallDimTempY[0]}
+                         />
+                    }
+                    {/* if(!ortho){
+                         <Floor 
+                              instance={objInstance}
+                              unique={unique}
+                              conversion={conversion}
+                              scale={scale}
+                              ortho={ortho}
+                              height={objInstance.wallDimTempY[0]}
+                         />
+                    } */}
+                    
                     {/* <Ceil
                          instance={objInstance}
                          unique={unique}
@@ -156,6 +177,7 @@ export const Room = ({ setShape, unique}) =>{
                          conversion={conversion}
                          scale={scale}
                          ortho={ortho}
+                         height={1}
                     />
                     {/* Left */}
                     <Wall

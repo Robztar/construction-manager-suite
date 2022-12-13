@@ -15,6 +15,7 @@ import { Room } from '../components/rooms/Room';
 import { Attribute } from '../components/html/Attribute';
 import { FurnishMenu } from '../components/html/FurnishMenu';
 import { WallMenu } from '../components/html/WallMenu';
+import { Confirm } from '../components/html/Confirm';
 
 import { useKeyboardControls } from '../hooks/useKeyboardControls';
 import { useStore } from '../hooks/objStore'; 
@@ -126,6 +127,12 @@ export default function NewEdit() {
   const [isActive, setActive] = useState(false);
   const toggleClass = () => setActive(!isActive);
 
+  const [settings, setSettings] = useState(false);
+  const toggleSettings = () => setSettings(!settings);
+
+  const [popMenu, setPopMenu] = useState(false);
+  const togglePop = () => setPopMenu(!popMenu);
+
   // add new object
   // const [isShape, setShape] = useState([]);
 
@@ -182,6 +189,7 @@ export default function NewEdit() {
   const resetScene = () =>{
     resetFixtures();
     resetWorld();
+    togglePop();
   }
 
   return (
@@ -227,28 +235,12 @@ export default function NewEdit() {
                 )
               }
               return null;
-              // objType === 'model'? (
-              //   <Model 
-              //     isOrtho={true} 
-              //     key = {key}
-              //     unique = {key}
-              //     setShape={shape}
-              //     nkey={shapeCount} 
-              //   />
-              // ):(
-              //   <Obj 
-              //     isOrtho={true} 
-              //     key = {key}
-              //     unique = {key}
-              //     setShape={shape}
-              //     nkey={shapeCount} 
-              //   />
-              // )
             })}
         </Physics>
 
       </Canvas>
-      <Navbar />
+
+      <Navbar saveScene={saveScene} />
 
       {/* Objects Drop-Menu */}
       <div className={`top drop-menu ${isActive ? 'active' : ''}`} > 
@@ -282,20 +274,36 @@ export default function NewEdit() {
         </div>
       </div>
 
+
+      
+
       <Attribute />
       <FurnishMenu />
       <WallMenu />
-
-      {/* New Ideo - Settings Icon 
-        Copy style of functionaility of Drop menu
-        Position like state-btn-cont
-        Contain: -State Buttons -Scale Switch */}
-        
-      {/* Save/Reset World */}
-      <div className='top state-btn-cont'>
-        <div className='state-save state-btn' onClick={saveScene}>Save</div>
-        <div className='state-reset state-btn' onClick={resetScene}>Reset</div>
+      
+      {/* Settings Menu */}
+      <div className={`top set-menu-cont ${settings ? 'active' : ''}`} > 
+        {/* Setting Icon */}
+        <i className={`fas fa-cog set-icon ${settings ? 'active' : ''}`} onClick={toggleSettings}></i>
+        {/* Settings Menu */}
+        <div className={`set-menu ${settings ? 'active' : ''}`}>
+            <div className="set-li set-scale">
+                  <p className={`set-n set-metric ${envScale === 'metric' ? 'active' : ''}`} onClick={makeMetric}>Metric</p>
+                  <p className={`set-n set-imperial ${envScale === 'imperial' ? 'active' : ''}`} onClick={makeImperial}>Imperial</p>
+            </div>
+            <div className="set-li set-reset">
+                  <p className="set-n" onClick={togglePop}>Reset</p>
+                  <i className='fas fa-trash-alt set-n' onClick={togglePop}></i>
+            </div>
+        </div>
       </div>
+
+      <Confirm 
+        popMenu={popMenu}
+        togglePop={togglePop}
+        resetScene={resetScene}
+        task={'erase'}
+      />
 
       <div className="switch-cont">
         <div className="switch">
@@ -306,28 +314,6 @@ export default function NewEdit() {
           }
         </div>
       </div>
-
-      {/* Measurement Scale */}
-      <div className='scale-cont'>
-        {envScale === 'metric'? 
-            <div className="sel-scale" onClick={makeImperial}>Imperial</div> 
-            : 
-            <div className="sel-scale" onClick={makeMetric}>Metric</div>
-        }
-      </div>
-
-
-      {/* <div className='sr-cont'>
-        <div>
-          <p>Width = </p>
-          <p>{window.innerWidth}</p>
-        </div>
-        <div>
-          <p>Height = </p>
-          <p>{window.innerHeight}</p>
-        </div>
-      </div> */}
-
     </div>
   );
 }

@@ -4,21 +4,25 @@ import { Sky, OrthographicCamera, PerspectiveCamera } from '@react-three/drei';
 import { Physics } from '@react-three/cannon';
 import * as THREE from 'three';
 
-import { Ground } from '../components/environment/Ground';
+
 import { Obj } from '../components/objects/Obj';
 import { Model } from '../components/objects/Model';
 import { Room } from '../components/rooms/Room';
+
+import Navbar from '../components/html/Navbar';
+import SpaceReminder from '../components/html/SpaceReminder';
 import { Attribute } from '../components/html/Attribute';
 import { FurnishMenu } from '../components/html/FurnishMenu';
 import { WallMenu } from '../components/html/WallMenu';
+import { Confirm } from '../components/html/Confirm';
+
+import { Ground } from '../components/environment/Ground';
 import { FPVControls } from '../components/environment/FPVControls';
 import { Player } from '../components/environment/Player';
 
 import { useKeyboardControls } from '../hooks/useKeyboardControls';
 import { useStore } from '../hooks/objStore'; 
 
-import Navbar from '../components/html/Navbar';
-import SpaceReminder from '../components/html/SpaceReminder';
 import pointer from '../images/cursor.png';
 
 // -------Search 'Measurement Scale'---------
@@ -148,6 +152,12 @@ export default function Edit() {
      const [isActive, setActive] = useState(false);
      const toggleClass = () => setActive(!isActive);
 
+     const [settings, setSettings] = useState(false);
+     const toggleSettings = () => setSettings(!settings);
+
+     const [popMenu, setPopMenu] = useState(false);
+     const togglePop = () => setPopMenu(!popMenu);
+
      const saveScene = () =>{
           saveFixtures();
           saveWorld();
@@ -155,6 +165,7 @@ export default function Edit() {
      const resetScene = () =>{
           resetFixtures();
           resetWorld();
+          togglePop();
      }
 
      return (
@@ -198,7 +209,9 @@ export default function Edit() {
                          return null;
                     })}
                </Canvas>
-               <Navbar/>
+
+               <Navbar saveScene={saveScene} />
+
                {/* Objects Select Menu */}
                <div className={`top drop-menu ${isActive ? 'active' : ''}`} > 
                     {/* Hamburger */}
@@ -238,19 +251,33 @@ export default function Edit() {
                {/* Object instance  Wall Menu */}
                <WallMenu />
                
-               {/* Save/Reset World */}
-               <div className='top state-btn-cont'>
-                    <div className='state-save state-btn' onClick={saveScene}>Save</div>
-                    <div className='state-reset state-btn' onClick={resetScene}>Reset</div>
+               {/* Settings Menu */}
+               <div className={`top set-menu-cont ${settings ? 'active' : ''}`} > 
+                    {/* Setting Icon */}
+                    <i className={`fas fa-cog set-icon ${settings ? 'active' : ''}`} onClick={toggleSettings}></i>
+                    {/* Settings Menu */}
+                    <div className={`set-menu ${settings ? 'active' : ''}`}>
+                         {/* Set Scale */}
+                         <div className="set-li set-scale">
+                              <p className={`set-n set-metric ${envScale === 'metric' ? 'active' : ''}`} onClick={makeMetric}>Metric</p>
+                              <p className={`set-n set-imperial ${envScale === 'imperial' ? 'active' : ''}`} onClick={makeImperial}>Imperial</p>
+                         </div>
+                         {/* Reset Project */}
+                         <div className="set-li set-reset">
+                              <p className="set-n" onClick={togglePop}>Reset</p>
+                              <i className='fas fa-trash-alt set-n' onClick={togglePop}></i>
+                         </div>
+                    </div>
                </div>
-               {/* Measurement Scale */}
-               <div className='scale-cont'>
-                    {envScale === 'metric'? 
-                         <div className="sel-scale" onClick={makeImperial}>Imperial</div> 
-                         : 
-                         <div className="sel-scale" onClick={makeMetric}>Metric</div>
-                    }
-               </div>
+
+               {/* Confirm Reset */}
+               <Confirm 
+                    popMenu={popMenu}
+                    togglePop={togglePop}
+                    resetScene={resetScene}
+                    task={'erase'}
+               />
+
                {/* Switch Camera Mode */}
                <div className="switch-cont">
                     <div className="switch">

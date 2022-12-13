@@ -76,4 +76,59 @@ code {
   width: fit-content;
   padding: 0.5rem 1rem;
   cursor: pointer;
+}
+
+.pop-cont {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.pop-cont.active {
+  display: grid;
+  place-items: center;
+}
+
+.pop-check {
+  display: grid;
+  place-items: center;
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 80%;
+}
+.pop-check h2 {
+  margin: 0;
+}
+
+.pop-opts {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-width: 15rem;
+}
+.pop-opts div {
+  padding: 0.5rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.pop-opts .no {
+  border: 2px solid rgb(0, 140, 255);
+}
+.pop-opts .no:hover {
+  background: rgb(0, 140, 255);
+  border-radius: 10px;
+}
+.pop-opts .yes {
+  border: 2px solid rgb(255, 101, 101);
+}
+.pop-opts .yes:hover {
+  background: rgb(255, 101, 101);
+  border-radius: 10px;
 }/*# sourceMappingURL=style.css.map */

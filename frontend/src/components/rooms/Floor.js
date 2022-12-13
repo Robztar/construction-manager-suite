@@ -13,15 +13,19 @@ export const Floor = ({ ...props }) =>{
      const objInstance = props.instance;
      const conversion = props.conversion;
      const scale = props.scale;
+     let height = props.height * conversion;
+     
 
-     // Floor height = 10.16cm = 0.102m = 4in (dimTemp = 0.034)
+     // Floor thickness = 10.16cm = 0.102m = 4in (dimTemp = 0.034)
+     const thickness = 0.034 * conversion;
      let dimensions = [
           objInstance.dimTemp[0]*conversion,
           // objInstance.dimTemp[1]*conversion[1],
-          0.034*conversion,
+          // 0.034*conversion,
+          thickness,
           objInstance.dimTemp[2]*conversion
      ];
-     
+     height -= thickness;
 
      // const [ setActive ] = useStore((state) => [state.setActive]);
 
@@ -35,6 +39,7 @@ export const Floor = ({ ...props }) =>{
      return (
           <>
                <mesh 
+                    position={[0,height,0]}
                     // onClick={() => {
                     //      // setActive(unique);
                     //      toggleActive();

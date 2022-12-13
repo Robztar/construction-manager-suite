@@ -3,17 +3,8 @@ import React from "react"
 import {Link} from 'react-router-dom';
 
 
-const Navbar = ({newObj}) => {
-     // const [isActive, setActive] = useState(false);
-
-     // const toggleClass = () => {
-     //      setActive(!isActive);
-     // }
-     // const addNew = () =>{
-     //      // ...code to add new object
-     //      newObj = false;
-     //      toggleClass();
-     // }
+const Navbar = ({...props}) => {
+     const saveScene = props.saveScene;
 
 
      return (
@@ -24,11 +15,15 @@ const Navbar = ({newObj}) => {
                     </Link>
                     <div className="proj-head">
                          <div>Project Name</div>
-                         <div>Floor Selector</div>
+                         {/* <div>Floor Selector</div> */}
                     </div>
-                    <Link to="/dash">
-                         <i className="far fa-times-circle"></i>
-                    </Link>
+                    <div className="nav-icons">
+                         <i className="far fa-save" onClick={saveScene}></i>
+                         <Link to="/dash">
+                              <i className="far fa-times-circle" onClick={saveScene}></i>
+                         </Link>
+                    </div>
+                    
                </div>
           </>
      );
