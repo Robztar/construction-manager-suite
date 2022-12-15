@@ -1696,8 +1696,8 @@ export const WallMenu = () =>{
                                                                  }
                                                                  addFixture(
                                                                       activeWallNo, [fixCat, model], 
-                                                                      unique, fixDim,
-                                                                      defColor, defTexture
+                                                                      unique, projInstance.key,
+                                                                      fixDim, defColor, defTexture
                                                                  );
                                                                  setFixTypeMenu(true);
                                                                  setAddMenu(false);

@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 
 import { GenNav } from '../components/html/GenNav';
 import { Confirm } from '../components/html/Confirm';
 
 import { useStore } from '../hooks/objStore';
-import { useState } from 'react';
 
 // ----- Actual References:
      // https://happho.com/choose-building-materials-estimate-cost-quantities-house-construction/
@@ -59,10 +58,12 @@ const Dash = ()=>{
      const makeMetric = () => {
           switchScale('metric', projKey);
           switchConv(12, projKey);
+          saveProjects();
      }
      const makeImperial = () => {
           switchScale('imperial', projKey);
           switchConv(10, projKey);
+          saveProjects();
      }
 
      const [popMenu, setPopMenu] = useState(false);
@@ -306,12 +307,13 @@ const Dash = ()=>{
                                                             let newName;
                                                             if (name.length > 3) {
                                                                  newName = name;
-                                                                 console.log(newName);
+                                                                 // console.log(newName);
                                                                  changeProjName(newName, projKey);
+                                                                 setProjWindow(newName);
+                                                                 saveProjects();
                                                             }
                                                        }}
                                                   >Change Name</div>
-                                                  <i className="dash-disclaimer">Name change will appear after closing the project window</i>
                                              </div> 
                                         </div>
                                         <i className='fas fa-trash-alt proj-del' onClick={togglePop}></i>
@@ -356,6 +358,7 @@ const Dash = ()=>{
                                                   </div>
                                              </div>
                                         </div>
+                                        <i className="dash-disclaimer">Disclaimer: ...(*Here*)...</i>
                                    </div>
                               </div>
                          </div>
@@ -411,6 +414,7 @@ const Dash = ()=>{
                                         }
                                         console.log("Name: "+name+" Scale: "+choice+" Conv: "+conv);
                                         addProj(name, choice, conv);
+                                        saveProjects();
                                         toggleCreatePop();
                                    }}
                               >Create Project</div>
