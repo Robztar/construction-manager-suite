@@ -30,6 +30,9 @@ export const Floor = ({ ...props }) =>{
           box = new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]);
      }
 
+     let floorTexture = textures[objInstance.texture];
+     floorTexture.repeat.set(dimensions[0],dimensions[2]);
+
      return (
           <>
                <mesh 
@@ -39,7 +42,7 @@ export const Floor = ({ ...props }) =>{
                     <meshStandardMaterial 
                          attach="material" 
                          color={objInstance.color} 
-                         map={textures[objInstance.texture]}
+                         map={floorTexture}
                          opacity={objInstance.texture === 'glass'? 0.6 : 1}
                          transparent={true}
                     />

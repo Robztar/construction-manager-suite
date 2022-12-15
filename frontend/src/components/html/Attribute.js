@@ -159,14 +159,6 @@ export const Attribute = () =>{
                                                             setMatType('Glass',unique);
                                                        }}
                                                   >Glass</div>
-                                                  <div className='type-row'
-                                                       onClick={(e) =>{
-                                                            e.stopPropagation();
-                                                            setOptions(false);
-                                                            setTextureMenu(true);
-                                                            setMatType('Metal',unique);
-                                                       }}
-                                                  >Metal</div>
                                                   <div className='type-row cancel'
                                                        onClick={(e) =>{
                                                             e.stopPropagation();
@@ -861,12 +853,12 @@ export const Attribute = () =>{
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-item t-concrete'
+                                                            className='texture-item t-bf-concrete'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
-                                                                 changeTexture('concrete', unique);
+                                                                 changeTexture('bfConcrete', unique);
                                                                  setTextureMenu(false);
                                                             }}
                                                        ></div>
@@ -874,22 +866,22 @@ export const Attribute = () =>{
                                                   {/* Stone Row2 */}
                                                   <div className='texture-row'>
                                                        <div 
-                                                            className='texture-item t-concrete'
+                                                            className='texture-item t-stone'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
-                                                                 changeTexture('concrete', unique);
+                                                                 changeTexture('stone', unique);
                                                                  setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                        <div 
-                                                            className='texture-item t-concrete'
+                                                            className='texture-item t-brick'
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  colorAttr = 'white';
                                                                  changeColor(colorAttr, unique);
-                                                                 changeTexture('concrete', unique);
+                                                                 changeTexture('brick', unique);
                                                                  setTextureMenu(false);
                                                             }}
                                                        ></div>
@@ -956,68 +948,6 @@ export const Attribute = () =>{
                                                                  colorAttr = 'orange';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('glass', unique);
-                                                                 setTextureMenu(false);
-                                                            }}
-                                                       ></div>
-                                                  </div>
-                                             </div>
-                                        )}
-                                        if(matType === 'Metal'){
-                                        return(
-                                             <div className='texture-li'>
-                                                  {/* Menu Head */}
-                                                  <div className='type-head'> 
-                                                       <div className='type-title'>Metal</div> 
-                                                       <div className='cancel-row'
-                                                            onClick={(e) =>{
-                                                                 e.stopPropagation();
-                                                                 setTextureMenu(false);
-                                                            }}
-                                                       >Cancel</div>
-                                                  </div>
-                                                  {/* Wood Row1 */}
-                                                  <div className='texture-row'>
-                                                       <div 
-                                                            className='texture-item t-wood'
-                                                            onClick={(e) =>{
-                                                                 e.stopPropagation();
-                                                                 colorAttr = 'white';
-                                                                 changeColor(colorAttr, unique);
-                                                                 changeTexture('wood', unique);
-                                                                 setTextureMenu(false);
-                                                                 console.log('current texture is: ' + textureAttr);
-                                                            }}
-                                                       ></div>
-                                                       <div 
-                                                            className='texture-item t-wood'
-                                                            onClick={(e) =>{
-                                                                 e.stopPropagation();
-                                                                 colorAttr = 'white';
-                                                                 changeColor(colorAttr, unique);
-                                                                 changeTexture('wood', unique);
-                                                                 setTextureMenu(false);
-                                                            }}
-                                                       ></div>
-                                                  </div>
-                                                  {/* Wood Row2 */}
-                                                  <div className='texture-row'>
-                                                       <div 
-                                                            className='texture-item t-wood'
-                                                            onClick={(e) =>{
-                                                                 e.stopPropagation();
-                                                                 colorAttr = 'white';
-                                                                 changeColor(colorAttr, unique);
-                                                                 changeTexture('wood', unique);
-                                                                 setTextureMenu(false);
-                                                            }}
-                                                       ></div>
-                                                       <div 
-                                                            className='texture-item t-wood'
-                                                            onClick={(e) =>{
-                                                                 e.stopPropagation();
-                                                                 colorAttr = 'white';
-                                                                 changeColor(colorAttr, unique);
-                                                                 changeTexture('wood', unique);
                                                                  setTextureMenu(false);
                                                             }}
                                                        ></div>

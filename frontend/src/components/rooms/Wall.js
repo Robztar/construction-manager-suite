@@ -1,5 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
-// import { useFrame } from '@react-three/fiber';
+import React from 'react';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 
@@ -9,7 +8,6 @@ import { useStore } from '../../hooks/objStore';
 import * as textures from '../../textures';
 
 export const Wall = ({ ...props }) =>{
-     // const ref = useRef();
      const unique = props.unique;
      const objInstance = props.instance;
      const conversion = props.conversion;
@@ -76,7 +74,8 @@ export const Wall = ({ ...props }) =>{
      }
 
      let wallColor = objInstance.wallColor[wallNo];
-     let wallTexture = objInstance.wallTexture[wallNo];
+     let wallTexture = textures[objInstance.wallTexture[wallNo]];
+     wallTexture.repeat.set(viewedHeight,dimensions[2]);
 
      const WallNoDisp = () =>{
           let activeWallNo = objInstance.activeWallNo;
@@ -104,22 +103,13 @@ export const Wall = ({ ...props }) =>{
                position={prevPos}
                rotation={[0,rotY,0]}
           >
-               <mesh 
-                    // ref = {ref}
-
-                    // position={prevPos}
-                    // rotation={[0,rotY,0]}
-
-                    // onClick={() => {
-                    //      toggleWallActive();
-                    // }}
-               >
+               <mesh>
                     <primitive object={box} attach="geometry" />
                     <meshStandardMaterial 
                          attach="material" 
                          color={wallColor}
-                         map={textures[wallTexture]}
-                         opacity={wallTexture === 'glass'? 0.6 : 1}
+                         map={wallTexture}
+                         opacity={objInstance.wallTexture[wallNo] === 'glass'? 0.6 : 1}
                          transparent={true}
                     />
                     

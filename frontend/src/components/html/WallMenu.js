@@ -378,14 +378,6 @@ export const WallMenu = () =>{
                                                                            setMatType('Glass',unique);
                                                                       }}
                                                                  >Glass</div>
-                                                                 <div className='type-row'
-                                                                      onClick={(e) =>{
-                                                                           e.stopPropagation();
-                                                                           setOptions(false);
-                                                                           setTextureMenu(true);
-                                                                           setMatType('Metal',unique);
-                                                                      }}
-                                                                 >Metal</div>
                                                                  <div className='type-row cancel'
                                                                       onClick={(e) =>{
                                                                            e.stopPropagation();
@@ -1134,11 +1126,11 @@ export const WallMenu = () =>{
                                                                                 }}
                                                                            ></div>
                                                                            <div 
-                                                                                className='texture-item t-concrete'
+                                                                                className='texture-item t-bf-concrete'
                                                                                 onClick={(e) =>{
                                                                                      e.stopPropagation();
                                                                                      wallColor[activeWallNo] = 'white';
-                                                                                     wallTexture[activeWallNo] = 'concrete';
+                                                                                     wallTexture[activeWallNo] = 'bfConcrete';
                                                                                      changeWallColor(wallColor, unique);
                                                                                      changeWallTexture(wallTexture, unique);
                                                                                      setTextureMenu(false);
@@ -1148,22 +1140,22 @@ export const WallMenu = () =>{
                                                                       {/* Stone Row2 */}
                                                                       <div className='texture-row'>
                                                                            <div 
-                                                                                className='texture-item t-concrete'
+                                                                                className='texture-item t-stone'
                                                                                 onClick={(e) =>{
                                                                                      e.stopPropagation();
                                                                                      wallColor[activeWallNo] = 'white';
-                                                                                     wallTexture[activeWallNo] = 'concrete';
+                                                                                     wallTexture[activeWallNo] = 'stone';
                                                                                      changeWallColor(wallColor, unique);
                                                                                      changeWallTexture(wallTexture, unique);
                                                                                      setTextureMenu(false);
                                                                                 }}
                                                                            ></div>
                                                                            <div 
-                                                                                className='texture-item t-concrete'
+                                                                                className='texture-item t-brick'
                                                                                 onClick={(e) =>{
                                                                                      e.stopPropagation();
                                                                                      wallColor[activeWallNo] = 'white';
-                                                                                     wallTexture[activeWallNo] = 'concrete';
+                                                                                     wallTexture[activeWallNo] = 'brick';
                                                                                      changeWallColor(wallColor, unique);
                                                                                      changeWallTexture(wallTexture, unique);
                                                                                      setTextureMenu(false);
@@ -1234,72 +1226,6 @@ export const WallMenu = () =>{
                                                                                      e.stopPropagation();
                                                                                      wallColor[activeWallNo] = 'orange';
                                                                                      wallTexture[activeWallNo] = 'glass';
-                                                                                     changeWallColor(wallColor, unique);
-                                                                                     changeWallTexture(wallTexture, unique);
-                                                                                     setTextureMenu(false);
-                                                                                }}
-                                                                           ></div>
-                                                                      </div>
-                                                                 </div>
-                                                            )}
-                                                       if(matType === 'Metal'){
-                                                            return(
-                                                                 <div className='texture-li'>
-                                                                      {/* Menu Head */}
-                                                                      <div className='type-head'> 
-                                                                           <div className='type-title'>Metal</div> 
-                                                                           <div className='cancel-row'
-                                                                                onClick={(e) =>{
-                                                                                     e.stopPropagation();
-                                                                                     setTextureMenu(false);
-                                                                                }}
-                                                                           >Cancel</div>
-                                                                      </div>
-                                                                      {/* Wood Row1 */}
-                                                                      <div className='texture-row'>
-                                                                           <div 
-                                                                                className='texture-item t-wood'
-                                                                                onClick={(e) =>{
-                                                                                     e.stopPropagation();
-                                                                                     wallColor[activeWallNo] = 'white';
-                                                                                     wallTexture[activeWallNo] = 'wood';
-                                                                                     changeWallColor(wallColor, unique);
-                                                                                     changeWallTexture(wallTexture, unique);
-                                                                                     setTextureMenu(false);
-                                                                                     console.log('current texture is: ' + wallTexture[activeWallNo]);
-                                                                                }}
-                                                                           ></div>
-                                                                           <div 
-                                                                                className='texture-item t-wood'
-                                                                                onClick={(e) =>{
-                                                                                     e.stopPropagation();
-                                                                                     wallColor[activeWallNo] = 'white';
-                                                                                     wallTexture[activeWallNo] = 'wood';
-                                                                                     changeWallColor(wallColor, unique);
-                                                                                     changeWallTexture(wallTexture, unique);
-                                                                                     setTextureMenu(false);
-                                                                                }}
-                                                                           ></div>
-                                                                      </div>
-                                                                      {/* Wood Row2 */}
-                                                                      <div className='texture-row'>
-                                                                           <div 
-                                                                                className='texture-item t-wood'
-                                                                                onClick={(e) =>{
-                                                                                     e.stopPropagation();
-                                                                                     wallColor[activeWallNo] = 'white';
-                                                                                     wallTexture[activeWallNo] = 'wood';
-                                                                                     changeWallColor(wallColor, unique);
-                                                                                     changeWallTexture(wallTexture, unique);
-                                                                                     setTextureMenu(false);
-                                                                                }}
-                                                                           ></div>
-                                                                           <div 
-                                                                                className='texture-item t-wood'
-                                                                                onClick={(e) =>{
-                                                                                     e.stopPropagation();
-                                                                                     wallColor[activeWallNo] = 'white';
-                                                                                     wallTexture[activeWallNo] = 'wood';
                                                                                      changeWallColor(wallColor, unique);
                                                                                      changeWallTexture(wallTexture, unique);
                                                                                      setTextureMenu(false);
@@ -1653,7 +1579,7 @@ export const WallMenu = () =>{
                                                                       model = 'Exterior';
                                                                       fixDim = [0.068,0.667,0.3];
                                                                       defColor = 'white';
-                                                                      defTexture = 'wood';
+                                                                      defTexture = 'wornWood';
                                                                  }else{
                                                                       model = 'Standard';
                                                                       fixDim = [0.068,0.4,0.3];
@@ -1687,7 +1613,7 @@ export const WallMenu = () =>{
                                                                       model = 'Interior';
                                                                       fixDim = [0.068,0.667,0.3];
                                                                       defColor = 'white';
-                                                                      defTexture = 'wood';
+                                                                      defTexture = 'wornWood';
                                                                  }else{
                                                                       model = 'Tall';
                                                                       fixDim = [0.068,0.5,0.2];

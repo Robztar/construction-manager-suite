@@ -141,14 +141,6 @@ export const FixTureMenu = ({...props}) =>{
                                                             setMatType('Glass');
                                                        }}
                                                   >Glass</div>
-                                                  <div className='fix-type-row'
-                                                       onClick={(e) =>{
-                                                            e.stopPropagation();
-                                                            setFixOptions(false);
-                                                            setFixTextureMenu(true);
-                                                            setMatType('Metal');
-                                                       }}
-                                                  >Metal</div>
                                                   <div className='fix-type-row cancel'
                                                        onClick={(e) =>{
                                                             e.stopPropagation();
@@ -278,67 +270,6 @@ export const FixTureMenu = ({...props}) =>{
                                                                       let fixColor = 'orange';
                                                                       changeFixColor(fixColor, fixId);
                                                                       changeFixTexture('glass', fixId);
-                                                                      setFixTextureMenu(false);
-                                                                 }}
-                                                            ></div>
-                                                       </div>
-                                                  </div>
-                                             );
-                                        }
-                                        if(matType === 'Metal'){
-                                             return(
-                                                  <div className='fix-texture-li'>
-                                                       <div className='fix-type-head'> 
-                                                            <div className='fix-type-title'>Metal</div> 
-                                                            <div className='fix-cancel-row'
-                                                                 onClick={(e) =>{
-                                                                      e.stopPropagation();
-                                                                      setFixTextureMenu(false);
-                                                                 }}
-                                                            >Cancel</div>
-                                                       </div>
-                                                       {/* Wood Row 1 */}
-                                                       <div className='fix-texture-row'>
-                                                            <div 
-                                                                 className='fix-texture-item t-wood'
-                                                                 onClick={(e) =>{
-                                                                      e.stopPropagation();
-                                                                      let fixColor = 'white';
-                                                                      changeFixColor(fixColor, fixId);
-                                                                      changeFixTexture('wood', fixId);
-                                                                      setFixTextureMenu(false);
-                                                                 }}
-                                                            ></div>
-                                                            <div 
-                                                                 className='fix-texture-item t-wood'
-                                                                 onClick={(e) =>{
-                                                                      e.stopPropagation();
-                                                                      let fixColor = 'white';
-                                                                      changeFixColor(fixColor, fixId);
-                                                                      changeFixTexture('wood', fixId);
-                                                                      setFixTextureMenu(false);
-                                                                 }}
-                                                            ></div>
-                                                       </div>
-                                                       {/* Wood Row 2 */}
-                                                       <div className='fix-texture-row'>
-                                                            <div 
-                                                                 className='fix-texture-item t-wood'
-                                                                 onClick={(e) =>{
-                                                                      e.stopPropagation();
-                                                                      let fixColor = 'white';
-                                                                      changeFixColor(fixColor, fixId);
-                                                                      changeFixTexture('wood', fixId);
-                                                                      setFixTextureMenu(false);
-                                                                 }}
-                                                            ></div>
-                                                            <div 
-                                                                 className='fix-texture-item t-wood'
-                                                                 onClick={(e) =>{
-                                                                      e.stopPropagation();
-                                                                      let fixColor = 'white';
-                                                                      changeFixColor(fixColor, fixId);
-                                                                      changeFixTexture('wood', fixId);
                                                                       setFixTextureMenu(false);
                                                                  }}
                                                             ></div>
@@ -662,13 +593,13 @@ export const FixTureMenu = ({...props}) =>{
                                                                       type="number"
                                                                       min={Math.floor(-(objInstance.wallDimTempZ[wallNo]*conversion)/2)}
                                                                       max={Math.ceil((objInstance.wallDimTempZ[wallNo]*conversion)/2)} 
-                                                                      value={-fixPos[2]}
+                                                                      value={fixPos[2]}
                                                                       step="0.1"
                                                                       onChange={(e) =>{
                                                                            if (e.target.value === '') {
                                                                                 e.target.value = 0
                                                                            }
-                                                                           let nPos = -e.target.value;
+                                                                           let nPos = e.target.value;
                                                                            setFixPos([fixPos[0],fixPos[1], nPos], fixId);
                                                                       }}
                                                                  />

@@ -361,7 +361,7 @@
      align-items: center;
      place-content: center;
      // grid-template-rows: repeat(3, 1fr);
-     grid-template-rows: repeat(6, 2fr);
+     grid-template-rows: repeat(5, 2fr);
      // background: purple;
 }
 .type-row{
@@ -471,6 +471,21 @@
      background-size: cover;
      background-position: center;
 }
+.t-bf-concrete{
+     background: url(../../images/bf-concrete.jpg);
+     background-size: cover;
+     background-position: center;
+}
+.t-stone{
+     background: url(../../images/stone.jpg);
+     background-size: cover;
+     background-position: center;
+}
+.t-brick{
+     background: url(../../images/brick.jpg);
+     background-size: cover;
+     background-position: center;
+}
 .t-worn-wood{
      background: url(../../images/worn-wood.jpg);
      background-size: cover;
@@ -493,10 +508,6 @@
 }
 .t-glass:hover{
      opacity: 40%;
-}
-
-.attr-texture{
-     background: url(../../images/wood.jpg);
 }
 
 // #color-input{
@@ -972,11 +983,12 @@
 .fix-texture-li{
      display: flex;
      flex-direction: column;
-     justify-content: center;
+     justify-content: space-around;
      align-items: space-around;
      row-gap: 0.5rem;
      // height: 17rem;
-     max-height: 17rem;
+     // max-height: 17rem;
+     height: 100%;
      // background: purple;
 }
 .fix-type-row{

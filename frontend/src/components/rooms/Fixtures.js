@@ -29,16 +29,21 @@ export const Fixtures = ({ ...props }) =>{
           ];
 
           let fixColor = fixInstance.color;
-          let fixTexture = fixInstance.texture;
+          let fixTexture = textures[fixInstance.texture];
+          // fixTexture.repeat.set(dimensions[1],dimensions[2]);
+          let wallHeight = objInstance.wallDimTempY[wallNo] * conversion;
 
           const Door = () =>{
                // adjust Y axis position
                let prevPos = [
                     fixInstance.pos[0],
                     // -dimensions[1]/2,
-                    -2,
+                    (dimensions[1] - wallHeight) / 2,
+
+                    // -(dimensions[1]),
                     fixInstance.pos[2]
                ];
+               // console.log(prevPos);
                if(ortho){
                // if(wallNo === 2){
                     prevPos[1] = dimensions[1]/2;
@@ -54,7 +59,7 @@ export const Fixtures = ({ ...props }) =>{
                               <meshStandardMaterial 
                                    attach="material" 
                                    color={fixColor}
-                                   map={textures[fixTexture]}
+                                   map={fixTexture}
                                    // opacity={doorTexture === 'glass'? 0.6 : 1}
                                    transparent={true}
                               />
