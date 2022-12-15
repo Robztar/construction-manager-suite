@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from "react-router-dom";
 
 import './css/gen/style.css';
-import './css/auth/auth.css';
+import './css/about/about.css';
 import './css/dash/dash.css';
 import './css/edit/edit.css';
 import './css/obj/obj.css';

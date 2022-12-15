@@ -172,67 +172,25 @@
   margin-bottom: 1rem;
   display: grid;
   place-items: center;
-  grid-template-rows: 1fr 1fr;
   row-gap: 1rem;
   transition: 0.5s;
 }
 
 .object-li {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr;
   place-items: center;
   background: rgba(255, 255, 255, 0.4);
-  width: 15rem;
+  width: 10rem;
   height: 5rem;
+  border-radius: 10px;
   transition: 0.5s;
   cursor: pointer;
 }
 
 .object-li:hover {
   background: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-  transition: 0.5s;
-}
-
-.object-n {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  transition: 0.5s;
-}
-
-.object-t {
-  display: grid;
-  place-items: center;
-  width: 80%;
-  height: 80%;
-  background: rgba(255, 192, 203, 0.8);
-  transition: 0.5s;
-}
-
-.object-t.box {
-  background: url(../../images/Box.png);
-  background-size: cover;
-  background-position: center;
-}
-
-.object-t.sphere {
-  background: url(../../images/Sphere.png);
-  background-size: cover;
-  background-position: center;
-}
-
-.object-t.cylinder {
-  background: url(../../images/Cylinder.png);
-  background-size: cover;
-  background-position: center;
-}
-
-.object-t.shiba {
-  background: url(../../images/Shiba.png);
-  background-size: cover;
-  background-position: center;
+  border-radius: 20px;
 }
 
 .set-menu-cont {

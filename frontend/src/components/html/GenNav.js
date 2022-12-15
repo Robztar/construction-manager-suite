@@ -13,7 +13,7 @@ export const GenNav = ({...props}) => {
                          <button className="gen-nav-btn" type="submit">Home</button>
                     </Link>
                     {/* Go to /about */}
-                    <Link to="/">
+                    <Link to="/about">
                          <button className="gen-nav-btn" type="submit">About</button>
                     </Link>
                     <Link to="/dash">

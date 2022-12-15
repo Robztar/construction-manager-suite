@@ -250,32 +250,41 @@ export default function Edit() {
 
                {/* Objects Select Menu */}
                <div className={`top drop-menu ${isActive ? 'active' : ''}`} > 
-                    {/* Hamburger */}
                     <div className={`exham extgl ${isActive ? 'active' : ''}`} onClick={toggleClass}>
                          <div className="tripbar"></div>
                     </div>
                     {/* Objects Menu */}
                     <div className={`object-menu ${isActive ? 'active' : ''}`}>
-                         <div className="object-li" id='room'>
-                              <p className="object-n" onClick={addNew} data-type={'room'} data-shape={"rect"}>Room</p>
-                              <p className="object-t box" onClick={addNew} data-type={'room'} data-shape={"rect"}></p>
-                         </div>
-                         <div className="object-li" id='box'>
-                              <p className="object-n" onClick={addNew} data-type={'custom'} data-shape={"box"}>Box</p>
-                              <p className="object-t box" onClick={addNew} data-type={'custom'} data-shape={"box"}></p>
-                         </div>
-                         <div className="object-li">
-                              <p className="object-n" onClick={addNew} data-type={'custom'} data-shape={'sphere'}>Sphere</p>
-                              <p className="object-t sphere" onClick={addNew} data-type={'custom'} data-shape={'sphere'}></p>
-                         </div>
-                         <div className="object-li">
-                              <p className="object-n" onClick={addNew} data-type={'custom'} data-shape={'cylinder'}>Cylinder</p>
-                              <p className="object-t cylinder" onClick={addNew} data-type={'custom'} data-shape={'cylinder'}></p>
-                         </div>
-                         <div className="object-li">
-                              <p className="object-n" onClick={addNew} data-type={'model'} data-shape={'shiba'}>Shiba</p>
-                              <p className="object-t shiba" onClick={addNew} data-type={'model'} data-shape={'shiba'}></p>
-                         </div>
+                         <div 
+                              className="object-li" 
+                              onClick={addNew} 
+                              data-type={'room'} 
+                              data-shape={"rect"}
+                         >Room</div>
+                         <div 
+                              className="object-li" 
+                              onClick={addNew} 
+                              data-type={'custom'} 
+                              data-shape={"box"}
+                         >Box</div>
+                         <div 
+                              className="object-li" 
+                              onClick={addNew} 
+                              data-type={'custom'} 
+                              data-shape={'sphere'}
+                         >Sphere</div>
+                         <div 
+                              className="object-li" 
+                              onClick={addNew} 
+                              data-type={'custom'} 
+                              data-shape={'cylinder'}
+                         >Cylinder</div>
+                         <div 
+                              className="object-li" 
+                              onClick={addNew} 
+                              data-type={'model'} 
+                              data-shape={'shiba'}
+                         >Shiba</div>
                     </div>
                </div>
                {isOrtho? null : <SpaceReminder />}
