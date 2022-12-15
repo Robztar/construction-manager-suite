@@ -8,7 +8,7 @@ import wornWoodImg from './images/worn-wood.jpg';
 import plywoodImg from './images/plywood.jpg';
 import laminateImg from './images/laminate.jpg';
 import blankImg from './images/blank.jpg';
-import { TextureLoader, NearestFilter, LinearMipMapLinearFilter  } from 'three';
+import { TextureLoader, NearestFilter, LinearMipMapLinearFilter, RepeatWrapping  } from 'three';
 
 // ---- Export textures + Mapping Rules ----
 
@@ -22,8 +22,12 @@ export const wood = new TextureLoader().load(woodImg);
 export const wornWood = new TextureLoader().load(wornWoodImg);
 export const plywood = new TextureLoader().load(plywoodImg);
 export const laminate = new TextureLoader().load(laminateImg);
-wood.magFilter = NearestFilter;
-wood.minFilter = LinearMipMapLinearFilter;
+// wood.magFilter = NearestFilter;
+// wood.minFilter = LinearMipMapLinearFilter;
+wood.wrapS = RepeatWrapping;
+wood.wrapT = RepeatWrapping;
+wood.repeat.set(10, 10);
+// Do repeating in each file separately
 wornWood.magFilter = NearestFilter;
 wornWood.minFilter = LinearMipMapLinearFilter;
 plywood.magFilter = NearestFilter;
@@ -61,3 +65,7 @@ dirt.minFilter = LinearMipMapLinearFilter;
      // https://polyhaven.com/textures
      // http://texturelib.com/
      // https://www.poliigon.com/search?credit=0
+
+// Color help
+     // https://www.rapidtables.com/web/color/RGB_Color.html
+     // https://fffuel.co/cccolor/

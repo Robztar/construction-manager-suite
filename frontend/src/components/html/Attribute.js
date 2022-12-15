@@ -1,33 +1,28 @@
 import { useStore } from '../../hooks/objStore';
 import { useState } from 'react';
-// Find a way to choose layout among:
-     // Objects Menu
-     // Models Menu
-     // Room Menu
 
 export const Attribute = () =>{
-     const [ objects, conversion, scale,
+     const [ objects, projects,
           changeColor, 
-          changeTexture, 
-          // setActive, 
+          changeTexture,
           setAttrMenu, 
           removeObj,
           setMatType,
           setDimTemp,
-     ] = useStore((state) => [ state.objects, state.conv, state.scale,
+          setRotation,
+     ] = useStore((state) => [ state.objects, state.projects,
           state.changeColor,
           state.changeTexture,
-          // state.setActive,
           state.setAttrMenu,
           state.removeObj,
           state.setMatType,
           state.setDimTemp,
+          state.setRotation,
      ]);
      
      const[textureOptions,setOptions] = useState(false);    // Texture Options Menu
      const[textureMenu,setTextureMenu] = useState(false);   // Textures / Colors Menu
      const[propMenu,setPropMenu] = useState(false);    // Properties Menu
-     const[detMenu,setDetMenu] = useState(false); // Details Menu
 
 
      let objInstance = objects.find(o => o.attrMenu === 'grid');
@@ -37,6 +32,11 @@ export const Attribute = () =>{
 
      if(objInstance){
           let unique = objInstance.key;
+          let projInstance = projects.find(p => p.key === objInstance.projId);
+          let scale = projInstance.scale;
+          let conversion = projInstance.conversion;
+
+          let rotationY = objInstance.rotationY;
           dimensions = [
                objInstance.dimTemp[0]*conversion,
                objInstance.dimTemp[1]*conversion,
@@ -112,7 +112,6 @@ export const Attribute = () =>{
                                    setOptions(false);
                                    setTextureMenu(false);
                                    setPropMenu(false);
-                                   setDetMenu(false);
                               }}
                          ></i>
                     </div>
@@ -120,9 +119,8 @@ export const Attribute = () =>{
                          <div 
                               className={`attr-li 
                                    ${ textureMenu || textureOptions ? 'active' : ''}
-                                   ${ propMenu || detMenu ? 'inactive' : ''}
+                                   ${ propMenu ? 'inactive' : ''}
                               `}
-                              // style={{'grid-template-columns': '1fr'}}
                          >
                               {(() =>{ 
                                    if(textureOptions){
@@ -308,9 +306,30 @@ export const Attribute = () =>{
                                                             }}
                                                        ></div>
                                                   </div>
-
                                                   {/* Orange Row */}
                                                   <div className='color-row orange'>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#FFE5CC'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#FFE5CC';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#FFB266'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#FFB266';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
                                                        <div 
                                                             className='color-t' 
                                                             style={{'background': 'orange'}}
@@ -322,10 +341,53 @@ export const Attribute = () =>{
                                                                  setTextureMenu(false);
                                                             }}
                                                        ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#994C00'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#994C00';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#331900'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#331900';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
                                                   </div>
-
                                                   {/* Yellow Row */}
                                                   <div className='color-row yellow'>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#FFFFCC'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#FFFFCC';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#FFFF66'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#FFFF66';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
                                                        <div 
                                                             className='color-t' 
                                                             style={{'background': 'yellow'}}
@@ -337,10 +399,53 @@ export const Attribute = () =>{
                                                                  setTextureMenu(false);
                                                             }}
                                                        ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#999900'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#999900';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#333300'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#333300';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
                                                   </div>
-
                                                   {/* Lime Row */}
                                                   <div className='color-row lime'>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#CCFFCC'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#CCFFCC';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#66FF66'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#66FF66';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
                                                        <div 
                                                             className='color-t' 
                                                             style={{'background': 'lime'}}
@@ -352,8 +457,29 @@ export const Attribute = () =>{
                                                                  setTextureMenu(false);
                                                             }}
                                                        ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#009900'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#009900';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#003300'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#003300';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
                                                   </div>
-
                                                   {/* Aqua Row */}
                                                   <div className='color-row aqua'>
                                                        <div 
@@ -412,9 +538,30 @@ export const Attribute = () =>{
                                                             }}
                                                        ></div>
                                                   </div>
-
                                                   {/* Cyan Row */}
                                                   <div className='color-row cyan'>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#CCFFFF'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#CCFFFF';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#66FFFF'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#66FFFF';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
                                                        <div 
                                                             className='color-t' 
                                                             style={{'background': 'cyan'}}
@@ -426,10 +573,53 @@ export const Attribute = () =>{
                                                                  setTextureMenu(false);
                                                             }}
                                                        ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#009999'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#009999';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#003333'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#003333';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
                                                   </div>
-
                                                   {/* Blue Row */}
                                                   <div className='color-row blue'>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#CCCCFF'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#CCCCFF';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#6666FF'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#6666FF';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
                                                        <div 
                                                             className='color-t' 
                                                             style={{'background': 'blue'}}
@@ -441,25 +631,53 @@ export const Attribute = () =>{
                                                                  setTextureMenu(false);
                                                             }}
                                                        ></div>
-                                                  </div>
-
-                                                  {/* Purple Row */}
-                                                  <div className='color-row purple'>
                                                        <div 
                                                             className='color-t' 
-                                                            style={{'background': 'purple'}}
+                                                            style={{'background': '#000099'}}
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
-                                                                 colorAttr = 'purple';
+                                                                 colorAttr = '#000099';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#000033'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#000033';
                                                                  changeColor(colorAttr, unique);
                                                                  changeTexture('blank', unique);
                                                                  setTextureMenu(false);
                                                             }}
                                                        ></div>
                                                   </div>
-
-                                                  {/* Magenta Row */}
+                                                  {/* Magenta/Purple Row */}
                                                   <div className='color-row magenta'>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#FFCCFF'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#FFCCFF';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#FF66FF'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#FF66FF';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
                                                        <div 
                                                             className='color-t' 
                                                             style={{'background': 'magenta'}}
@@ -471,8 +689,29 @@ export const Attribute = () =>{
                                                                  setTextureMenu(false);
                                                             }}
                                                        ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': 'purple'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = 'purple';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
+                                                       <div 
+                                                            className='color-t' 
+                                                            style={{'background': '#330033'}}
+                                                            onClick={(e) =>{
+                                                                 e.stopPropagation();
+                                                                 colorAttr = '#330033';
+                                                                 changeColor(colorAttr, unique);
+                                                                 changeTexture('blank', unique);
+                                                                 setTextureMenu(false);
+                                                            }}
+                                                       ></div>
                                                   </div>
-
                                                   {/* Pink Row */}
                                                   <div className='color-row pink'>
                                                        <div 
@@ -805,7 +1044,7 @@ export const Attribute = () =>{
                          <div 
                               className={`attr-li 
                                    ${ propMenu ? 'active' : ''} 
-                                   ${ textureMenu || textureOptions || detMenu ? 'inactive' : ''}
+                                   ${ textureMenu || textureOptions ? 'inactive' : ''}
                               `}
                          >
                               {/* {(() =>{ }) () } */}
@@ -821,7 +1060,6 @@ export const Attribute = () =>{
                                                                  setPropMenu(false);
                                                             }}
                                                        ><i className="fas fa-check-circle"></i></div>
-                                                       {/* >Done</div> */}
                                                   </div>
                                                   
                                                   <div className='props-opts'>
@@ -836,6 +1074,9 @@ export const Attribute = () =>{
                                                                       value={actSubUnits[0][0]}
                                                                       step="1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let lg = parseInt(e.target.value);
                                                                            let med = actSubUnits[0][1]
                                                                            let sm = actSubUnits[0][2] + 0.1;
@@ -865,6 +1106,9 @@ export const Attribute = () =>{
                                                                       value={actSubUnits[0][1]}
                                                                       step="1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let lg = actSubUnits[0][0];
                                                                            let med = parseInt(e.target.value);
                                                                            let sm = actSubUnits[0][2] + 0.1;
@@ -890,6 +1134,9 @@ export const Attribute = () =>{
                                                                       value={actSubUnits[0][2]} 
                                                                       step="1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let lg = actSubUnits[0][0];
                                                                            let med = actSubUnits[0][1];
                                                                            let sm = parseFloat(e.target.value) + 0.1;
@@ -933,6 +1180,9 @@ export const Attribute = () =>{
                                                                       value={actSubUnits[2][0]}
                                                                       step="1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let lg = parseInt(e.target.value);
                                                                            let med = actSubUnits[2][1]
                                                                            let sm = actSubUnits[2][2] + 0.1;
@@ -958,6 +1208,9 @@ export const Attribute = () =>{
                                                                       value={actSubUnits[2][1]}
                                                                       step="1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let lg = actSubUnits[2][0];
                                                                            let med = parseInt(e.target.value);
                                                                            let sm = actSubUnits[2][2] + 0.1;
@@ -983,6 +1236,9 @@ export const Attribute = () =>{
                                                                       value={actSubUnits[2][2]} 
                                                                       step="1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let lg = actSubUnits[2][0];
                                                                            let med = actSubUnits[2][1];
                                                                            let sm = parseFloat(e.target.value) + 0.1;
@@ -1021,15 +1277,19 @@ export const Attribute = () =>{
                                                                  <input 
                                                                       className='prop-input'
                                                                       type="number" 
-                                                                      min='0' 
+                                                                      min='-360' 
                                                                       max='360'
-                                                                      // value={0} 
-                                                                      defaultValue={0}
+                                                                      value={rotationY} 
+                                                                      // defaultValue={rotationY}
                                                                       id="rotation"
-                                                                      step="10"
+                                                                      step="5"
                                                                       onChange={(e) =>{
-                                                                           let rVal = e.target.value;
-                                                                           console.log(rVal);
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
+                                                                           let rDeg = e.target.value;
+                                                                           // console.log(rVal);
+                                                                           setRotation(rDeg, unique);
                                                                       }}
                                                                  />
                                                             </div>
@@ -1045,57 +1305,7 @@ export const Attribute = () =>{
                                                        e.stopPropagation();
                                                        setPropMenu(true);
                                                   }}
-                                             >Properties</div>
-                                        )
-                                   }
-                              }) () }
-                         </div>
-
-                         {/* ---- Object Details ---- */}
-                         <div 
-                              className={`attr-li 
-                                   ${ detMenu ? 'active' : ''} 
-                                   ${ textureMenu || textureOptions || propMenu ? 'inactive' : ''}
-                              `}
-                         >
-                              {(() =>{ 
-                                   if(detMenu){
-                                        return(
-                                             <div className='props-li'>
-                                                  <div className='props-head'>
-                                                       <div className='props-type'>Details</div>
-                                                       <div className='props-done'
-                                                            onClick={(e) =>{
-                                                                 e.stopPropagation();
-                                                                 setDetMenu(false);
-                                                            }}
-                                                       ><i className="fas fa-check-circle"></i></div>
-                                                  </div>
-                                                  
-                                                  <div className='props-opts'>
-                                                       <div className='prop'>
-                                                            <label className='prop-n'>Name</label>
-                                                            <div className='prop-fields'>
-                                                                 <input 
-                                                                      className=''
-                                                                      value={'Obj Name'} 
-                                                                      id=""
-                                                                      onChange={(e) =>{}}
-                                                                 />
-                                                            </div>
-                                                            <label className='prop-names'>Obj</label>
-                                                       </div>
-                                                  </div>
-                                             </div>
-                                        )
-                                   }else {
-                                        return(
-                                             <div className='attr-n'
-                                                  onClick={(e) =>{
-                                                       e.stopPropagation();
-                                                       setDetMenu(true);
-                                                  }}
-                                             >Details</div>
+                                             >Room Properties</div>
                                         )
                                    }
                               }) () }

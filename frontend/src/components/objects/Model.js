@@ -25,7 +25,7 @@ import Shiba from './Shiba_deadpool';
 export const Model = ({ setShape, unique}) =>{
      // const ref = useRef();
 
-     const [ objects, ortho,
+     const [ objects, ortho, projects,
           setPos, 
           setActive, 
           removeObj, 
@@ -34,7 +34,7 @@ export const Model = ({ setShape, unique}) =>{
           // setTextureMenu, 
           // setTextureOptions, 
           // setMatType
-     ] = useStore((state) => [ state.objects, state.ortho,
+     ] = useStore((state) => [ state.objects, state.ortho, state.projects,
           state.setPos,
           state.setActive,
           state.removeObj,

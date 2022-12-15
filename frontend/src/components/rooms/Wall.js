@@ -9,7 +9,7 @@ import { useStore } from '../../hooks/objStore';
 import * as textures from '../../textures';
 
 export const Wall = ({ ...props }) =>{
-     const ref = useRef();
+     // const ref = useRef();
      const unique = props.unique;
      const objInstance = props.instance;
      const conversion = props.conversion;
@@ -18,26 +18,7 @@ export const Wall = ({ ...props }) =>{
      const ortho = props.ortho;
      const wallNo = props.wallNo;
 
-     // Wall Attribute Menu
-          // Different Attrubute menu access method
-          // Change Texture, Change Thickness
-     // Wall Fixtures Menu
-          // Add new fixtures
-          // Show types of Fixtures attached
-          // Show each attached fixture under each fixture type
-          // Allow updating each fixture type
-
-     // Convert to wall-properties
-          // Different Attribute Menu
-          // Diff dimensions
-          // Diff colors and textures
-     const [ fixtures,
-          setActiveWallNo,
-          setWallPos,
-     ] = useStore((state) => [ state.fixtures,
-          state.setActiveWallNo,
-          state.setWallPos,
-     ]);
+     const [ fixtures ] = useStore((state) => [ state.fixtures ]);
 
      // Fixtures Management
      let fixInstances = fixtures.filter(e => e.objId === unique);
@@ -55,27 +36,30 @@ export const Wall = ({ ...props }) =>{
      // Measurement Scale
      let box;
      let ground = -0.5;
-     if(ortho){
+     
      // if(wallNo === 2){
      // if(wallNo === 0){
+     if(ortho){
           viewedHeight /= 2;
-          // ground *=6;
-          // viewedHeight = 2;
           ground *=6;
      }
 
      let wallPos = [0,0,0];
      if(wallNo === 0){        //LEFT - x
           wallPos[0] -= objInstance.dimTemp[0]*conversion / 2;
+          wallPos[0] += objInstance.wallDimTempX[wallNo]*conversion / 2.1;
           dimensions[2] = objInstance.dimTemp[2]*conversion;
      }else if(wallNo === 1){  //RIGHT - x
           wallPos[0] += (objInstance.dimTemp[0]*conversion) / 2;
+          wallPos[0] -= objInstance.wallDimTempX[wallNo]*conversion / 2.1;
           dimensions[2] = objInstance.dimTemp[2]*conversion;
      }else if(wallNo === 2){  //TOP - z
           wallPos[2] += (objInstance.dimTemp[2]*conversion) / 2;
+          wallPos[2] -= objInstance.wallDimTempX[wallNo]*conversion / 2.1;
           dimensions[2] = objInstance.dimTemp[0]*conversion;
      }else if(wallNo === 3){  //BOTTOM - z
           wallPos[2] -= (objInstance.dimTemp[2]*conversion) / 2;
+          wallPos[2] += objInstance.wallDimTempX[wallNo]*conversion / 2.1;
           dimensions[2] = objInstance.dimTemp[0]*conversion;
      }
      
@@ -83,8 +67,6 @@ export const Wall = ({ ...props }) =>{
 
      let prevPos = wallPos;
      
-     // console.log("Wall No: "+wallNo+", Prev (Active) Pos: "+prevPos);
-     // console.log("Wall Angle: "+rotY);
      prevPos[1] = (dimensions[1]/2)+ground;  //lift off the ground
 
      if(scale === 'metric'){

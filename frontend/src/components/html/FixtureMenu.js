@@ -11,13 +11,13 @@ export const FixTureMenu = ({...props}) =>{
      let objInstance = props.objInstance;
      let wallNo = props.wallNo;
 
-     const [ fixtures, scale, conversion,
+     const [ fixtures, projects,
           changeFixColor, 
           changeFixTexture,
           removeFix,
           setFixDimTemp,
           setFixPos,
-     ] = useStore((state) => [ state.fixtures, state.scale, state.conv,
+     ] = useStore((state) => [ state.fixtures, state.projects,
           state.changeFixColor,
           state.changeFixTexture,
           state.removeFix,
@@ -39,6 +39,9 @@ export const FixTureMenu = ({...props}) =>{
           let actUnits;
           let actSubUnits;
           let fixPos = fixInstance.pos;
+          let projInstance = projects.find(p => p.key === objInstance.projId);
+          let scale = projInstance.scale;
+          let conversion = projInstance.conversion;
 
           let dimensions = [
                fixInstance.dimTemp[0]*conversion,
@@ -389,6 +392,9 @@ export const FixTureMenu = ({...props}) =>{
                                                                       value={actSubUnits[1][0]}
                                                                       step="1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let lg = parseInt(e.target.value);
                                                                            let med = actSubUnits[1][1]
                                                                            let sm = actSubUnits[1][2] + 0.1;
@@ -418,6 +424,9 @@ export const FixTureMenu = ({...props}) =>{
                                                                       value={actSubUnits[1][1]}
                                                                       step="1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let lg = actSubUnits[1][0];
                                                                            let med = parseInt(e.target.value);
                                                                            let sm = actSubUnits[1][2] + 0.1;
@@ -443,6 +452,9 @@ export const FixTureMenu = ({...props}) =>{
                                                                       value={actSubUnits[1][2]} 
                                                                       step="1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let lg = actSubUnits[1][0];
                                                                            let med = actSubUnits[1][1];
                                                                            let sm = parseFloat(e.target.value) + 0.1;
@@ -486,6 +498,9 @@ export const FixTureMenu = ({...props}) =>{
                                                                       value={actSubUnits[2][0]}
                                                                       step="1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let lg = parseInt(e.target.value);
                                                                            let med = actSubUnits[2][1]
                                                                            let sm = actSubUnits[2][2] + 0.1;
@@ -511,6 +526,9 @@ export const FixTureMenu = ({...props}) =>{
                                                                       value={actSubUnits[2][1]}
                                                                       step="1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let lg = actSubUnits[2][0];
                                                                            let med = parseInt(e.target.value);
                                                                            let sm = actSubUnits[2][2] + 0.1;
@@ -536,6 +554,9 @@ export const FixTureMenu = ({...props}) =>{
                                                                       value={actSubUnits[2][2]} 
                                                                       step="1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let lg = actSubUnits[2][0];
                                                                            let med = actSubUnits[2][1];
                                                                            let sm = parseFloat(e.target.value) + 0.1;
@@ -621,6 +642,9 @@ export const FixTureMenu = ({...props}) =>{
                                                                            value={fixPos[1]}
                                                                            step="0.1"
                                                                            onChange={(e) =>{
+                                                                                if (e.target.value === '') {
+                                                                                     e.target.value = 0
+                                                                                }
                                                                                 let nPos = e.target.value;
                                                                                 setFixPos([fixPos[0],nPos,fixPos[2]], fixId);
                                                                            }}
@@ -641,6 +665,9 @@ export const FixTureMenu = ({...props}) =>{
                                                                       value={-fixPos[2]}
                                                                       step="0.1"
                                                                       onChange={(e) =>{
+                                                                           if (e.target.value === '') {
+                                                                                e.target.value = 0
+                                                                           }
                                                                            let nPos = -e.target.value;
                                                                            setFixPos([fixPos[0],fixPos[1], nPos], fixId);
                                                                       }}
@@ -668,7 +695,7 @@ export const FixTureMenu = ({...props}) =>{
                          {/* Remove Fixture */}
                          <div 
                               className={`del-fixture 
-                                   ${ fixPropMenu || fixTextureMenu || fixOptions ? 'inactive' : ''}
+                                   ${ fixPropMenu || fixTextureMenu || fixOptions || fixPosMenu ? 'inactive' : ''}
                               `}
                               onClick={(e) =>{
                                    e.stopPropagation();

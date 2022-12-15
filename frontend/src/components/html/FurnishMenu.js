@@ -6,11 +6,11 @@ import { useStore } from '../../hooks/objStore';
      // Room Menu
 
 export const FurnishMenu = () =>{
-     const [ objects, conversion, scale,
+     const [ objects, projects,
           setFurnishMenu, 
           removeObj,
           setDimTemp,
-     ] = useStore((state) => [ state.objects, state.conv, state.scale,
+     ] = useStore((state) => [ state.objects, state.projects,
           state.setFurnishMenu,
           state.removeObj,
           state.setDimTemp,
@@ -22,6 +22,9 @@ export const FurnishMenu = () =>{
 
      if(objInstance){
           let unique = objInstance.key;
+          let projInstance = projects.find(p => p.key === objInstance.projId);
+          let scale = projInstance.scale;
+          let conversion = projInstance.conversion;
           dimensions = [
                objInstance.dimTemp[0]*conversion,
                objInstance.dimTemp[1]*conversion,

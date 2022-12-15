@@ -2,13 +2,13 @@ import { useStore } from '../../hooks/objStore';
 import { useState, useEffect } from 'react';
 
 export const Resizer = ({...props}) =>{
-     const [ objects, conversion, scale,
+     const [ objects, projects,
           setActive,
           setResize,
           setAttrMenu, 
           setDimTemp,
           setPos,
-     ] = useStore((state) => [ state.objects, state.conv, state.scale,
+     ] = useStore((state) => [ state.objects, state.projects,
           state.setActive,
           state.setResize,
           state.setAttrMenu,
@@ -18,6 +18,10 @@ export const Resizer = ({...props}) =>{
 
      let objInstance = props.instance;
      let unique = props.unique;
+
+     let projInstance = projects.find(p => p.key === objInstance.projId);
+     let scale = projInstance.scale;
+     let conversion = projInstance.conversion;
 
      let dimensions;
 
@@ -42,6 +46,7 @@ export const Resizer = ({...props}) =>{
                // setUnitY(dimensions[1]);
                setUnitZ(dimensions[2]);
           }
+     // },[scale]);
      },[objInstance]);
      // },[objInstance,scale]);
      // Checking both works but causes position and size glitches
@@ -60,13 +65,14 @@ export const Resizer = ({...props}) =>{
                               onClick={() =>{
                                    let rVal = unitX+1;
                                    let rDimTemp;
+                                   let difference;
                                    if(scale === 'metric'){
                                         rDimTemp=[rVal/3, dimensions[1]/12,dimensions[2]/12];
+                                        difference = (rVal *4) - dimensions[0];
                                    }else if(scale === 'imperial'){
                                         rDimTemp=[rVal/10, dimensions[1]/10,dimensions[2]/10];
+                                        difference = (rVal) - dimensions[0];
                                    }
-
-                                   let difference = (rVal *4) - dimensions[0];
                                    
                                    let posOffset = [objInstance.pos[0] - (difference/2), 
                                         objInstance.pos[1], objInstance.pos[2]];
@@ -80,13 +86,14 @@ export const Resizer = ({...props}) =>{
                               onClick={() =>{
                                    let rVal = unitX-1;
                                    let rDimTemp;
+                                   let difference;
                                    if(scale === 'metric'){
                                         rDimTemp=[rVal/3, dimensions[1]/12,dimensions[2]/12];
+                                        difference = (rVal *4) - dimensions[0];
                                    }else if(scale === 'imperial'){
                                         rDimTemp=[rVal/10, dimensions[1]/10,dimensions[2]/10];
+                                        difference = (rVal) - dimensions[0];
                                    }
-
-                                   let difference = (rVal *4) - dimensions[0];
                                    
                                    let posOffset = [objInstance.pos[0] - (difference/2), 
                                         objInstance.pos[1], objInstance.pos[2]];
@@ -102,21 +109,25 @@ export const Resizer = ({...props}) =>{
                          <i 
                               className="fas fa-chevron-left"
                               onClick={() =>{
-                                   let rVal = document.getElementById('width').value;
+                                   let rVal = document.getElementById('rs-width').value;
+                                   if (rVal === '') {
+                                        rVal = 0
+                                   }
                                    let rDimTemp;
+                                   let difference;
                                    if(scale === 'metric'){
                                         rDimTemp=[rVal/3, dimensions[1]/12,dimensions[2]/12];
+                                        difference = (rVal *4) - dimensions[0];
                                    }else if(scale === 'imperial'){
                                         rDimTemp=[rVal/10, dimensions[1]/10,dimensions[2]/10];
+                                        difference = (rVal) - dimensions[0];
                                    }
-                                   console.log('Real-value = '+rVal);
-
-                                   let difference = (rVal *4) - dimensions[0];
-                                   console.log("Dimensions Difference: "+ difference);
+                                   // console.log('Real-value = '+rVal);
+                                   // console.log("Dimensions Difference: "+ difference);
                                    
                                    let posOffset = [objInstance.pos[0] - (difference/2), 
                                         objInstance.pos[1], objInstance.pos[2]];
-                                   console.log("Position Offset is: "+ posOffset)
+                                   // console.log("Position Offset is: "+ posOffset)
 
                                    setPos(posOffset, unique);
                                    setDimTemp(rDimTemp, unique);
@@ -130,21 +141,25 @@ export const Resizer = ({...props}) =>{
                               onChange={(e) => setUnitX(e.target.value)}
                               // value={unitX.current}
                               // onChange={(e) => unitX.current = e.target.value}
-                              id="width"
+                              id="rs-width"
                          />
                          <i 
                               className="fas fa-chevron-right"
                               onClick={() =>{
-                                   let rVal = document.getElementById('width').value;
+                                   let rVal = document.getElementById('rs-width').value;
+                                   if (rVal === '') {
+                                        rVal = 0
+                                   }
                                    let rDimTemp;
+                                   let difference;
                                    if(scale === 'metric'){
                                         rDimTemp=[rVal/3, dimensions[1]/12,dimensions[2]/12];
+                                        difference = (rVal *4) - dimensions[0];
                                    }else if(scale === 'imperial'){
                                         rDimTemp=[rVal/10, dimensions[1]/10,dimensions[2]/10];
+                                        difference = (rVal) - dimensions[0];
                                    }
 
-                                   let difference = (rVal *4) - dimensions[0];
-                                   
                                    let posOffset = [objInstance.pos[0] + (difference/2), 
                                         objInstance.pos[1], objInstance.pos[2]];
 
@@ -161,13 +176,14 @@ export const Resizer = ({...props}) =>{
                               onClick={() =>{
                                    let rVal = unitX+1;
                                    let rDimTemp;
+                                   let difference;
                                    if(scale === 'metric'){
                                         rDimTemp=[rVal/3, dimensions[1]/12,dimensions[2]/12];
+                                        difference = (rVal *4) - dimensions[0];
                                    }else if(scale === 'imperial'){
                                         rDimTemp=[rVal/10, dimensions[1]/10,dimensions[2]/10];
+                                        difference = (rVal) - dimensions[0];
                                    }
-
-                                   let difference = (rVal *4) - dimensions[0];
                                    
                                    let posOffset = [objInstance.pos[0] + (difference/2), 
                                         objInstance.pos[1], objInstance.pos[2]];
@@ -181,14 +197,15 @@ export const Resizer = ({...props}) =>{
                               onClick={() =>{
                                    let rVal = unitX-1;
                                    let rDimTemp;
+                                   let difference;
                                    if(scale === 'metric'){
                                         rDimTemp=[rVal/3, dimensions[1]/12,dimensions[2]/12];
+                                        difference = (rVal *4) - dimensions[0];
                                    }else if(scale === 'imperial'){
                                         rDimTemp=[rVal/10, dimensions[1]/10,dimensions[2]/10];
+                                        difference = (rVal) - dimensions[0];
                                    }
 
-                                   let difference = (rVal *4) - dimensions[0];
-                                   
                                    let posOffset = [objInstance.pos[0] + (difference/2), 
                                         objInstance.pos[1], objInstance.pos[2]];
 
@@ -208,13 +225,14 @@ export const Resizer = ({...props}) =>{
                               onClick={() =>{
                                    let rVal = unitZ+1;
                                    let rDimTemp;
+                                   let difference;
                                    if(scale === 'metric'){
                                         rDimTemp=[dimensions[0]/12, dimensions[1]/12, rVal/3];
+                                        difference = (rVal *4) - dimensions[2];
                                    }else if(scale === 'imperial'){
                                         rDimTemp=[dimensions[0]/10, dimensions[1]/10, rVal/10];
+                                        difference = (rVal) - dimensions[2];
                                    }
-
-                                   let difference = (rVal *4) - dimensions[2];
                                    
                                    let posOffset = [objInstance.pos[0], objInstance.pos[1]
                                         , objInstance.pos[2] - (difference/2)];
@@ -228,13 +246,14 @@ export const Resizer = ({...props}) =>{
                               onClick={() =>{
                                    let rVal = unitZ-1;
                                    let rDimTemp;
+                                   let difference;
                                    if(scale === 'metric'){
                                         rDimTemp=[dimensions[0]/12, dimensions[1]/12, rVal/3];
+                                        difference = (rVal *4) - dimensions[2];
                                    }else if(scale === 'imperial'){
                                         rDimTemp=[dimensions[0]/10, dimensions[1]/10, rVal/10];
+                                        difference = (rVal) - dimensions[2];
                                    }
-
-                                   let difference = (rVal *4) - dimensions[2];
                                    
                                    let posOffset = [objInstance.pos[0], objInstance.pos[1]
                                         , objInstance.pos[2] - (difference/2)];
@@ -250,16 +269,19 @@ export const Resizer = ({...props}) =>{
                          <i 
                               className="fas fa-chevron-up"
                               onClick={() =>{
-                                   let rVal = document.getElementById('length').value;
+                                   let rVal = document.getElementById('rs-length').value;
+                                   if (rVal === '') {
+                                        rVal = 0
+                                   }
                                    let rDimTemp;
+                                   let difference;
                                    if(scale === 'metric'){
                                         rDimTemp=[dimensions[0]/12, dimensions[1]/12, rVal/3];
+                                        difference = (rVal *4) - dimensions[2];
                                    }else if(scale === 'imperial'){
-                                        rDimTemp=[dimensions[0], dimensions[1]/10, rVal/10];
+                                        rDimTemp=[dimensions[0]/10, dimensions[1]/10, rVal/10];
+                                        difference = (rVal) - dimensions[2];
                                    }
-
-                                   let difference = (rVal *4) - dimensions[2];
-                                   console.log("Dimensions Difference: "+ difference);
                                    
                                    let posOffset = [objInstance.pos[0], objInstance.pos[1]
                                         , objInstance.pos[2] - (difference/2)];
@@ -272,21 +294,24 @@ export const Resizer = ({...props}) =>{
                               className='resizer-input'value={unitZ}
                               type="number"
                               onChange={(e) => setUnitZ(e.target.value)}
-                              id="length"
+                              id="rs-length"
                          />
                          <i 
                               className="fas fa-chevron-down"
                               onClick={() =>{
-                                   let rVal = document.getElementById('length').value;
+                                   let rVal = document.getElementById('rs-length').value;
+                                   if (rVal === '') {
+                                        rVal = 0
+                                   }
                                    let rDimTemp;
+                                   let difference;
                                    if(scale === 'metric'){
                                         rDimTemp=[dimensions[0]/12, dimensions[1]/12, rVal/3];
+                                        difference = (rVal *4) - dimensions[2];
                                    }else if(scale === 'imperial'){
-                                        rDimTemp=[dimensions[0], dimensions[1]/10, rVal/10];
+                                        rDimTemp=[dimensions[0]/10, dimensions[1]/10, rVal/10];
+                                        difference = (rVal) - dimensions[2];
                                    }
-
-                                   let difference = (rVal *4) - dimensions[2];
-                                   console.log("Dimensions Difference: "+ difference);
                                    
                                    let posOffset = [objInstance.pos[0], objInstance.pos[1]
                                         , objInstance.pos[2] + (difference/2)];
@@ -304,14 +329,15 @@ export const Resizer = ({...props}) =>{
                               onClick={() =>{
                                    let rVal = unitZ+1;
                                    let rDimTemp;
+                                   let difference;
                                    if(scale === 'metric'){
                                         rDimTemp=[dimensions[0]/12, dimensions[1]/12, rVal/3];
+                                        difference = (rVal *4) - dimensions[2];
                                    }else if(scale === 'imperial'){
                                         rDimTemp=[dimensions[0]/10, dimensions[1]/10, rVal/10];
+                                        difference = (rVal) - dimensions[2];
                                    }
 
-                                   let difference = (rVal *4) - dimensions[2];
-                                   
                                    let posOffset = [objInstance.pos[0], objInstance.pos[1]
                                         , objInstance.pos[2] + (difference/2)];
 
@@ -324,14 +350,15 @@ export const Resizer = ({...props}) =>{
                               onClick={() =>{
                                    let rVal = unitZ-1;
                                    let rDimTemp;
+                                   let difference;
                                    if(scale === 'metric'){
                                         rDimTemp=[dimensions[0]/12, dimensions[1]/12, rVal/3];
+                                        difference = (rVal *4) - dimensions[2];
                                    }else if(scale === 'imperial'){
                                         rDimTemp=[dimensions[0]/10, dimensions[1]/10, rVal/10];
+                                        difference = (rVal) - dimensions[2];
                                    }
 
-                                   let difference = (rVal *4) - dimensions[2];
-                                   
                                    let posOffset = [objInstance.pos[0], objInstance.pos[1]
                                         , objInstance.pos[2] + (difference/2)];
 

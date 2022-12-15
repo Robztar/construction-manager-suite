@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Sky, OrthographicCamera, PerspectiveCamera } from '@react-three/drei';
 import { Physics } from '@react-three/cannon';
@@ -85,50 +85,70 @@ const MakePersp = ({scale}) =>{
 
 export default function Edit() {
      // Measurement Scale
-     const [objects, scale, 
+     const [projects, objects, 
           addObj, switchOrtho, 
           switchScale, switchConv, 
-          saveWorld, resetWorld,
-          saveFixtures, resetFixtures,
+
+          saveProjects, 
+          saveWorld, 
+          saveFixtures, 
+          delProjWorld,
+          delProjFixes,
      ] = useStore((state) => [
+          state.projects,
           state.objects,
-          state.scale,
           state.addObj,
           state.switchOrtho,
           state.switchScale,
           state.switchConv,
+
+          state.saveProjects,
           state.saveWorld,
-          state.resetWorld,
           state.saveFixtures,
-          state.resetFixtures,
+          state.delProjWorld,
+          state.delProjFixes,
      ]);
-     
+
+     // Query String
+     const [queryId, setQueryId] = useState('');
+     useEffect(() => {
+          if(window.location.search){
+               let qSearch = window.location.search.substring(1);
+               let qParts = qSearch.split('=');
+               // console.log("key = "+qParts[0]+" value = "+qParts[1]);
+               setQueryId(qParts[1]);
+          }
+     },[]);
+
+     let projInstance = projects.find(p => p.key === queryId);
+     let projKey;
+     let projName = 'Project Name';
      let gridLen;
      let gridBoxCount;
+     // console.log("Query key: "+queryId);
 
-     let objTest = objects[0];
-     let scaleState = 'metric';
-     if(objTest){
-          // console.log(objTest.scale);
-          scaleState = scale;
+     let scale = 'metric';
+     if(projInstance){
+          // console.log("Project key: "+projInstance.key);
+          projKey = projInstance.key;
+          scale = projInstance.scale;
+          projName = projInstance.name;
+          // console.log(scale);
      }
-     const [envScale, setEnvScale] = useState(scaleState);
      const makeMetric = () => {
-          setEnvScale('metric');
-          switchScale('metric');
-          switchConv(12);
-          console.log(scale);
+          switchScale('metric', projKey);
+          switchConv(12, projKey);
+          // console.log(scale);
      }
      const makeImperial = () => {
-          setEnvScale('imperial');
-          switchScale('imperial');
-          switchConv(10);
-          console.log(scale);
+          switchScale('imperial', projKey);
+          switchConv(10, projKey);
+          // console.log(scale);
      }
-     if(envScale === 'metric'){
+     if(scale === 'metric'){
           gridLen = 256;
           gridBoxCount = 64;
-     }else if(envScale === 'imperial'){
+     }else if(scale === 'imperial'){
           gridLen = 208;
           gridBoxCount = 104;
      }
@@ -146,7 +166,7 @@ export default function Edit() {
                toggleCam();
           }
           toggleClass();
-          addObj(null, shape, objType);
+          addObj(projKey, shape, objType);
      }
 
      const [isActive, setActive] = useState(false);
@@ -159,14 +179,25 @@ export default function Edit() {
      const togglePop = () => setPopMenu(!popMenu);
 
      const saveScene = () =>{
+          saveProjects();
           saveFixtures();
           saveWorld();
+          // console.log("Saved Now");
      }
      const resetScene = () =>{
-          resetFixtures();
-          resetWorld();
+          delProjWorld(projKey);
+          delProjFixes(projKey);
+          saveFixtures();
+          saveWorld();
           togglePop();
      }
+     useEffect(() => {
+          const interval = setInterval(()=>{
+               saveScene();
+               // console.log("Saved Now");
+          }, 5000);
+          return () => clearInterval(interval);
+     },[]);
 
      return (
           <div className='canvas-cont'>
@@ -177,40 +208,45 @@ export default function Edit() {
                     {/* Measurement Scale */}
                     {isOrtho? <gridHelper args={[gridLen, gridBoxCount, `yellow`, `gray`]} /> : null}
                     <Physics gravity={[0, 0, 0]}>
-                         {isOrtho? <MakeOrtho scale={envScale} /> : <MakePersp scale={envScale} />}
-                         <Ground position={[0, -0.5, 0]} scale={envScale} />
+                         {isOrtho? <MakeOrtho scale={scale} /> : <MakePersp scale={scale} />}
+                         <Ground position={[0, -0.5, 0]} scale={scale} />
                     </Physics>
-                    {objects.map(({key, shape, objType}) =>{
-                         if(objType === 'model'){
-                              return(
-                                   <Model 
-                                        key = {key}
-                                        unique = {key}
-                                        setShape={shape}
-                                   />
-                              )
-                         }else if(objType === 'custom'){
-                              return(
-                                   <Obj 
-                                        key = {key}
-                                        unique = {key}
-                                        setShape={shape}
-                                   />
-                              )
-                         }else if(objType === 'room'){
-                              return(
-                                   <Room 
-                                        key = {key}
-                                        unique = {key}
-                                        setShape={shape}
-                                   />
-                              )
+                    {objects.map(({key, shape, objType, projId}) =>{
+                         // console.log("Object's proj: "+projId);
+                         // console.log("Pages's proj: "+projKey);
+                              
+                         if(projId === projKey){
+                              if(objType === 'model'){
+                                   return(
+                                        <Model 
+                                             key = {key}
+                                             unique = {key}
+                                             setShape={shape}
+                                        />
+                                   )
+                              }else if(objType === 'custom'){
+                                   return(
+                                        <Obj 
+                                             key = {key}
+                                             unique = {key}
+                                             setShape={shape}
+                                        />
+                                   )
+                              }else if(objType === 'room'){
+                                   return(
+                                        <Room 
+                                             key = {key}
+                                             unique = {key}
+                                             setShape={shape}
+                                        />
+                                   )
+                              }
                          }
                          return null;
                     })}
                </Canvas>
 
-               <Navbar saveScene={saveScene} />
+               <Navbar projName={projName} saveScene={saveScene} />
 
                {/* Objects Select Menu */}
                <div className={`top drop-menu ${isActive ? 'active' : ''}`} > 
@@ -259,8 +295,8 @@ export default function Edit() {
                     <div className={`set-menu ${settings ? 'active' : ''}`}>
                          {/* Set Scale */}
                          <div className="set-li set-scale">
-                              <p className={`set-n set-metric ${envScale === 'metric' ? 'active' : ''}`} onClick={makeMetric}>Metric</p>
-                              <p className={`set-n set-imperial ${envScale === 'imperial' ? 'active' : ''}`} onClick={makeImperial}>Imperial</p>
+                              <p className={`set-n set-metric ${scale === 'metric' ? 'active' : ''}`} onClick={makeMetric}>Metric</p>
+                              <p className={`set-n set-imperial ${scale === 'imperial' ? 'active' : ''}`} onClick={makeImperial}>Imperial</p>
                          </div>
                          {/* Reset Project */}
                          <div className="set-li set-reset">

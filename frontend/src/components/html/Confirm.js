@@ -15,7 +15,7 @@ export const Confirm = ({...props}) => {
                          <p>Are you sure you want to {task === 'erase'? "clear the project's canvas?": "delete the project?"}</p>
                          <div className='pop-opts'>
                               <div className='no' onClick={togglePop}>Never Mind</div>
-                              <div className='yes' onClick={resetScene}>Delete</div>
+                              <div className='yes' onClick={resetScene}>{task === 'erase'? "Erase": "Delete"}</div>
                          </div>
                     </div>
                </div>

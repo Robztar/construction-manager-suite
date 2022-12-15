@@ -5,7 +5,8 @@ import {Link} from 'react-router-dom';
 
 const Navbar = ({...props}) => {
      const saveScene = props.saveScene;
-
+     const projName = props.projName.charAt(0).toUpperCase() 
+          + props.projName.slice(1);
 
      return (
           <>
@@ -14,7 +15,7 @@ const Navbar = ({...props}) => {
                          <button className="home-btn" type="submit">Home</button>
                     </Link>
                     <div className="proj-head">
-                         <div>Project Name</div>
+                         <div>{projName}</div>
                          {/* <div>Floor Selector</div> */}
                     </div>
                     <div className="nav-icons">

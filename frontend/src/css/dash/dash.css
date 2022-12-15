@@ -1,3 +1,10 @@
+.dash-gen-cont {
+  background: rgb(223, 223, 223);
+  width: 100vw;
+  display: grid;
+  place-items: center;
+}
+
 .dash-cont {
   display: grid;
   place-content: center;
@@ -9,66 +16,175 @@
 
 .dash-sect {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
   background: whitesmoke;
   height: 90vh;
   width: 90vw;
 }
 
+.dash-head {
+  width: 80%;
+  margin-top: 3rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .dash-title {
+  margin: 0;
+  margin-bottom: 2rem;
   font-size: 2.2rem;
 }
 
-.proj-tiles-cont {
-  display: grid;
-  align-items: center;
-  place-items: center;
+.dash-details {
   width: 100%;
-  padding: 0 2%;
-  grid-template-columns: repeat(3, 1fr);
-  -moz-column-gap: 2%;
-       column-gap: 2%;
+  border-top: solid 2px black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dash-create-proj {
+  padding: 0.25rem;
+  display: grid;
+  place-items: center;
+  grid-template-columns: 1fr 0.25fr;
+  -moz-column-gap: 0.25rem;
+       column-gap: 0.25rem;
+  margin: 0;
+  color: rgb(0, 140, 255);
+  border: 2px solid rgb(0, 140, 255);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.dash-create-proj i {
+  font-size: 2rem;
+  transform: rotate(45deg);
+}
+
+.dash-create-proj:hover {
+  color: black;
+  background: rgb(0, 140, 255);
+  border-radius: 20px;
+}
+.dash-create-proj:hover i {
+  font-size: 2rem;
+  transform: rotate(45deg);
+}
+
+.create-proj-title {
+  margin-top: 1.5rem;
+}
+
+.create-proj-n {
+  width: 60%;
+  height: 1.5rem;
+  font-size: 1.1rem;
+  padding: 10px;
+  color: rgb(52, 52, 52);
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 111, 0.8);
+}
+
+.create-proj-scale {
+  background: rgba(255, 255, 111, 0.8);
+  padding: 5px;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+}
+
+input[name=m-scale]:nth-of-type(1) {
+  margin-right: 2rem;
+}
+
+.create-proj-btn {
+  padding: 0.5rem;
+  margin: 0.5rem;
+  cursor: pointer;
+  border: 2px solid rgb(0, 140, 255);
+  transition: 0.5s;
+}
+
+.create-proj-btn:hover {
+  background: rgb(0, 140, 255);
+  border-radius: 10px;
+}
+
+.proj-tiles-cont {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  padding: 2rem 3rem;
 }
 
 .proj-tile {
-  display: grid;
+  flex: 0 1 14rem;
+  margin: 1rem;
+  display: flex;
+  justify-content: space-around;
   align-items: center;
-  place-content: center;
-  height: 30vh;
-  width: 100%;
   text-decoration: none;
-  cursor: pointer;
-  background: white;
-  grid-template-rows: 3fr 1fr;
-  grid-template-columns: 1fr;
+  padding: 0.5rem;
+  border-radius: 10px;
+  background: rgb(255, 255, 111);
+}
+.proj-tile i:hover {
+  color: rgb(0, 140, 255);
 }
 
-.proj-thumb {
-  display: grid;
-  width: 100%;
-  height: 100%;
-  background: url(../../images/Cross-section.png);
-  background-size: cover;
-  background-position: center;
-}
-
-.proj-title {
+.proj-tile-title {
   display: grid;
   place-items: center;
   color: black;
+  text-decoration: none;
   height: 100%;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.proj-tile-open {
+  display: grid;
+  place-items: center;
+  color: black;
+  text-decoration: none;
+  height: 100%;
+  padding: 0.5rem;
+  font-size: 1.3rem;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.proj-tile-edit {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  transition: 0.5s;
+  cursor: pointer;
 }
 
 .proj-window-cont {
   position: absolute;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   background: whitesmoke;
   height: 90vh;
   width: 100%;
+}
+
+.proj-window-cont.active {
+  display: flex;
 }
 
 .proj-window-header {
@@ -143,6 +259,153 @@
   background: rgba(0, 0, 0, 0.2);
   border-radius: 50%;
   transition: 0.5s;
+}
+
+.proj-set.active {
+  color: rgb(0, 140, 255);
+  transform: rotate(180deg);
+}
+
+.dash-set-cont {
+  display: none;
+  height: 1rem;
+  width: 1rem;
+  transition: 0.5s ease-in-out;
+}
+
+.dash-set-cont.active {
+  display: grid;
+  justify-items: center;
+  align-items: start;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 3rem;
+  height: 15rem;
+  width: auto;
+  background: rgba(255, 255, 255, 0.85);
+  left: calc(50% - 11rem);
+  top: 25%;
+  color: black;
+}
+
+.dash-set-close {
+  background: rgba(0, 0, 0, 0.4);
+  width: 100%;
+  height: 2rem;
+  display: grid;
+  align-items: center;
+  justify-items: end;
+  padding: 0.25rem;
+}
+.dash-set-close i {
+  color: rgb(255, 113, 113);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.dash-set-close i:hover {
+  color: red;
+}
+
+.dash-settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+}
+.dash-settings div {
+  margin: 0.3rem;
+}
+
+.dash-scale {
+  display: flex;
+  justify-content: center;
+  align-items: space-around;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 2rem;
+  transition: 0.5s;
+  width: 11rem;
+  padding: 0.33rem;
+  transition: 0.5s;
+  cursor: default;
+}
+
+.dash-set-n {
+  display: grid;
+  place-items: center;
+  width: 50%;
+  height: 2.5rem;
+  margin: 0;
+  transition: 0.5s;
+}
+
+.dash-metric {
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+.dash-metric.active {
+  background: yellow;
+  width: 70%;
+}
+
+.dash-imperial {
+  border-radius: 2rem;
+  cursor: pointer;
+}
+
+.dash-imperial.active {
+  background: yellow;
+  width: 70%;
+}
+
+.dash-proj-n-cont {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  place-items: center;
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 2rem;
+  transition: 0.5s;
+  width: 18rem;
+  padding: 0.5rem;
+  transition: 0.5s;
+  cursor: default;
+}
+
+.dash-proj-change-n {
+  width: 100%;
+  height: 1.5rem;
+  font-size: 1.1rem;
+  padding: 5px;
+  color: rgb(52, 52, 52);
+  border-radius: 10px;
+  border: none;
+  background: rgba(0, 140, 255, 0.8);
+}
+
+.dash-proj-n-sub {
+  display: grid;
+  grid-template-columns: 1fr;
+  place-items: center;
+  background: rgba(0, 140, 255, 0.8);
+  border-radius: 10px;
+  transition: 0.5s;
+  padding: 0.5rem;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.dash-proj-n-sub:hover {
+  background: rgb(0, 140, 255);
+  border-radius: 2rem;
+}
+
+.dash-disclaimer {
+  padding: 0 1rem;
+  color: orangered;
+  font-size: 1rem;
 }
 
 .proj-del {

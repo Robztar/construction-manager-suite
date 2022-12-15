@@ -43,7 +43,7 @@ export const Fixtures = ({ ...props }) =>{
                // if(wallNo === 2){
                     prevPos[1] = dimensions[1]/2;
                }
-               console.log("Door pos is: "+ prevPos);
+               // console.log("Door pos is: "+ prevPos);
 
                box = new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]);
                
@@ -73,7 +73,7 @@ export const Fixtures = ({ ...props }) =>{
                     // if(wallNo === 2){
                          prevPos[1] = dimensions[1]/2;
                }
-               console.log("Window pos is: "+ prevPos);
+               // console.log("Window pos is: "+ prevPos);
                box = new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]);
                
                return(

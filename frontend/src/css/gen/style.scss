@@ -25,48 +25,76 @@ body {
      -webkit-font-smoothing: antialiased;
      -moz-osx-font-smoothing: grayscale;
      font-size: 18px;
-     // width: 100%;
-     // height: 100%;
-     // position: fixed;
-     // overflow: hidden;
-     // overscroll-behavior-y: none;
+     overflow: hidden;
 }
 
 code {
      font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-.gen-cont{
-     background: rgb(223, 223, 223);
-     width: 100vw;
-     display: grid;
-     place-items: center;
+.gen-nav{
+     position: fixed;
+     top: 0;
+     // background: rgba(255, 255, 255, 0.75);
+     background: rgba(0, 140, 255, 0.4);
+     border: 3px solid rgb(0, 140, 255);
+     z-index: 1;
+     margin-top: 1vh;
+     margin-left: 2vw;
+     width: 60vw;
+     min-width: 16rem;
+     height: 8vh;
+     border-radius: 4vh;
+     display: flex;
+     flex-direction: row;
+     justify-content: space-around;
+     align-items: center;
+}
+.gen-nav-btn{
+     background: none;
+     font-size: 1rem;
+     border: none;
+     width: fit-content;
+     padding: 0.5rem 1rem;
+     cursor: pointer;
 }
 
 // Home Styling
-.home-cont{
+.gen-cont{
+     background: rgb(223, 223, 223);
+     // width: 100vw !important;
+     width: 100%;
+     height: 100vh;
      display: grid;
      place-items: center;
      grid-template-rows: 1fr 1fr;
-     row-gap: 5vh;
      overflow-y: auto;
-     // position: absolute;
-     scroll-behavior: smooth;
-     width: 100%;
-     margin: 5vh 5%;
+     // scroll-behavior: smooth;
+     scroll-snap-type: y mandatory;
+}
+.gen-cont::-webkit-scrollbar {
+     width: 0.6rem;
+}
+.gen-cont::-webkit-scrollbar-thumb {
+     background: gray;
+     border-radius: 10px;
 }
 .home-sect{
+     margin: 5vh 0;
      position: relative;
      display: grid;
      place-items: center;
      background: whitesmoke;
+     scroll-snap-align: center;
+	// scroll-snap-stop: normal;
      height: 90vh;
      width: 90%;
 }
 .btn-cont{
      display: grid;
      place-items: center;
-     grid-template-columns: repeat(3, 1fr);
+     // grid-template-columns: repeat(3, 1fr);
+     grid-template-columns: 1fr;
      column-gap: 5rem;
 }
 .welcome-title{
@@ -92,7 +120,7 @@ code {
      // right:0;
      height:100vh;
      width:100vw;
-     z-index: 10;;
+     z-index: 10;
      background: rgba(0, 0, 0, 0.6);
 }
 .pop-cont.active{

@@ -218,6 +218,7 @@
 .attr-cont {
   display: none;
   grid-template-rows: 8vh 48vh 8vh;
+  z-index: 1;
   row-gap: 1vh;
   background: rgba(255, 255, 255, 0.272);
   border-radius: 10px;
@@ -358,13 +359,14 @@
   display: grid;
   align-items: center;
   place-content: center;
-  grid-template-rows: 1.3fr repeat(11, 1fr);
+  grid-template-rows: 1.3fr repeat(10, 1fr);
 }
 
 .color-row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   width: 10rem;
+  border: 1px solid black;
 }
 
 .color-t {
@@ -608,6 +610,7 @@
 
 .wall-cont {
   display: none;
+  z-index: 1;
   grid-template-rows: 8vh 48vh 8vh;
   row-gap: 1vh;
   background: rgba(255, 255, 255, 0.272);
@@ -1063,10 +1066,32 @@
   width: 100%;
 }
 
-.prop-sub {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  height: 1.67rem;
+.wall-toggle {
+  display: flex;
+  border-radius: 10px;
+  justify-content: space-around;
+  align-items: center;
+  min-width: 9rem;
+  min-height: 3rem;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.wall-del {
+  background: rgba(255, 101, 101, 0.8);
+}
+
+.wall-del:hover {
+  border-radius: 20px;
+  color: white;
+  background: rgba(255, 43, 43, 0.8);
+}
+
+.wall-add {
+  background: rgba(101, 255, 101, 0.6);
+}
+
+.wall-add:hover {
+  border-radius: 20px;
+  background: rgba(78, 255, 78, 0.8);
 }/*# sourceMappingURL=obj.css.map */

@@ -41,10 +41,10 @@ import * as textures from '../../textures';
 export const Obj = ({ setShape, unique}) =>{
      const ref = useRef();
 
-     const [ objects, conv, scale, ortho,
+     const [ objects, projects, ortho,
           setPos, 
           setActive,
-     ] = useStore((state) => [ state.objects, state.conv, state.scale, state.ortho,
+     ] = useStore((state) => [ state.objects, state.projects, state.ortho,
           state.setPos,
           state.setActive,
      ]);
@@ -54,12 +54,15 @@ export const Obj = ({ setShape, unique}) =>{
      // Measurement Scale
      let prevPos = [0,0,0];
      let allShapes;
-     let conversion = conv
      let dimensions;
      let ground = -0.5;
      // let actUnits;
 
      if (objInstance) {
+          let projInstance = projects.find(p => p.key === objInstance.projId);
+          let scale = projInstance.scale;
+          let conversion = projInstance.conversion;
+          
           prevPos = objInstance.pos;
           dimensions = [
                objInstance.dimTemp[0]*conversion,

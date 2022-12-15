@@ -9,32 +9,49 @@ const setLocalStorage = (key, value) =>
 
 export const useStore = create((set) => ({
      ortho: true,             // default canvas camera state
-     scale: 'metric',         // default measurement scale
-     conv: 12,                // default (metric) measurement standard 
-     // iniDim: [12,12,12],
      iniPos: [0,0,0],         // default object position
-     iniColor: '#BFBFBF',   // default color
-     texture: 'blank',        // default texture
+     wallColor: '#BFBFBF',    // default color
+     wallTexture: 'blank',    // default texture
+     floorColor: 'white',     // default color
+     floorTexture: 'wood',        // default texture
      fixtures: getLocalStorage('fixtures') || [],             //array of fixture objects
+     furnishes: getLocalStorage('furnishes') || [],           //array of fixture objects
 
-     // New fields coming soon...
+     // Check for projects in localStorage
+     projects: getLocalStorage('projects') || [],
+
+     // Add new project
+     addProj: (name, scale, conv) =>{
+          set((state) => ({
+               projects: [...state.projects,
+                    { 
+                         key: nanoid(),      // unique project identifier
+                         name: name,         // project name
+                         scale: scale,       // measurement scale
+                         conversion: conv,   // measurement standard
+                    },
+               ]
+          }))
+     },
 
      // Check for objects in localStorage
      objects: getLocalStorage('world') || [],
      
      // add whatever is requested
-     addObj: (texture, shape, objType) =>{
+     addObj: (projId, shape, objType) =>{
           set((state) => ({
                objects: [...state.objects,
                     { 
-                         // scale: state.scale,      //measurement scale in use
                          key: nanoid(),           //unique identifier
+                         projId: projId,          // project this object to linked to
                          pos: state.iniPos,       //position of object
                          dimTemp: [1,1,1],        //multiplier of the scale standard (conv)
                          objType: objType,        //type of object
                          shape: shape,            //shape (or name) of object
-                         color: state.iniColor,   //color of object
-                         texture: state.texture,  //texture of object
+                         color: state.floorColor,   //color of object
+                         texture: state.floorTexture,  //texture of object
+                         rotationY: 0,            //rotation of object
+
                          // Indiviual object's attribute menu states
                          active: 'none',          //state of object's MinSelect
                          resize: 'none',          //state of object's Resizer
@@ -42,6 +59,7 @@ export const useStore = create((set) => ({
                          furnishMenu: 'none',     //state of object's Furnish Menu
                          wallMenu: 'none',        //state of object's Walls Menu
                          matType: 'Plain',        //texture option selected
+
                          // Wall attributes
                          wall: [1,2,3,4],         //array of walls
                          wallPos: [               //array of position of each wall
@@ -57,52 +75,23 @@ export const useStore = create((set) => ({
                          wallDimTempY: [1,1,1,1], //array of dimTemp of each wall's height
                          activeWallNo: null,      //wall actively being used
                          wallTexture: [           //texture of wall
-                              state.texture,
-                              state.texture,
-                              state.texture,
-                              state.texture
+                              state.wallTexture,
+                              state.wallTexture,
+                              state.wallTexture,
+                              state.wallTexture,
                          ],
                          wallColor: [           //color of wall
-                              state.iniColor,
-                              state.iniColor,
-                              state.iniColor,
-                              state.iniColor
+                              state.wallColor,
+                              state.wallColor,
+                              state.wallColor,
+                              state.wallColor,
                          ],
-                         
-                         // objType: objType,        //type of object
-                         // shape: shape,            //shape (or name) of object
-                         // color: state.iniColor,   //color of object
-                         // texture: state.texture,  //texture of object
-                         // // Indiviual object's attribute menu states
-                         // active: 'none',          //state of object's attribute menu
-                         // textureOptions: false,   //if object's texture options list is shown
-                         // textureMenu: false,      //if object's texture options are selected
-                         // matType: 'Plain',        //texture option selected
                     },
                ]
           }))
      },
 
-//------- Project-wide Procedures --------
-     // save world to local storage
-     saveWorld: () =>{
-          set((state) => {
-               setLocalStorage('world', state.objects);
-          })
-     },
-
-     // reset world in local storage to empty
-     resetWorld: () =>{
-          // Empty but objects
-          set(() => ({
-               objects: []
-          }))
-          // Set world as empty
-          set((state) => {
-               setLocalStorage('world', []);
-          })
-     },
-
+//------ General Procedure --------
      // Updates with the current ortho mode
      switchOrtho: (cam) =>{
           set((state) =>({
@@ -110,17 +99,82 @@ export const useStore = create((set) => ({
           }))
      },
 
-     // Sets the measurement scale of the canvas
-     switchScale: (newScale) =>{
+//------- Project Procedures --------
+     // save project to local storage
+     saveProjects: () =>{
+          set((state) => {
+               setLocalStorage('projects', state.projects);
+          })
+     },
+
+     // save world to local storage
+     saveWorld: () =>{
+          set((state) => {
+               setLocalStorage('world', state.objects);
+          })
+     },
+
+     // save fixtures to local storage
+     saveFixtures: () =>{
+          set((state) => {
+               setLocalStorage('fixtures', state.fixtures);
+          })
+     },
+
+     // delete project from projects state
+     delProject: (id) =>{
+          set((state) => ({
+               projects: state.projects.filter((project) => project.key !== id)
+               }),
+          );
+     },
+
+     // delete project-specific objects from localStorage
+     delProjWorld: (projId) => {
+          set((state) => ({
+               objects: state.objects.filter((object) => object.projId !== projId)
+               }),
+          );
+     },
+
+     // reset fixtures in local storage to empty
+     delProjFixes: (projId) =>{
+          set((state) => ({
+               fixtures: state.fixtures.filter((fixes) => fixes.projId !== projId)
+               }),
+          );
+     },
+
+     // Sets the measurement scale of the project
+     switchScale: (newscale, id) =>{
           set((state) =>({
-               scale : newScale
+               projects: state.projects.map((project) =>
+                    project.key === id
+                         ? ({...project, scale: newscale})
+                         : project
+               ),
           }))
      },
 
-     // Sets the conversion of the standard scale dimensions
-     switchConv: (newConv) =>{
+     // Sets the conversion scale of the project
+     switchConv: (newconv, id) =>{
           set((state) =>({
-               conv : newConv
+               projects: state.projects.map((project) =>
+                    project.key === id
+                         ? ({...project, conversion: newconv})
+                         : project
+               ),
+          }))
+     },
+
+     // Change Project Name
+     changeProjName: (newName, id) =>{
+          set((state) =>({
+               projects: state.projects.map((project) =>
+                    project.key === id
+                         ? ({...project, name: newName})
+                         : project
+               ),
           }))
      },
 
@@ -230,6 +284,16 @@ export const useStore = create((set) => ({
                ),
           }))
      },
+     // Set standard dimension multiplier of the object
+     setRotation: (rotY, id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, rotationY: rotY})
+                         : object
+               ),
+          }))
+     },
 
      // remove the specified object
      removeObj: (id) => {
@@ -282,14 +346,33 @@ export const useStore = create((set) => ({
                ),
           }))
      },
+     setWallDimTempX: (tempX, id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, wallDimTempX: tempX})
+                         : object
+               ),
+          }))
+     },
+     setWallDimTempY: (tempY, id) =>{
+          set((state) =>({
+               objects: state.objects.map((object) =>
+                    object.key === id
+                         ? ({...object, wallDimTempY: tempY})
+                         : object
+               ),
+          }))
+     },
 
      //Add New Fixtures
-     addFixture: (wallNo, fixType, id, dim, col, text) =>{
+     addFixture: (wallNo, fixType, objId, projId, dim, col, text) =>{
           set((state) =>({
                fixtures: [...state.fixtures, 
                     {
                          key: nanoid(),
-                         objId: id,
+                         objId: objId,
+                         projId: projId,
                          wallNum: wallNo,
                          type: fixType,
                          pos: state.iniPos,
@@ -352,23 +435,6 @@ export const useStore = create((set) => ({
           );
      },
 
-     // save fixtures to local storage
-     saveFixtures: () =>{
-          set((state) => {
-               setLocalStorage('fixtures', state.fixtures);
-          })
-     },
 
-     // reset fixtures in local storage to empty
-     resetFixtures: () =>{
-          // Empty but fixtures state
-          set(() => ({
-               fixtures: []
-          }))
-          // Set fixtures Storage as empty
-          set((state) => {
-               setLocalStorage('fixtures', []);
-          })
-     },
 
 }));

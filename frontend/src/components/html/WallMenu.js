@@ -4,23 +4,25 @@ import { FixTureMenu } from './FixtureMenu';
 
 export const WallMenu = () =>{
      const [ 
-          objects, conversion, scale, fixtures,
+          objects, projects, fixtures,
           changeWallColor, 
           changeWallTexture, 
           setActiveWallNo, 
           setWallMenu, 
           setMatType,
           addFixture,
-          setDimTemp,
+          setWallDimTempX,
+          setWallDimTempY,
      ] = useStore((state) => [ 
-          state.objects, state.conv, state.scale, state.fixtures,
+          state.objects, state.projects, state.fixtures,
           state.changeWallColor,
           state.changeWallTexture,
           state.setActiveWallNo,
           state.setWallMenu,
           state.setMatType,
           state.addFixture,
-          state.setDimTemp,
+          state.setWallDimTempX,
+          state.setWallDimTempY,
      ]);
      
      const[wallMain,setWallMain] = useState(true);     //Main Interface
@@ -38,68 +40,131 @@ export const WallMenu = () =>{
 
 
      let objInstance = objects.find(o => o.wallMenu === 'grid');
-     let dimensions;
-     let actUnits;
-     let actSubUnits;
+     
+     let wallDimX;
+     let wallDimY;
+     let actWallX;
+     let actWallY;
+     let actWallXSubU;
+     let actWallYSubU;
 
      if(objInstance){
           let unique = objInstance.key;
+          let projInstance = projects.find(p => p.key === objInstance.projId);
+          let scale = projInstance.scale;
+          let conversion = projInstance.conversion;
           let activeWallNo = objInstance.activeWallNo;
 
           // Fixtures Management
           let fixInstance = fixtures.filter(e => e.objId === unique);
           // console.log("Fixture Instance = "+ fixInstance);
 
-          // (Not retrofitted) Dimension Development
-          dimensions = [
-               objInstance.dimTemp[0]*conversion,
-               objInstance.dimTemp[1]*conversion,
-               objInstance.dimTemp[2]*conversion
+          // Wall Dimension Development
+          wallDimX = [
+               objInstance.wallDimTempX[0]*conversion,
+               objInstance.wallDimTempX[1]*conversion,
+               objInstance.wallDimTempX[2]*conversion,
+               objInstance.wallDimTempX[3]*conversion
+          ];
+          wallDimY = [
+               objInstance.wallDimTempY[0]*conversion,
+               objInstance.wallDimTempY[1]*conversion,
+               objInstance.wallDimTempY[2]*conversion,
+               objInstance.wallDimTempY[3]*conversion
           ];
           if(scale === 'metric'){
-               actUnits = [dimensions[0]/4,dimensions[1]/4,dimensions[2]/4];
-               actSubUnits = [
-                    // X-axis
+               actWallX = [wallDimX[0]/4,wallDimX[1]/4,wallDimX[2]/4,wallDimX[3]/4];
+               actWallY = [wallDimY[0]/4,wallDimY[1]/4,wallDimY[2]/4,wallDimY[3]/4];
+               actWallXSubU = [
                     [
-                         Math.floor(actUnits[0]), //metre
-                         Math.floor((actUnits[0] % 1) * 100),   //cm
-                         // Math.floor((actUnits[0] % 0.01) * 1000)  //mm
-                         Math.floor((((actUnits[0] % 1) * 100) % 1) * 10)  //mm
+                         Math.floor(actWallX[0]), //metre
+                         Math.floor((actWallX[0] % 1) * 100),   //cm
+                         Math.floor((((actWallX[0] % 1) * 100) % 1) * 10)  //mm
                     ],
-                    // Y-axis
                     [
-                         Math.floor(actUnits[1]), //metre
-                         Math.floor((actUnits[1] % 1) * 100),   //cm
-                         Math.floor((((actUnits[1] % 1) * 100) % 1) * 10)  //mm
+                         Math.floor(actWallX[1]), //metre
+                         Math.floor((actWallX[1] % 1) * 100),   //cm
+                         Math.floor((((actWallX[1] % 1) * 100) % 1) * 10)  //mm
                     ],
-                    // Z-axis
                     [
-                         Math.floor(actUnits[2]), //metre
-                         Math.floor((actUnits[2] % 1) * 100),   //cm
-                         Math.floor((((actUnits[2] % 1) * 100) % 1) * 10)  //mm
+                         Math.floor(actWallX[2]), //metre
+                         Math.floor((actWallX[2] % 1) * 100),   //cm
+                         Math.floor((((actWallX[2] % 1) * 100) % 1) * 10)  //mm
+                    ],
+                    [
+                         Math.floor(actWallX[3]), //metre
+                         Math.floor((actWallX[3] % 1) * 100),   //cm
+                         Math.floor((((actWallX[3] % 1) * 100) % 1) * 10)  //mm
+                    ],
+               ];
+               actWallYSubU = [
+                    [
+                         Math.floor(actWallY[0]), //metre
+                         Math.floor((actWallY[0] % 1) * 100),   //cm
+                         Math.floor((((actWallY[0] % 1) * 100) % 1) * 10)  //mm
+                    ],
+                    [
+                         Math.floor(actWallY[1]), //metre
+                         Math.floor((actWallY[1] % 1) * 100),   //cm
+                         Math.floor((((actWallY[1] % 1) * 100) % 1) * 10)  //mm
+                    ],
+                    [
+                         Math.floor(actWallY[2]), //metre
+                         Math.floor((actWallY[2] % 1) * 100),   //cm
+                         Math.floor((((actWallY[2] % 1) * 100) % 1) * 10)  //mm
+                    ],
+                    [
+                         Math.floor(actWallY[3]), //metre
+                         Math.floor((actWallY[3] % 1) * 100),   //cm
+                         Math.floor((((actWallY[3] % 1) * 100) % 1) * 10)  //mm
                     ],
                ];
                // console.log("Width is "+ actSubUnits[0][0]+"m, "+actSubUnits[0][1]+"cm, "+actSubUnits[0][2]+"mm.");
           }else if (scale === 'imperial'){
-               actUnits = [dimensions[0],dimensions[1],dimensions[2]];
-               actSubUnits = [
-                    // X-axis
+               actWallX = [wallDimX[0],wallDimX[1],wallDimX[2],wallDimX[3]];
+               actWallY = [wallDimY[0],wallDimY[1],wallDimY[2],wallDimY[3]];
+               actWallXSubU = [
                     [
-                         Math.floor(actUnits[0]), //foot
-                         Math.floor((actUnits[0] % 1) * 12),   //in
-                         Math.floor((((actUnits[0] % 1) * 12) % 1) * 16)  //fract
+                         Math.floor(actWallX[0]), //foot
+                         Math.floor((actWallX[0] % 1) * 12),   //in
+                         Math.floor((((actWallX[0] % 1) * 12) % 1) * 16)  //fract
                     ],
-                    // Y-axis
                     [
-                         Math.floor(actUnits[1]), //foot
-                         Math.floor((actUnits[1] % 1) * 12),   //in
-                         Math.floor((((actUnits[1] % 1) * 12) % 1) * 16)   //fract
+                         Math.floor(actWallX[1]), //foot
+                         Math.floor((actWallX[1] % 1) * 12),   //in
+                         Math.floor((((actWallX[1] % 1) * 12) % 1) * 16)   //fract
                     ],
-                    // Z-axis
                     [
-                         Math.floor(actUnits[2]), //metre
-                         Math.floor((actUnits[2] % 1) * 12),   //in
-                         Math.floor((((actUnits[2] % 1) * 12) % 1) * 16)  //fract
+                         Math.floor(actWallX[2]), //foot
+                         Math.floor((actWallX[2] % 1) * 12),   //in
+                         Math.floor((((actWallX[2] % 1) * 12) % 1) * 16)  //fract
+                    ],
+                    [
+                         Math.floor(actWallX[3]), //foot
+                         Math.floor((actWallX[3] % 1) * 12),   //in
+                         Math.floor((((actWallX[3] % 1) * 12) % 1) * 16)  //fract
+                    ],
+               ];
+               actWallYSubU = [
+                    [
+                         Math.floor(actWallY[0]), //foot
+                         Math.floor((actWallY[0] % 1) * 12),   //in
+                         Math.floor((((actWallY[0] % 1) * 12) % 1) * 16)  //fract
+                    ],
+                    [
+                         Math.floor(actWallY[1]), //foot
+                         Math.floor((actWallY[1] % 1) * 12),   //in
+                         Math.floor((((actWallY[1] % 1) * 12) % 1) * 16)   //fract
+                    ],
+                    [
+                         Math.floor(actWallY[2]), //foot
+                         Math.floor((actWallY[2] % 1) * 12),   //in
+                         Math.floor((((actWallY[2] % 1) * 12) % 1) * 16)  //fract
+                    ],
+                    [
+                         Math.floor(actWallY[3]), //foot
+                         Math.floor((actWallY[3] % 1) * 12),   //in
+                         Math.floor((((actWallY[3] % 1) * 12) % 1) * 16)  //fract
                     ],
                ];
           }
@@ -203,6 +268,43 @@ export const WallMenu = () =>{
                                                        setWallSpec(false);
                                                   }}
                                              >Edit</div>
+                                        </div>
+                                        <div 
+                                             className={`wall-toggle 
+                                                       ${ wallDimX[activeWallNo]>0 && wallDimY[activeWallNo]>0 
+                                                            ? 'wall-del' : 'wall-add'}
+                                                  `}
+                                                  onClick={(e) =>{
+                                                       e.stopPropagation();
+                                                       let rWallXTemp = [
+                                                            objInstance.wallDimTempX[0],
+                                                            objInstance.wallDimTempX[1],
+                                                            objInstance.wallDimTempX[2],
+                                                            objInstance.wallDimTempX[3]
+                                                       ];
+                                                       let rWallYTemp = [
+                                                            objInstance.wallDimTempY[0],
+                                                            objInstance.wallDimTempY[1],
+                                                            objInstance.wallDimTempY[2],
+                                                            objInstance.wallDimTempY[3]
+                                                       ];
+                                                       console.log("Wall X: "+rWallXTemp+" Before");
+                                                       if(rWallXTemp[activeWallNo]>0 && rWallYTemp[activeWallNo]>0){
+                                                            rWallXTemp[activeWallNo] = 0;
+                                                            rWallYTemp[activeWallNo] = 0;
+                                                            console.log("Delete Wall X: "+rWallXTemp);
+                                                       }else{
+                                                            rWallXTemp[activeWallNo] = 0.068;
+                                                            rWallYTemp[activeWallNo] = 1;
+                                                            console.log("Add Wall X: "+rWallXTemp);
+                                                       }
+                                                       // console.log("Wall X: "+rWallXTemp+" After");
+                                                       setWallDimTempX(rWallXTemp, unique);
+                                                       setWallDimTempY(rWallYTemp, unique);
+                                                  }}
+                                             >{wallDimX[activeWallNo]>0 && wallDimY[activeWallNo]>0 
+                                                  ? 'Delete Wall' : 'Add Wall'
+                                             }
                                         </div>
                                    </div>
                               )
@@ -432,9 +534,32 @@ export const WallMenu = () =>{
                                                                                 }}
                                                                            ></div>
                                                                       </div>
-
                                                                       {/* Orange Row */}
                                                                       <div className='color-row orange'>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#FFE5CC'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#FFE5CC';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#FFB266'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#FFB266';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
                                                                            <div 
                                                                                 className='color-t' 
                                                                                 style={{'background': 'orange'}}
@@ -447,10 +572,57 @@ export const WallMenu = () =>{
                                                                                      setTextureMenu(false);
                                                                                 }}
                                                                            ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#994C00'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#994C00';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#331900'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#331900';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
                                                                       </div>
-
                                                                       {/* Yellow Row */}
                                                                       <div className='color-row yellow'>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#FFFFCC'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#FFFFCC';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#FFFF66'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#FFFF66';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
                                                                            <div 
                                                                                 className='color-t' 
                                                                                 style={{'background': 'yellow'}}
@@ -463,10 +635,57 @@ export const WallMenu = () =>{
                                                                                      setTextureMenu(false);
                                                                                 }}
                                                                            ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#999900'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#999900';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#333300'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#333300';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
                                                                       </div>
-
                                                                       {/* Lime Row */}
                                                                       <div className='color-row lime'>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#CCFFCC'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#CCFFCC';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#66FF66'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#66FF66';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
                                                                            <div 
                                                                                 className='color-t' 
                                                                                 style={{'background': 'lime'}}
@@ -479,8 +698,31 @@ export const WallMenu = () =>{
                                                                                      setTextureMenu(false);
                                                                                 }}
                                                                            ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#009900'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#009900';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#003300'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#003300';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
                                                                       </div>
-
                                                                       {/* Aqua Row */}
                                                                       <div className='color-row aqua'>
                                                                            <div 
@@ -544,9 +786,32 @@ export const WallMenu = () =>{
                                                                                 }}
                                                                            ></div>
                                                                       </div>
-
                                                                       {/* Cyan Row */}
                                                                       <div className='color-row cyan'>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#CCFFFF'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#CCFFFF';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#66FFFF'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#66FFFF';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
                                                                            <div 
                                                                                 className='color-t' 
                                                                                 style={{'background': 'cyan'}}
@@ -559,10 +824,57 @@ export const WallMenu = () =>{
                                                                                      setTextureMenu(false);
                                                                                 }}
                                                                            ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#009999'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#009999';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#003333'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#003333';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
                                                                       </div>
-
                                                                       {/* Blue Row */}
                                                                       <div className='color-row blue'>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#CCCCFF'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#CCCCFF';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#6666FF'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#6666FF';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
                                                                            <div 
                                                                                 className='color-t' 
                                                                                 style={{'background': 'blue'}}
@@ -575,16 +887,24 @@ export const WallMenu = () =>{
                                                                                      setTextureMenu(false);
                                                                                 }}
                                                                            ></div>
-                                                                      </div>
-
-                                                                      {/* Purple Row */}
-                                                                      <div className='color-row purple'>
                                                                            <div 
                                                                                 className='color-t' 
-                                                                                style={{'background': 'purple'}}
+                                                                                style={{'background': '#000099'}}
                                                                                 onClick={(e) =>{
                                                                                      e.stopPropagation();
-                                                                                     wallColor[activeWallNo] = 'purple';
+                                                                                     wallColor[activeWallNo] = '#000099';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#000033'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#000033';
                                                                                      wallTexture[activeWallNo] = 'blank';
                                                                                      changeWallColor(wallColor, unique);
                                                                                      changeWallTexture(wallTexture, unique);
@@ -592,9 +912,32 @@ export const WallMenu = () =>{
                                                                                 }}
                                                                            ></div>
                                                                       </div>
-
-                                                                      {/* Magenta Row */}
+                                                                      {/* Magenta/Purple Row */}
                                                                       <div className='color-row magenta'>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#FFCCFF'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#FFCCFF';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#FF66FF'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#FF66FF';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
                                                                            <div 
                                                                                 className='color-t' 
                                                                                 style={{'background': 'magenta'}}
@@ -607,8 +950,31 @@ export const WallMenu = () =>{
                                                                                      setTextureMenu(false);
                                                                                 }}
                                                                            ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': 'purple'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = 'purple';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
+                                                                           <div 
+                                                                                className='color-t' 
+                                                                                style={{'background': '#330033'}}
+                                                                                onClick={(e) =>{
+                                                                                     e.stopPropagation();
+                                                                                     wallColor[activeWallNo] = '#330033';
+                                                                                     wallTexture[activeWallNo] = 'blank';
+                                                                                     changeWallColor(wallColor, unique);
+                                                                                     changeWallTexture(wallTexture, unique);
+                                                                                     setTextureMenu(false);
+                                                                                }}
+                                                                           ></div>
                                                                       </div>
-
                                                                       {/* Pink Row */}
                                                                       <div className='color-row pink'>
                                                                            <div 
@@ -976,85 +1342,93 @@ export const WallMenu = () =>{
                                                                  
                                                                  <div className='props-opts'>
                                                                       <div className='prop'>
-                                                                           <label className='prop-n'>Width</label>
+                                                                           <label className='prop-n'>Wall Height</label>
                                                                            <div className='prop-fields'>
                                                                                 <input 
                                                                                      className='prop-input'
-                                                                                     id="width-l"
+                                                                                     id="heightW-l"
                                                                                      type="number"
                                                                                      min='0' 
-                                                                                     value={actSubUnits[0][0]}
+                                                                                     value={actWallYSubU[activeWallNo][0]}
                                                                                      step="1"
                                                                                      onChange={(e) =>{
+                                                                                          if (e.target.value === '') {
+                                                                                               e.target.value = 0
+                                                                                          }
                                                                                           let lg = parseInt(e.target.value);
-                                                                                          let med = actSubUnits[0][1]
-                                                                                          let sm = actSubUnits[0][2] + 0.1;
+                                                                                          let med = actWallYSubU[activeWallNo][1]
+                                                                                          let sm = actWallYSubU[activeWallNo][2] + 0.1;
                                                                                           let tot;
-                                                                                          let rDimTemp;
+                                                                                          let rWallYTemp;
                                                                                           if(scale === 'metric'){
                                                                                                tot = lg + (med/100) + (sm/1000);
                                                                                                // console.log("Width is "+lg+"m, "+med+"cm, "+sm+"mm.");
                                                                                                // console.log("Total Width is " + tot);
-                                                                                               rDimTemp=[tot/3, actUnits[1]/3,actUnits[2]/3];
+                                                                                               rWallYTemp=[tot/3, tot/3, tot/3, tot/3];
                                                                                           }else if(scale === 'imperial'){
                                                                                                let ret_sm = sm/(12*16);
                                                                                                tot = lg + (med/12) + (ret_sm);
                                                                                                // console.log("Width is "+lg+"ft, "+med+" and "+sm+"/16 in.");
                                                                                                // console.log("Total Width is " + tot);
-                                                                                               rDimTemp=[tot/10, actUnits[1]/10,actUnits[2]/10];
+                                                                                               rWallYTemp=[tot/10, tot/10, tot/10, tot/10];
                                                                                           }
-                                                                                          // console.log(rVal);
-                                                                                          setDimTemp(rDimTemp, unique);
+                                                                                          setWallDimTempY(rWallYTemp, unique);
                                                                                      }}
                                                                                 />
                                                                                 <input 
                                                                                      className='prop-input'
-                                                                                     id="width-m"
+                                                                                     id="heightW-m"
                                                                                      type="number"
                                                                                      min='0' 
                                                                                      max='100'
-                                                                                     value={actSubUnits[0][1]}
+                                                                                     value={actWallYSubU[activeWallNo][1]}
                                                                                      step="1"
                                                                                      onChange={(e) =>{
-                                                                                          let lg = actSubUnits[0][0];
+                                                                                          if (e.target.value === '') {
+                                                                                               e.target.value = 0
+                                                                                          }
+                                                                                          let lg = actWallYSubU[activeWallNo][0];
                                                                                           let med = parseInt(e.target.value);
-                                                                                          let sm = actSubUnits[0][2] + 0.1;
+                                                                                          let sm = actWallYSubU[activeWallNo][2] + 0.1;
                                                                                           let tot;
-                                                                                          let rDimTemp;
+                                                                                          let rWallYTemp;
                                                                                           if(scale === 'metric'){
                                                                                                tot = lg + (med/100) + (sm/1000);
-                                                                                               rDimTemp=[tot/3, actUnits[1]/3,actUnits[2]/3]
+                                                                                               rWallYTemp=[tot/3, tot/3, tot/3, tot/3];
                                                                                           }else if(scale === 'imperial'){
                                                                                                let ret_sm = sm/(12*16);
                                                                                                tot = lg + (med/12) + (ret_sm);
-                                                                                               rDimTemp=[tot/10, actUnits[1]/10,actUnits[2]/10]
+                                                                                               rWallYTemp=[tot/10, tot/10, tot/10, tot/10];
                                                                                           }
-                                                                                          setDimTemp(rDimTemp, unique);
+                                                                                          setWallDimTempY(rWallYTemp, unique);
                                                                                      }}
                                                                                 />
                                                                                 <input 
                                                                                      className='prop-input'
                                                                                      type="number"
-                                                                                     id="width-s"
+                                                                                     id="heightW-s"
                                                                                      min='0' 
                                                                                      max='16'
-                                                                                     value={actSubUnits[0][2]} 
+                                                                                     value={actWallYSubU[activeWallNo][2]} 
                                                                                      step="1"
                                                                                      onChange={(e) =>{
-                                                                                          let lg = actSubUnits[0][0];
-                                                                                          let med = actSubUnits[0][1];
+                                                                                          if (e.target.value === '') {
+                                                                                               e.target.value = 0
+                                                                                          }
+                                                                                          let lg = actWallYSubU[activeWallNo][0];
+                                                                                          let med = actWallYSubU[activeWallNo][1];
                                                                                           let sm = parseFloat(e.target.value) + 0.1;
                                                                                           let tot;
-                                                                                          let rDimTemp;
+                                                                                          let rWallYTemp;
                                                                                           if(scale === 'metric'){
                                                                                                tot = lg + (med/100) + (sm/1000);
-                                                                                               rDimTemp=[tot/3, actUnits[1]/3,actUnits[2]/3]
+                                                                                               rWallYTemp=[tot/3, tot/3, tot/3, tot/3];
                                                                                           }else if(scale === 'imperial'){
                                                                                                let ret_sm = sm/(12*16);
                                                                                                tot = lg + (med/12) + (ret_sm);
-                                                                                               rDimTemp=[tot/10, actUnits[1]/10,actUnits[2]/10]
+                                                                                               rWallYTemp=[tot/10, tot/10, tot/10, tot/10];
                                                                                           }
-                                                                                          setDimTemp(rDimTemp, unique);
+                                                                                          setWallDimTempY(rWallYTemp, unique);
                                                                                      }}
                                                                                 />
                                                                            </div>
@@ -1074,55 +1448,66 @@ export const WallMenu = () =>{
                                                                            </div>
                                                                       </div>
                                                                       <div className='prop'>
-                                                                           <label className='prop-n'>Length</label>
+                                                                           <label className='prop-n'>Wall Thickness</label>
                                                                            <div className='prop-fields'>
                                                                                 <input 
                                                                                      className='prop-input'
-                                                                                     id="length-l"
+                                                                                     id="thick-l"
                                                                                      type="number"
-                                                                                     min='0' 
-                                                                                     value={actSubUnits[2][0]}
+                                                                                     min='0'
+                                                                                     max={scale === "metric"? 1 : 3} 
+                                                                                     value={actWallXSubU[activeWallNo][0]}
                                                                                      step="1"
                                                                                      onChange={(e) =>{
+                                                                                          if (e.target.value === '') {
+                                                                                               e.target.value = 0
+                                                                                          }
                                                                                           let lg = parseInt(e.target.value);
-                                                                                          let med = actSubUnits[2][1]
-                                                                                          let sm = actSubUnits[2][2] + 0.1;
+                                                                                          let med = actWallXSubU[activeWallNo][1]
+                                                                                          let sm = actWallXSubU[activeWallNo][2] + 0.1;
                                                                                           let tot;
-                                                                                          let rDimTemp;
+                                                                                          let rWallXTemp;
                                                                                           if(scale === 'metric'){
                                                                                                tot = lg + (med/100) + (sm/1000);
-                                                                                               rDimTemp=[actUnits[0]/3, actUnits[1]/3, tot/3];
+                                                                                               rWallXTemp=[actWallX[0]/3, actWallX[1]/3, actWallX[2]/3, actWallX[3]/3];
+                                                                                               rWallXTemp[activeWallNo] = tot/3;
                                                                                           }else if(scale === 'imperial'){
                                                                                                let ret_sm = sm/(12*16);
                                                                                                tot = lg + (med/12) + (ret_sm);
-                                                                                               rDimTemp=[actUnits[0]/10, actUnits[1]/10, tot/10];
+                                                                                               rWallXTemp=[actWallX[0]/10, actWallX[1]/10, actWallX[2]/10, actWallX[3]/10];
+                                                                                               rWallXTemp[activeWallNo] = tot/10;
                                                                                           }
-                                                                                          setDimTemp(rDimTemp, unique);
+                                                                                          setWallDimTempX(rWallXTemp, unique);
                                                                                      }}
                                                                                 />
                                                                                 <input 
                                                                                      className='prop-input'
-                                                                                     id="length-m"
+                                                                                     id="thick-m"
                                                                                      type="number"
-                                                                                     min='0' 
+                                                                                     min='0'
                                                                                      max='100'
-                                                                                     value={actSubUnits[2][1]}
+                                                                                     value={actWallXSubU[activeWallNo][1]}
                                                                                      step="1"
                                                                                      onChange={(e) =>{
-                                                                                          let lg = actSubUnits[2][0];
+                                                                                          if (e.target.value === '') {
+                                                                                               e.target.value = 0
+                                                                                          }
+                                                                                          let lg = actWallXSubU[activeWallNo][0];
                                                                                           let med = parseInt(e.target.value);
-                                                                                          let sm = actSubUnits[2][2] + 0.1;
+                                                                                          let sm = actWallXSubU[activeWallNo][2] + 0.1;
                                                                                           let tot;
-                                                                                          let rDimTemp;
+                                                                                          let rWallXTemp;
                                                                                           if(scale === 'metric'){
                                                                                                tot = lg + (med/100) + (sm/1000);
-                                                                                               rDimTemp=[actUnits[0]/3, actUnits[1]/3, tot/3];
+                                                                                               rWallXTemp=[actWallX[0]/3, actWallX[1]/3, actWallX[2]/3, actWallX[3]/3];
+                                                                                               rWallXTemp[activeWallNo] = tot/3;
                                                                                           }else if(scale === 'imperial'){
                                                                                                let ret_sm = sm/(12*16);
                                                                                                tot = lg + (med/12) + (ret_sm);
-                                                                                               rDimTemp=[actUnits[0]/10, actUnits[1]/10, tot/10];
+                                                                                               rWallXTemp=[actWallX[0]/10, actWallX[1]/10, actWallX[2]/10, actWallX[3]/10];
+                                                                                               rWallXTemp[activeWallNo] = tot/10;
                                                                                           }
-                                                                                          setDimTemp(rDimTemp, unique);
+                                                                                          setWallDimTempX(rWallXTemp, unique);
                                                                                      }}
                                                                                 />
                                                                                 <input 
@@ -1131,23 +1516,28 @@ export const WallMenu = () =>{
                                                                                      id="length-s"
                                                                                      min='0' 
                                                                                      max='16'
-                                                                                     value={actSubUnits[2][2]} 
+                                                                                     value={actWallXSubU[activeWallNo][2]} 
                                                                                      step="1"
                                                                                      onChange={(e) =>{
-                                                                                          let lg = actSubUnits[2][0];
-                                                                                          let med = actSubUnits[2][1];
+                                                                                          if (e.target.value === '') {
+                                                                                               e.target.value = 0
+                                                                                          }
+                                                                                          let lg = actWallXSubU[activeWallNo][0];
+                                                                                          let med = actWallXSubU[activeWallNo][1];
                                                                                           let sm = parseFloat(e.target.value) + 0.1;
                                                                                           let tot;
-                                                                                          let rDimTemp;
+                                                                                          let rWallXTemp;
                                                                                           if(scale === 'metric'){
                                                                                                tot = lg + (med/100) + (sm/1000);
-                                                                                               rDimTemp=[actUnits[0]/3, actUnits[1]/3, tot/3];
+                                                                                               rWallXTemp=[actWallX[0]/3, actWallX[1]/3, actWallX[2]/3, actWallX[3]/3];
+                                                                                               rWallXTemp[activeWallNo] = tot/3;
                                                                                           }else if(scale === 'imperial'){
                                                                                                let ret_sm = sm/(12*16);
                                                                                                tot = lg + (med/12) + (ret_sm);
-                                                                                               rDimTemp=[actUnits[0]/10, actUnits[1]/10, tot/10];
+                                                                                               rWallXTemp=[actWallX[0]/10, actWallX[1]/10, actWallX[2]/10, actWallX[3]/10];
+                                                                                               rWallXTemp[activeWallNo] = tot/10;
                                                                                           }
-                                                                                          setDimTemp(rDimTemp, unique);
+                                                                                          setWallDimTempX(rWallXTemp, unique);
                                                                                      }}
                                                                                 />
                                                                            </div>
@@ -1165,26 +1555,6 @@ export const WallMenu = () =>{
                                                                                      </div>}
                                                                                 </div>
                                                                            </div>
-                                                                      </div> 
-                                                                      <div className='prop'>
-                                                                           <label className='prop-n'>Rotation</label>
-                                                                           <div className='prop-fields' style={{'grid-template-columns': '1fr'}}>
-                                                                                <input 
-                                                                                     className='prop-input'
-                                                                                     type="number" 
-                                                                                     min='0' 
-                                                                                     max='360'
-                                                                                     // value={0} 
-                                                                                     defaultValue={0}
-                                                                                     id="rotation"
-                                                                                     step="10"
-                                                                                     onChange={(e) =>{
-                                                                                          let rVal = e.target.value;
-                                                                                          console.log(rVal);
-                                                                                     }}
-                                                                                />
-                                                                           </div>
-                                                                           <div className='prop-names' style={{'grid-template-columns': '1fr'}}>Degrees</div>
                                                                       </div>
                                                                  </div>
                                                             </div>
@@ -1276,24 +1646,24 @@ export const WallMenu = () =>{
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  let model;
-                                                                 let dimensions;
+                                                                 let fixDim;
                                                                  let defColor;
                                                                  let defTexture;
                                                                  if(fixCat === 'Door'){
                                                                       model = 'Exterior';
-                                                                      dimensions = [0.068,0.667,0.3];
+                                                                      fixDim = [0.068,0.667,0.3];
                                                                       defColor = 'white';
                                                                       defTexture = 'wood';
                                                                  }else{
                                                                       model = 'Standard';
-                                                                      dimensions = [0.068,0.4,0.3];
+                                                                      fixDim = [0.068,0.4,0.3];
                                                                       defColor = '#add8e6';
                                                                       defTexture = 'glass';
                                                                  }
                                                                  addFixture(
                                                                       activeWallNo, [fixCat, model], 
-                                                                      unique, dimensions,
-                                                                      defColor, defTexture
+                                                                      unique, projInstance.key,
+                                                                      fixDim, defColor, defTexture
                                                                  );
                                                                  setFixTypeMenu(true);
                                                                  setAddMenu(false);
@@ -1310,23 +1680,23 @@ export const WallMenu = () =>{
                                                             onClick={(e) =>{
                                                                  e.stopPropagation();
                                                                  let model;
-                                                                 let dimensions;
+                                                                 let fixDim;
                                                                  let defColor;
                                                                  let defTexture;
                                                                  if(fixCat === 'Door'){
                                                                       model = 'Interior';
-                                                                      dimensions = [0.068,0.667,0.3];
+                                                                      fixDim = [0.068,0.667,0.3];
                                                                       defColor = 'white';
                                                                       defTexture = 'wood';
                                                                  }else{
                                                                       model = 'Tall';
-                                                                      dimensions = [0.068,0.5,0.2];
+                                                                      fixDim = [0.068,0.5,0.2];
                                                                       defColor = '#add8e6';
                                                                       defTexture = 'glass';
                                                                  }
                                                                  addFixture(
                                                                       activeWallNo, [fixCat, model], 
-                                                                      unique, dimensions,
+                                                                      unique, fixDim,
                                                                       defColor, defTexture
                                                                  );
                                                                  setFixTypeMenu(true);
@@ -1367,16 +1737,7 @@ export const WallMenu = () =>{
                     {(() =>{ 
                          if(wallMain){
                               return(
-                                   <div className='wall-footer'>
-                                        {/* <div 
-                                             className='wall-n'
-                                             onClick={() => {
-                                                  // removeObj(unique);
-                                                  // setAttrMenu('');
-                                                  // setActive('');
-                                             }}
-                                        ><i className="fas fa-trash-alt"></i></div> */}
-                                   </div>
+                                   <div className='wall-footer'></div>
                               )
                          }else{
                               return(
