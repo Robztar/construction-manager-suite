@@ -4,15 +4,11 @@ import { Sky, OrthographicCamera, PerspectiveCamera } from '@react-three/drei';
 import { Physics } from '@react-three/cannon';
 import * as THREE from 'three';
 
-
-import { Obj } from '../components/objects/Obj';
-import { Model } from '../components/objects/Model';
 import { Room } from '../components/rooms/Room';
 
 import Navbar from '../components/html/Navbar';
 import SpaceReminder from '../components/html/SpaceReminder';
 import { Attribute } from '../components/html/Attribute';
-import { FurnishMenu } from '../components/html/FurnishMenu';
 import { WallMenu } from '../components/html/WallMenu';
 import { Confirm } from '../components/html/Confirm';
 
@@ -24,10 +20,6 @@ import { useKeyboardControls } from '../hooks/useKeyboardControls';
 import { useStore } from '../hooks/objStore'; 
 
 import pointer from '../images/cursor.png';
-
-// -------Search 'Measurement Scale'---------
-  // To see the progress made on scaling the canvas 
-  // (also see Obj.js and objStore.js)
 
 // ---------------- Camera Controls ----------------
 let pos = [0,1,0];
@@ -216,23 +208,7 @@ export default function Edit() {
                          // console.log("Pages's proj: "+projKey);
                               
                          if(projId === projKey){
-                              if(objType === 'model'){
-                                   return(
-                                        <Model 
-                                             key = {key}
-                                             unique = {key}
-                                             setShape={shape}
-                                        />
-                                   )
-                              }else if(objType === 'custom'){
-                                   return(
-                                        <Obj 
-                                             key = {key}
-                                             unique = {key}
-                                             setShape={shape}
-                                        />
-                                   )
-                              }else if(objType === 'room'){
+                              if(objType === 'room'){
                                    return(
                                         <Room 
                                              key = {key}
@@ -261,38 +237,12 @@ export default function Edit() {
                               data-type={'room'} 
                               data-shape={"rect"}
                          >Room</div>
-                         <div 
-                              className="object-li" 
-                              onClick={addNew} 
-                              data-type={'custom'} 
-                              data-shape={"box"}
-                         >Box</div>
-                         <div 
-                              className="object-li" 
-                              onClick={addNew} 
-                              data-type={'custom'} 
-                              data-shape={'sphere'}
-                         >Sphere</div>
-                         <div 
-                              className="object-li" 
-                              onClick={addNew} 
-                              data-type={'custom'} 
-                              data-shape={'cylinder'}
-                         >Cylinder</div>
-                         <div 
-                              className="object-li" 
-                              onClick={addNew} 
-                              data-type={'model'} 
-                              data-shape={'shiba'}
-                         >Shiba</div>
                     </div>
                </div>
                {isOrtho? null : <SpaceReminder />}
 
                {/* Object instance Attribute Menu */}
                <Attribute />
-               {/* Object instance Fixtures Menu */}
-               <FurnishMenu />
                {/* Object instance  Wall Menu */}
                <WallMenu />
                

@@ -63,14 +63,16 @@
   align-items: center;
 }
 
-.home-btn {
-  background: none;
-  font-size: 1rem;
-  border: none;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
-  padding: 0.5rem 1rem;
+.edit-logo-cont {
+  height: 2rem;
+}
+
+.edit-logo-img {
+  margin: 0;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid black;
+  border-radius: 25%;
   cursor: pointer;
 }
 

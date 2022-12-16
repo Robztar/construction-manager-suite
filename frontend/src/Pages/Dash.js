@@ -6,9 +6,20 @@ import { Confirm } from '../components/html/Confirm';
 
 import { useStore } from '../hooks/objStore';
 
-// ----- Actual References:
-     // https://happho.com/choose-building-materials-estimate-cost-quantities-house-construction/
+// All construction materials estimated
      // https://www.my-island-jamaica.com/materials-needed-to-build-a-house-in-jamaica.html
+     // https://happho.com/choose-building-materials-estimate-cost-quantities-house-construction/
+     // https://www.veriaconcyclopedia.com/v/esti/esti-chbr
+
+// Foundation Estimation
+     // https://www.hunker.com/13401739/how-to-estimate-a-concrete-foundation
+     // https://www.hunker.com/12001614/how-to-calculate-rebar-needed-in-a-concrete-foundation
+     // https://theconstructor.org/practical-guide/measurement-of-reinforced-concrete-works/8228/
+     // https://theconstructor.org/practical-guide/material-estimation/
+
+// Calculate concrete blocks needed
+     // https://www.hunker.com/13401526/how-to-calculate-how-many-concrete-blocks-are-needed-for-a-garage
+     // https://www.lceted.com/2022/05/concrete-block-calculator-estimator.html
 
 const Dash = ()=>{
      const [objects, fixtures, projects,
@@ -36,8 +47,6 @@ const Dash = ()=>{
           state.switchConv,
           state.changeProjName,
      ]);
-
-     // console.log(projects[0]);
 
      const [createPopup, setCreatePop] = useState(false);
      const toggleCreatePop = () => setCreatePop(!createPopup);
@@ -81,21 +90,6 @@ const Dash = ()=>{
           togglePop();
           changeView(target);
      }
-
-     // All construction materials estimated
-          // https://www.my-island-jamaica.com/materials-needed-to-build-a-house-in-jamaica.html
-          // https://happho.com/choose-building-materials-estimate-cost-quantities-house-construction/
-          // https://www.veriaconcyclopedia.com/v/esti/esti-chbr
-
-     // Foundation Estimation
-          // https://www.hunker.com/13401739/how-to-estimate-a-concrete-foundation
-          // https://www.hunker.com/12001614/how-to-calculate-rebar-needed-in-a-concrete-foundation
-          // https://theconstructor.org/practical-guide/measurement-of-reinforced-concrete-works/8228/
-          // https://theconstructor.org/practical-guide/material-estimation/
-
-     // Calculate concrete blocks needed
-          // https://www.hunker.com/13401526/how-to-calculate-how-many-concrete-blocks-are-needed-for-a-garage
-          // https://www.lceted.com/2022/05/concrete-block-calculator-estimator.html
 
      let projInstance = projects.find(p => p.key === projKey);
      let rooms = objects.filter(obj => obj.projId === projKey && obj.objType === 'room' && obj.shape === 'rect');
@@ -328,15 +322,24 @@ const Dash = ()=>{
                                         <div className='mat-menu-title'>Construction Materials</div>
                                         <div className='mat-menu-body'>
                                              <div className='mat-li'>
-                                                  <div className='mat-type'>Cement (i):</div> 
+                                                  <div className='mat-type'>
+                                                       Cement <i className="fas fa-info" title='1 bag = 42.5kg'></i>:
+                                                  </div> 
                                                   <div className='mat-quant'>{totCementBags} bags</div>
                                              </div>
                                              <div className='mat-li'>
-                                                  <div className='mat-type'>Blocks (i):</div> 
+                                                  <div className='mat-type'>
+                                                       Blocks <i className="fas fa-info" title='concrete hollow blocks'></i>:
+                                                  </div> 
                                                   <div className='mat-quant'>{totBlocks} blocks</div>
                                              </div>
                                              <div className='mat-li'>
-                                                  <div className='mat-type'>Sand (i):</div> 
+                                                  <div className='mat-type'>
+                                                       Sand <i 
+                                                            className="fas fa-info" 
+                                                            title={scale==='metric'? '':'or just "yards"'}
+                                                       ></i>:
+                                                  </div> 
                                                   <div className='mat-quant'>
                                                        {scale==='metric'? +totSandVol.toFixed(2):+totSandVol.toFixed(2)}
                                                        {scale==='metric'? ' m':' yards'}
@@ -344,7 +347,12 @@ const Dash = ()=>{
                                                   </div>
                                              </div>
                                              <div className='mat-li'>
-                                                  <div className='mat-type'>Aggregate (i):</div> 
+                                                  <div className='mat-type'>
+                                                       Aggregate <i 
+                                                            className="fas fa-info"
+                                                            title={scale==='metric'? '':'or just "yards"'}
+                                                       ></i>:
+                                                  </div> 
                                                   <div className='mat-quant'>
                                                        {scale==='metric'? +totAggrVol.toFixed(2):+totAggrVol.toFixed(2)}
                                                        {scale==='metric'? ' m':' yards'}
@@ -352,13 +360,22 @@ const Dash = ()=>{
                                                   </div>
                                              </div>
                                              <div className='mat-li'>
-                                                  <div className='mat-type'>Steel (i):</div> 
+                                                  <div className='mat-type'>
+                                                       Steel <i 
+                                                            className="fas fa-info"
+                                                            title='1 tonne = 1000kg'
+                                                       ></i>:
+                                                  </div> 
                                                   <div className='mat-quant'>
                                                        {+totSteelWt.toFixed(2)} tonnes
                                                   </div>
                                              </div>
                                         </div>
-                                        <i className="dash-disclaimer">Disclaimer: ...(*Here*)...</i>
+                                        <i className="dash-disclaimer">
+                                             Disclaimer: This is an estimation of the materials necessary 
+                                             for the structure of a house. Always use a qualified 
+                                             quantity surveyor before starting construction.
+                                        </i>
                                    </div>
                               </div>
                          </div>

@@ -67,12 +67,23 @@
      align-items: center;
 
 }
-.home-btn{
-     background: none;
-     font-size: 1rem;
-     border: none;
-     width: fit-content;
-     padding: 0.5rem 1rem;
+// .home-btn{
+//      background: none;
+//      font-size: 1rem;
+//      border: none;
+//      width: fit-content;
+//      padding: 0.5rem 1rem;
+//      cursor: pointer;
+// }
+.edit-logo-cont{
+     height: 2rem;
+}
+.edit-logo-img{
+     margin: 0;
+     width: 2rem;
+     height: 2rem;
+     border: 1px solid black;
+     border-radius: 25%;
      cursor: pointer;
 }
 .proj-head{

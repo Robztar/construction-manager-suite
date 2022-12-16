@@ -1,6 +1,7 @@
 import React from "react"
 // import { useState } from "react";
 import {Link} from 'react-router-dom';
+import logo from '../../images/GroundUp-Logo.png';
 
 
 const Navbar = ({...props}) => {
@@ -11,8 +12,8 @@ const Navbar = ({...props}) => {
      return (
           <>
                <div className="top navbar">
-                    <Link to="/">
-                         <button className="home-btn" type="submit">Home</button>
+                    <Link to="/" className="edit-logo-cont">
+                         <img alt='logo' src={logo} className='edit-logo-img' onClick={saveScene} />
                     </Link>
                     <div className="proj-head">
                          <div>{projName}</div>
