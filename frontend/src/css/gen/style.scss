@@ -103,6 +103,7 @@ code {
      width: 40%;
      // height: 80%;
 }
+
 .home-logo-img{
      height: 10rem;
      width: 10rem;
@@ -133,13 +134,7 @@ code {
      padding: 1rem;
      // background: green;
 }
-.details-title{
-     font-size: 3rem;
-     text-align: center;
-     // background: purple;
-     margin: 0;
-     width: 100%;
-}
+
 .info-btn-cont{
      display: flex;
      align-items: center;
@@ -179,14 +174,39 @@ code {
      width: 12rem;
 }
 #app-details{
+     align-items: center;
      .home-info{
-          height: 50%;
+          height: 60%;
+          // background: green;
+          margin: 0;
           ul{
                li{
                     margin: 1rem;
                }
           }
      }
+}
+.home-det-head{
+     flex: 1 1 100%;
+     font-size: 3rem;
+     text-align: center;
+     // background: red;
+     margin: 0;
+     width: 100%;
+     .home-logo-img{
+          height: 8rem;
+          width: 8rem;
+          border: solid 2px;
+          border-radius: 30%;
+     }
+     // height: 80%;
+}
+.details-title{
+     font-size: 3rem;
+     text-align: center;
+     // background: purple;
+     margin: 0;
+     width: 100%;
 }
 
 // Confirm Pop Up

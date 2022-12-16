@@ -8,7 +8,7 @@ const Home = ()=>{
 
      return (
           <div className="gen-cont">
-               <GenNav />
+               {/* <GenNav /> */}
                {/* <div className='home-cont'> */}
                     <section className="home-sect">
                          <div className='home-head'>
@@ -29,7 +29,10 @@ const Home = ()=>{
                          </div>
                     </section>
                     <section className="home-sect" id='app-details'>
-                         <h1 className="details-title">What Is Offered</h1>
+                         <div className='home-det-head'>
+                              <img alt='logo' src={logo} className='home-logo-img' />
+                              <p className="details-title">What Is Offered</p>
+                         </div>
                          <div className='home-info'>
                               <div className='home-data'>
                                    <ul>

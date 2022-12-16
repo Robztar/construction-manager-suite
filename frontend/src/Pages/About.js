@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
+import logo from '../images/GroundUp-Logo.png';
 
 // https://www.positronx.io/how-to-trigger-onscroll-event-in-react-functional-component/
 
@@ -103,9 +104,10 @@ const About = ()=>{
                <section className="about-sect" id='pres-head'>
                     <div></div>
                     <div className='about-slides'>
-                         <h1 className="about-title">
+                         <img alt='logo' src={logo} className='about-logo-img' />
+                         <p className="about-title">
                               <span>GroundUp</span><br/>House Designer 
-                         </h1>
+                         </p>
                          <i className='pres-author'>by Robert McFarlane</i>
                     </div>
                     <a href='#slide-1' className="about-start-btn">Proceed</a>
@@ -199,7 +201,11 @@ const About = ()=>{
                
                <section className="about-sect" id='slide-end'>
                     <a href='#slide-4' className="about-arrow"><i className="fas fa-arrow-up"></i></a>
-                    <h1 className="pres-end-title">Demonstration Time</h1>
+                    <div className='about-slides'>
+                         <img alt='logo' src={logo} className='about-end-img' />
+                         <p className="pres-end-title">Demonstration Time!</p>
+                    </div>
+                    
                     <Link to="/">
                          <button className="about-proceed">Start</button>
                     </Link>

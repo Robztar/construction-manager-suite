@@ -4,6 +4,8 @@ import {Link} from 'react-router-dom';
 import { GenNav } from '../components/html/GenNav';
 import { Confirm } from '../components/html/Confirm';
 
+import logo from '../images/GroundUp-Logo.png';
+
 import { useStore } from '../hooks/objStore';
 
 // All construction materials estimated
@@ -224,9 +226,13 @@ const Dash = ()=>{
                     <section className='dash-sect'>
                          {/* Page Head */}
                          <div className='dash-head'>
-                              <h1 className="dash-title">Welcome to Your Projects Dashboard</h1>
+                              <div className='dash-title-cont'>
+                                   <img alt='logo' src={logo} className='dash-logo-img' />
+                                   <p className="dash-title">Welcome to Your Projects Dashboard</p>
+                              </div>
+                              
                               <div className='dash-details'>
-                                   <h3>You have {projects.length} Project(s): </h3>
+                                   <h3>You have {projects.length} Project(s)</h3>
                                    <div 
                                         className='dash-create-proj'
                                         onClick={toggleCreatePop}
@@ -373,7 +379,7 @@ const Dash = ()=>{
                                         </div>
                                         <i className="dash-disclaimer">
                                              Disclaimer: This is an estimation of the materials necessary 
-                                             for the structure of a house. Always use a qualified 
+                                             for the structure of reinforced concrete house. Always use a qualified 
                                              quantity surveyor before starting construction.
                                         </i>
                                    </div>

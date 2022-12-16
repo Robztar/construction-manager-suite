@@ -129,13 +129,6 @@ code {
   padding: 1rem;
 }
 
-.details-title {
-  font-size: 3rem;
-  text-align: center;
-  margin: 0;
-  width: 100%;
-}
-
 .info-btn-cont {
   display: flex;
   align-items: center;
@@ -181,11 +174,36 @@ code {
   width: 12rem;
 }
 
+#app-details {
+  align-items: center;
+}
 #app-details .home-info {
-  height: 50%;
+  height: 60%;
+  margin: 0;
 }
 #app-details .home-info ul li {
   margin: 1rem;
+}
+
+.home-det-head {
+  flex: 1 1 100%;
+  font-size: 3rem;
+  text-align: center;
+  margin: 0;
+  width: 100%;
+}
+.home-det-head .home-logo-img {
+  height: 8rem;
+  width: 8rem;
+  border: solid 2px;
+  border-radius: 30%;
+}
+
+.details-title {
+  font-size: 3rem;
+  text-align: center;
+  margin: 0;
+  width: 100%;
 }
 
 .pop-cont {
