@@ -47,9 +47,9 @@ export const Resizer = ({...props}) =>{
                setUnitZ(dimensions[2]);
           }
      // },[scale]);
-     },[objInstance]);
-     // },[objInstance,scale]);
-     // Checking both works but causes position and size glitches
+     // },[objInstance]);
+     },[objInstance,scale]);
+     // Check
 
      return(
           <div 
