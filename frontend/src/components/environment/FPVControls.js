@@ -23,13 +23,9 @@ export const FPVControls = (props) => {
           console.log('Space Again')
         }
       }
-      // console.log("inside effects: ");
-      // console.log(controls);
     });
   }, []);
 
-  // console.log("outside effects: ");
-  // console.log(controls);
   return (
     <pointerLockControlsImpl
       ref={controls}
