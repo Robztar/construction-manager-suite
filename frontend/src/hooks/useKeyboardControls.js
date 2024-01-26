@@ -11,21 +11,9 @@ function actionByKey(key) {
     ArrowDown: 'moveBackward',
     ArrowLeft: 'moveLeft',
     ArrowRight: 'moveRight',
-    // Space: 'jump',
   };
   return keys[key];
 }
-
-// function textureByKey(key) {
-//   const keys = {
-//     Digit1: 'dirt',
-//     Digit2: 'grass',
-//     Digit3: 'glass',
-//     Digit4: 'wood',
-//     Digit5: 'log',
-//   };
-//   return keys[key];
-// }
 
 export const useKeyboardControls = () => {
   const [movement, setMovement] = useState({
@@ -36,8 +24,6 @@ export const useKeyboardControls = () => {
     // jump: false,
   });
 
-  // const [setTexture] = useStore((state) => [state.setTexture]);
-
   useEffect(() => {
     const handleKeyDown = (e) => {
       // Movement key
@@ -47,10 +33,7 @@ export const useKeyboardControls = () => {
           [actionByKey(e.code)]: true,
         }));
       }
-      // Change texture key
-      // if (textureByKey(e.code)) {
-      //   setTexture(textureByKey(e.code));
-      // }
+
     };
     const handleKeyUp = (e) => {
       if (actionByKey(e.code)) {

@@ -68,9 +68,9 @@ export const Wall = ({ ...props }) =>{
      prevPos[1] = (dimensions[1]/2)+ground;  //lift off the ground
 
      if(scale === 'metric'){
-          box = new THREE.BoxBufferGeometry(dimensions[0],viewedHeight,dimensions[2]);
+          box = new THREE.BoxGeometry(dimensions[0],viewedHeight,dimensions[2]);
      }else if (scale === 'imperial'){
-          box = new THREE.BoxBufferGeometry(dimensions[0],viewedHeight,dimensions[2]);
+          box = new THREE.BoxGeometry(dimensions[0],viewedHeight,dimensions[2]);
      }
 
      let wallColor = objInstance.wallColor[wallNo];

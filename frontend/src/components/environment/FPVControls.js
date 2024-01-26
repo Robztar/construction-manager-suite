@@ -13,20 +13,23 @@ export const FPVControls = (props) => {
     document.addEventListener('keyup', (e) => {
       if (e.code === 'Space'){
         if (c <= 0){
-          controls.current.lock();
+          controls.current?.lock();
           c++
           console.log('Space')
         }
         else if(c > 0){
-          controls.current.unlock();
+          controls.current?.unlock();
           c--
           console.log('Space Again')
         }
       }
-      
+      // console.log("inside effects: ");
+      // console.log(controls);
     });
   }, []);
 
+  // console.log("outside effects: ");
+  // console.log(controls);
   return (
     <pointerLockControlsImpl
       ref={controls}
@@ -35,6 +38,3 @@ export const FPVControls = (props) => {
     />
   );
 };
-
-// For now let's move on to finishing the video this is based on and removing unnecessary minecraft parts
-// https://threejs.org/docs/#examples/en/controls/PointerLockControls

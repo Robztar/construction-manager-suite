@@ -25,9 +25,9 @@ export const Floor = ({ ...props }) =>{
 
      let box;
      if(scale === 'metric'){
-          box = new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]);
+          box = new THREE.BoxGeometry(dimensions[0],dimensions[1],dimensions[2]);
      }else if (scale === 'imperial'){
-          box = new THREE.BoxBufferGeometry(dimensions[0],dimensions[1],dimensions[2]);
+          box = new THREE.BoxGeometry(dimensions[0],dimensions[1],dimensions[2]);
      }
 
      let floorTexture = textures[objInstance.texture];
